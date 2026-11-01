@@ -55,7 +55,7 @@ jobs:
       - name: A token for commits to main, from the Nest bot app when it is configured
         id: app
         if: vars.NEST_BOT_APP_ID != ''
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.NEST_BOT_APP_ID }}
           private-key: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
