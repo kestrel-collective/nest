@@ -48,7 +48,15 @@ export function tempRepo(files: Record<string, string> = {}, opts: { cohort?: bo
     mkdirSync(dirname(join(root, path)), { recursive: true })
     writeFileSync(join(root, path), content)
   }
-  return readConfig(root)
+  // A fixture is its own repository (example-org/nest), not the one a workflow runs in: inside
+  // GitHub Actions readConfig would otherwise take the slug from GITHUB_REPOSITORY.
+  const running = process.env.GITHUB_REPOSITORY
+  delete process.env.GITHUB_REPOSITORY
+  try {
+    return readConfig(root)
+  } finally {
+    if (running !== undefined) process.env.GITHUB_REPOSITORY = running
+  }
 }
 
 export function cleanup(): void {
