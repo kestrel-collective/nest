@@ -16,7 +16,12 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
+}
+.brand a {
   text-decoration: none;
+}
+.brand .brand-logo {
+  display: inline-flex;
 }
 .brand img {
   height: 36px;
