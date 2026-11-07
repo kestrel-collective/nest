@@ -19,11 +19,13 @@ const action = Astro.props.action ?? { href: SITE.repoUrl, label: 'GitHub' }
 
 <header class="site-header">
   <div class="wrap">
-    <a href="/" class="brand" aria-label="Nest by Kestrel Collective, home">
-      <img src="/kestrel-logo.png" alt="Kestrel Collective" width="676" height="240" />
+    <div class="brand">
+      <a href={SITE.landingUrl} class="brand-logo">
+        <img src="/kestrel-logo.png" alt="Kestrel Collective" width="676" height="240" />
+      </a>
       <span class="sep" aria-hidden="true"></span>
-      <span class="product">Nest</span>
-    </a>
+      <a href="/" class="product" aria-label="Nest, home">Nest</a>
+    </div>
     <nav class="site-nav" aria-label="Site">
       {nav.map((item) => <a href={item.href} aria-current={item.current ? 'page' : undefined}>{item.label}</a>)}
     </nav>
