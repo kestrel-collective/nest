@@ -61,8 +61,12 @@ describe('cohort-open', () => {
     expect(gh.calls.filter((c) => c.startsWith('commitToMain '))).toHaveLength(1)
   })
 
-  it('quotes a name YAML would otherwise misread', () => {
+  it('quotes a name YAML would otherwise misread, the way Prettier formats it', () => {
     const text = cohortFileText('2027-01', 'Cohort: January', '2027-01-12', '2028-01-12')
     expect(readYaml(text, 'x').data).toMatchObject({ name: 'Cohort: January' })
+    expect(text).toContain("name: 'Cohort: January'")
+    const apostrophe = cohortFileText('2027-01', "Kestrel's cohort", '2027-01-12', '2028-01-12')
+    expect(readYaml(apostrophe, 'x').data).toMatchObject({ name: "Kestrel's cohort" })
+    expect(apostrophe).toContain(`name: "Kestrel's cohort"`)
   })
 })

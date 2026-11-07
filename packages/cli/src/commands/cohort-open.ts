@@ -18,9 +18,19 @@ export type CohortOpenReport = { id: string; outcome: string; failed: boolean; d
 const DATE = /^\d{4}-\d{2}-\d{2}$/
 const isDay = (v: string) => DATE.test(v) && new Date(`${v}T00:00:00Z`).toISOString().slice(0, 10) === v
 
+/**
+ * The name as a quoted YAML scalar the way Prettier (singleQuote) formats one, so the committed
+ * file passes npm run lint: single quotes, unless the name has more of them than double quotes.
+ */
+function yamlQuoted(value: string): string {
+  const singles = value.split("'").length - 1
+  const doubles = value.split('"').length - 1
+  return singles > doubles ? JSON.stringify(value) : `'${value.replaceAll("'", "''")}'`
+}
+
 /** The cohort file a new cohort starts with: no members yet; enrolment adds them. */
 export function cohortFileText(id: string, name: string, starts: string, ends: string): string {
-  return `id: ${id}\nname: ${JSON.stringify(name)}\nstarts: ${starts}\nends: ${ends}\nmembers: []\n`
+  return `id: ${id}\nname: ${yamlQuoted(name)}\nstarts: ${starts}\nends: ${ends}\nmembers: []\n`
 }
 
 /**
