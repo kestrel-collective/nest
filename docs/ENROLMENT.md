@@ -4,14 +4,14 @@ How a person gets their directory, their invitation and their stage issues with 
 
 ## What happens
 
-`nest enroll <handle> --name "<Name>" --cohort <id|none>` performs four idempotent steps and prints one line per step (created, updated, skipped or failed):
+`nest enroll <handle> --name "<Name>" --cohort <id|none> [--track js|python]` performs four idempotent steps and prints one line per step (created, updated, skipped or failed). The track (ADR 0010) is js or python; left out, it is the track the cohort file already records for the person, else js.
 
-- a. Cohort files: the handle is added to `cohorts/<id>/cohort.yml` and `/contributors/<handle>/ @<handle>` to `.github/CODEOWNERS` in one commit straight to `main` by the bot, `chore(cohort): add @<handle> to <id>`, with no pull request for a maintainer to merge. The edit is made against the newest `main`, so two people enrolled at once both land. Skipped when the cohort is `none`, and when the cohort file does not exist yet (the person is enrolled as an individual joiner and `open-cohort` adds them later).
-- b. Scaffold: if `contributors/<handle>/` is not on `main` and no pull request exists from `scaffold/<handle>`, the directory is scaffolded with its planted defect and a draft pull request "Scaffold for @<handle>" is opened, assigned to the person, with the body from `.github/PR_TEMPLATE_SCAFFOLD.md`.
+- a. Cohort files: the handle is added to `cohorts/<id>/cohort.yml` with its track (a plain `- handle` for js, `- handle: <handle>` with `track: python` for python; enrolling someone again on the other track moves them) and `/contributors/<handle>/ @<handle>` to `.github/CODEOWNERS` in one commit straight to `main` by the bot, `chore(cohort): add @<handle> to <id>`, with no pull request for a maintainer to merge. The edit is made against the newest `main`, so two people enrolled at once both land. Skipped when the cohort is `none`, and when the cohort file does not exist yet (the person is enrolled as an individual joiner and `open-cohort` adds them later).
+- b. Scaffold: if `contributors/<handle>/` is not on `main` and no pull request exists from `scaffold/<handle>`, the directory is scaffolded with its planted defect, by the track's own scaffold (`nest scaffold` in `py/` writes a python member's, with `test_profile.py`; the Node CLI writes a js member's, with `profile.test.ts`), and a draft pull request "Scaffold for @<handle>" is opened, assigned to the person, with the body from `.github/PR_TEMPLATE_SCAFFOLD.md`.
 - c. Invitation: the handle is invited as a collaborator with push permission, unless already a collaborator or already invited.
-- d. Stage issues: stages 1, 2, 3, 4, 6 and 7, labelled `onboarding`, `stage:<n>` and `cohort:<id>` when there is one, assigned to the person, in the cohort milestone. Any title that already exists, open or closed, is skipped.
+- d. Stage issues: stages 1, 2, 3, 4, 6 and 7, each from its track's body where the stage has one (`stages/01-make-it-run.python.md`), labelled `onboarding`, `stage:<n>`, `track:<track>` and `cohort:<id>` when there is one, assigned to the person, in the cohort milestone. Any title that already exists, open or closed, is skipped.
 
-Every GitHub call is retried three times with exponential backoff, waiting for the rate-limit reset when GitHub names one. The command exits non-zero only when a step still fails after that. `nest open-cohort <id>` runs the same thing for every member of a cohort.
+Every GitHub call is retried three times with exponential backoff, waiting for the rate-limit reset when GitHub names one. The command exits non-zero only when a step still fails after that. `nest open-cohort <id>` runs the same thing for every member of a cohort, each on the track their entry records.
 
 ## How Kestrel triggers it
 
@@ -19,18 +19,18 @@ Kestrel sends a `repository_dispatch` event to this repository:
 
 ```
 POST https://api.github.com/repos/kestrel-collective/nest/dispatches
-{ "event_type": "enroll", "client_payload": { "handle": "a-login", "name": "Display Name", "cohort": "2027-01" } }
+{ "event_type": "enroll", "client_payload": { "handle": "a-login", "name": "Display Name", "cohort": "2027-01", "track": "python" } }
 ```
 
-`cohort` is `none` for an individual joiner. The token Kestrel uses needs Contents read and write on this repository only. The Enrol workflow (`.github/workflows/enroll.yml`) picks the event up, builds the CLI and runs `nest enroll` with `--gh`. A concurrency group per handle means two dispatches for the same person cannot run at the same time.
+`cohort` is `none` for an individual joiner. `track` is `js` or `python`; Kestrel may leave it out, and existing members then keep their recorded track, everyone else gets js. The token Kestrel uses needs Contents read and write on this repository only. The Enrol workflow (`.github/workflows/enroll.yml`) picks the event up, builds the CLI, installs nest_data (it writes python-track scaffolds) and runs `nest enroll` with `--gh`. A concurrency group per handle means two dispatches for the same person cannot run at the same time.
 
 ## Running it by hand
 
-Actions tab, "Enrol", "Run workflow": handle, name, cohort (or `none`). Or locally with the GitHub CLI signed in:
+Actions tab, "Enrol", "Run workflow": handle, name, cohort (or `none`) and track (`recorded`, the default, keeps the one the cohort file has). Or locally with the GitHub CLI signed in, and Python with nest_data importable for a python-track member:
 
 ```bash
-npx nest enroll a-login --name "Display Name" --cohort 2027-01 --dry-run   # prints the plan, no GitHub calls
-npx nest enroll a-login --name "Display Name" --cohort 2027-01 --gh        # does it
+npx nest enroll a-login --name "Display Name" --cohort 2027-01 --track python --dry-run   # prints the plan, no GitHub calls
+npx nest enroll a-login --name "Display Name" --cohort 2027-01 --track python --gh        # does it
 ```
 
 Without `--gh` or `--dry-run` the command prints the pull request bodies and the issue bodies and touches nothing.
@@ -38,7 +38,7 @@ Without `--gh` or `--dry-run` the command prints the pull request bodies and the
 ## What the learner does themselves
 
 1. Accept the collaborator invitation GitHub emailed them. Nothing else works before this.
-2. Stage 1: clone, run the tests, add their handle to `CONTRIBUTORS.md`.
+2. Stage 1: clone, run the tests (`pytest` on the python track, `npm test` on the js track), add their handle to `CONTRIBUTORS.md`.
 3. Stage 2: finish the scaffold pull request that is already open in their name.
 
 A week after enrolment with no commit from them, the Onboarding workflow leaves one comment, ever, on their Stage 1 issue with those two steps.
@@ -76,7 +76,7 @@ It leaves in place, on purpose: collaborator access, the person's `contributors/
 
 Every stage issue ends with a fenced `kestrel-ticket` block that Kestrel reads to create a ticket on the person's board. Kestrel validates it strictly (its decision D-38), so the block has exactly these keys: `competency` (a rubric slug: debugging, automated-testing or technical-communication), `level` (guided, supported or independent), `difficulty` (starter, standard or stretch), `kp` (0 to 3), `evidence_kind` (practice, shared_project or proposal), `reserved_for` (the handle, or null for a shared issue), `stage`, `steps` (1 to 8, each with `title` and `guide`), `acceptance_criteria` (1 to 8 sentences) and `resources` (0 to 5 https URLs). The text above the block is for people; the block is for the platform. Keep them in step.
 
-When a template's block changes, nothing needs to be run by hand: every half hour the Onboarding workflow's `stage-upkeep` job puts the current block into every open stage issue created from an older one, and leaves current ones untouched. Kestrel can also start that job at once with a `repository_dispatch` of type `upkeep`:
+When a template's block changes, nothing needs to be run by hand: every half hour the Onboarding workflow's `stage-upkeep` job puts the current block into every open stage issue created from an older one, and leaves current ones untouched. An issue labelled `track:python` gets the block from its stage's python body where there is one (`01-make-it-run.python.md`); an issue with no track label is a js issue. Each track's body for a stage carries its own block, so the two may differ in their steps and resources, never in their keys. Kestrel can also start that job at once with a `repository_dispatch` of type `upkeep`:
 
 ```
 POST https://api.github.com/repos/kestrel-collective/nest/dispatches

@@ -5,10 +5,27 @@ How to get Nest running on your own machine and see it in a browser. For the fir
 ## Prerequisites
 
 - Git. On Windows install Git for Windows; on macOS run `xcode-select --install`; on Linux use your package manager.
-- Node 20 or newer. Check with `node --version`. The `.nvmrc` file says `20` for version managers such as nvm.
+- On the python track: Python 3.11 or newer. On Windows install it from python.org and tick "Add python.exe to PATH"; on macOS use `brew install python@3.12` or python.org; on Linux use your package manager (the `python3` and `python3-venv` packages). Check with `python --version`, or `python3 --version`.
+- On the js track: Node 20 or newer. Check with `node --version`. The `.nvmrc` file says `20` for version managers such as nvm.
 - If you are a cohort member: the collaborator invitation GitHub emailed you, accepted. It also shows at the repository's invitations page.
 
-## Setup
+## Setup on the python track
+
+```bash
+git clone https://github.com/kestrel-collective/nest.git
+cd nest
+python -m venv .venv
+source .venv/bin/activate        # on Windows: .venv\Scripts\activate
+pip install -e "py[dev]"
+pytest
+nest build-data
+```
+
+What you should see: `pip install` ends with "Successfully installed", and puts the `nest` command on your path while the virtual environment is active (your prompt starts with `(.venv)`). `pytest` ends with a line saying how many tests passed. `nest build-data` prints `Wrote site/.nest/data.json`. You see the site itself on the Cloudflare preview of every pull request; [py/README.md](../py/README.md) lists every command.
+
+If you have Node too, `npm run dev` uses your Python for the data step, and the site reads the file `nest build-data` writes.
+
+## Setup on the js track
 
 ```bash
 git clone https://github.com/kestrel-collective/nest.git
@@ -44,14 +61,21 @@ Every command starts with `npm run`, except `npm install` and `npm test`. `npm b
 | `npm test`         | Runs every test, including the ones in contributor directories.   | "passed"                                    |
 | `npm run lint`     | Formatting check and the em dash check.                           | "All matched files use Prettier code style" |
 | `npm run format`   | Fixes formatting.                                                 | The files it changed, if any                |
-| `npm run build`    | Builds the packages and the site into `site/dist`.                | "3 page(s) built" or more                   |
+| `npm run build`    | The data step, then the packages and the site into `site/dist`.   | "3 page(s) built" or more                   |
 | `npm run preview`  | Serves the built site.                                            | A local address to open                     |
 | `npx nest help`    | The `nest` command and its options.                               | A list of commands                          |
 
+## The data step
+
+The site does not read the contributor files itself. `npm run build` and `npm run dev` first run `scripts/data-step.mjs`, which runs `nest build-data` from `py/` to write `site/.nest/data.json`, and the site reads that file (ADR 0010). The step finds Python 3.11 or newer, installs nest_data's one dependency into `py/.deps` the first time, and is quick after that.
+
+On a machine without Python the step says so, and the site computes the same data with `@nest/schema` instead, so the js track needs no Python. In CI and on Cloudflare a missing Python is an error. The goldens in `py/tests/golden` hold the two to the same bytes.
+
 ## Layout
 
-- `packages/schema`: the rules every file follows, and the validation messages.
-- `packages/cli`: the `nest` command.
+- `py/nest_data`: the python track's code and the data step: validation, the site data, page-status, practice counts, python scaffolds and the defect bank. See [py/README.md](../py/README.md).
+- `packages/schema`: the js track's copy of the rules every file follows, and the validation messages.
+- `packages/cli`: the js track's `nest` command: scaffolds, enrolment and stage issues.
 - `site`: the Astro site. Pages are in `site/src/pages`, styles in `site/src/styles`.
 - `contributors/`, `cohorts/`, `stages/`: the data the site and the issues are built from.
 
@@ -60,6 +84,9 @@ Every command starts with `npm run`, except `npm install` and `npm test`. `npm b
 - Read the first error, not the last. `nest validate` names the file, the line and the field. Test failures show the file and line.
 - `Unknown command`: you left out `run`. It is `npm run build`, `npm run dev`, and so on.
 - `is not supported by Astro` or `Unsupported engine`: your Node is too old. Install Node 20 or newer and run `npm install` again.
-- `Cannot find module` or `nest: command not found`: run `npm install` again.
+- `nest: command not found` on the python track: activate the virtual environment again in this terminal.
+- `Cannot find module` or `nest: command not found` on the js track: run `npm install` again.
+- `No module named nest_data` or `yaml`: run `pip install -e "py[dev]"` with the virtual environment active.
+- `data step: ... Python 3.11 or later` in CI or on Cloudflare: the build needs Python there; on Cloudflare set `PYTHON_VERSION` (docs/REPO-SETTINGS.md).
 - The site shows "There is no page here" for your page: it is still private, or the handle in the address differs from your directory name.
 - Stuck for more than thirty minutes: say so on your stage issue, with the exact command and output. Asking never costs you anything.

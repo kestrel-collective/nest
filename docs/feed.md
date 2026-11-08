@@ -43,7 +43,7 @@ One static JSON file, written at build time from the repository. No server, no a
 - Field names are a contract and are never renamed or removed. New fields may be added; readers must ignore fields they do not know.
 - Only pages with `visibility.page: public`, a valid handle and a non-template directory appear. Private pages leave no trace.
 - The empty feed is exactly `{ "generated_at": ..., "release": ..., "pages": [] }`.
-- The same builder produces `npx nest feed` from a checkout and the file the site serves, so the two never disagree.
+- The same rules produce `nest feed` (from `py/`, ADR 0010) and the file the site serves, so the two never disagree: the site builds the feed from `site/.nest/data.json`, which `nest build-data` writes, and `py/tests/golden` holds both libraries to the same pages.
 
 ## Readers
 

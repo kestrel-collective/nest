@@ -8,6 +8,14 @@ The problem this solves, in your words. For a defect: what you saw, what you exp
 
 ## How I checked it
 
+On the python track:
+
+- [ ] `nest validate`
+- [ ] `pytest`
+- [ ] `ruff check py` (when the change touches `py/`)
+
+On the js track:
+
 - [ ] `npm run validate`
 - [ ] `npm test`
 - [ ] `npm run lint`
