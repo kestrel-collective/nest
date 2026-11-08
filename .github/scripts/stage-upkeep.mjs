@@ -5,7 +5,9 @@
 //      opened, D-42, but the assignment keeps GitHub's own views right);
 //   2. on every run, put the current kestrel-ticket block from stages/ into every open stage
 //      issue whose block differs, so a template change reaches Kestrel with nobody running
-//      anything by hand.
+//      anything by hand;
+//   3. report every open good-shared-issue without stage:5, and fail the run when there is one,
+//      so a shared-pool issue opened without its stage label shows up in the Actions tab.
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import {
@@ -14,6 +16,8 @@ import {
   issuesToAssign,
   refreshBody,
   renderBlock,
+  SHARED_ISSUE_LABEL,
+  sharedIssuesMissingStage,
   stageOf,
   templateBlock,
   templateKey,
@@ -94,3 +98,28 @@ for (const issue of issues) {
   refreshed += 1
 }
 console.log(`${issues.length} open stage issue(s) checked, ${refreshed} block(s) refreshed`)
+
+const pool = JSON.parse(
+  gh([
+    'issue',
+    'list',
+    '--repo',
+    repo,
+    '--state',
+    'open',
+    '--label',
+    SHARED_ISSUE_LABEL,
+    '--limit',
+    '500',
+    '--json',
+    'number,title,labels',
+  ]),
+).map((i) => ({ number: i.number, title: i.title, labels: i.labels.map((l) => l.name) }))
+const unstaged = sharedIssuesMissingStage(pool)
+for (const issue of unstaged) {
+  console.log(
+    `::error title=Shared issue without stage:5::#${issue.number} (${issue.title}) is labelled ${SHARED_ISSUE_LABEL} but not stage:5. Add the label: gh issue edit ${issue.number} --add-label stage:5`,
+  )
+}
+console.log(`${pool.length} open ${SHARED_ISSUE_LABEL} issue(s) checked, ${unstaged.length} without stage:5`)
+if (unstaged.length > 0) process.exitCode = 1

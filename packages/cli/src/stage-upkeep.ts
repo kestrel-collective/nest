@@ -9,7 +9,12 @@
  * Refreshing: the kestrel-ticket block at the end of each stage template is the machine
  * summary Kestrel reads. When a template's block changes, refreshBody puts the new block
  * into issues that were created from the old one.
+ *
+ * Checking the pool: every open good-shared-issue must carry stage:5; sharedIssuesMissingStage
+ * names those that do not, and the job reports them.
  */
+
+import { SHARED_STAGE } from '@nest/schema'
 
 export type OpenStageIssue = {
   number: number
@@ -90,4 +95,18 @@ export function refreshBody(body: string, fresh: string): string | null {
   const current = BLOCK.exec(normal)?.[0]
   if (current === fresh) return null
   return current ? normal.replace(BLOCK, () => fresh) : `${normal.trimEnd()}\n\n${fresh}\n`
+}
+
+/** The label of the Stage 5 pool, which onboarding members claim from instead of a personal issue. */
+export const SHARED_ISSUE_LABEL = 'good-shared-issue'
+
+/**
+ * Open issues in the shared pool that lack the Stage 5 label. Every good-shared-issue is a Stage 5
+ * issue, and the stage label is what Kestrel and the pool links read, so one without it is reported.
+ */
+export function sharedIssuesMissingStage<T extends { number: number; title: string; labels: string[] }>(
+  issues: readonly T[],
+): T[] {
+  const stageLabel = `stage:${SHARED_STAGE}`
+  return issues.filter((i) => i.labels.includes(SHARED_ISSUE_LABEL) && !i.labels.includes(stageLabel))
 }

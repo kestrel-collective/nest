@@ -6,6 +6,7 @@ import {
   issuesToAssign,
   refreshBody,
   renderBlock,
+  sharedIssuesMissingStage,
   stageOf,
   templateBlock,
   type OpenStageIssue,
@@ -37,6 +38,25 @@ describe('assigning stage issues', () => {
       issue({ number: 8, labels: ['good-shared-issue'] }),
     ]
     expect(issuesToAssign(issues, (h) => h === 'anod-a')).toEqual([{ number: 5, handle: 'anod-a' }])
+  })
+})
+
+describe('checking the shared pool', () => {
+  const pool = (number: number, labels: string[]) => ({ number, title: `Shared ${number}`, labels })
+
+  it('reports an open good-shared-issue without stage:5, on either track', () => {
+    const issues = [
+      pool(63, ['good-shared-issue', 'track:python']),
+      pool(64, ['good-shared-issue', 'stage:5', 'track:python']),
+      pool(65, ['good-shared-issue']),
+      pool(66, ['good-shared-issue', 'stage:4', 'track:js']),
+    ]
+    expect(sharedIssuesMissingStage(issues).map((i) => i.number)).toEqual([63, 65, 66])
+  })
+
+  it('leaves alone issues outside the pool, and a pool that is all labelled', () => {
+    expect(sharedIssuesMissingStage([pool(5, ['onboarding', 'stage:1']), pool(9, ['bug'])])).toEqual([])
+    expect(sharedIssuesMissingStage([pool(64, ['good-shared-issue', 'stage:5'])])).toEqual([])
   })
 })
 

@@ -4,6 +4,10 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 
 ## Unreleased
 
+### Fixed
+
+- Shared-pool issues are opened with `stage:5` as well as `good-shared-issue` and their track label, by `scripts/open-backlog.mjs` and by the shared-issue form. The Onboarding upkeep reports, and fails on, any open `good-shared-issue` without `stage:5`.
+
 ### Changed
 
 - The site follows design scope v1, the logo palette: the Kestrel Collective wordmark in the header, new tokens with the first brand sheet behind `data-palette="classic"`, a stepper ladder, person and stat cards, and a 404 with numerals (docs/adr/0008-visual-system-v2.md).

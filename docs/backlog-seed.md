@@ -2,7 +2,7 @@
 
 Issues for the `good-shared-issue` pool, each a gap found while building this repository, not invented for practice. Open them with `node scripts/open-backlog.mjs --gh` (without `--gh` it only lists them). Each follows the stage issue format: why, steps, done when.
 
-Each issue names its track on a `Track:` line under its title (ADR 0010). The script labels it `track:js` or `track:python`, which is how Stage 5 sends each member to their own pool. `--track python` opens one track's issues only. A python issue's code is in `py/nest_data`; a js issue's is in the site, `packages/` or the workflows.
+Each issue names its track on a `Track:` line under its title (ADR 0010). The script labels every issue `good-shared-issue` and `stage:5`, and `track:js` or `track:python`, which is how Stage 5 sends each member to their own pool. The Onboarding upkeep reports any open `good-shared-issue` without `stage:5`. `--track python` opens one track's issues only. A python issue's code is in `py/nest_data`; a js issue's is in the site, `packages/` or the workflows.
 
 ## Count merged pull requests without one API call per pull request
 
