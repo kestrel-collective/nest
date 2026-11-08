@@ -61,13 +61,13 @@ function loadIndex(): NestIndex {
     const index = JSON.parse(readFileSync(file, 'utf8')) as NestIndex
     if (index.format !== INDEX_FORMAT)
       throw new Error(
-        `${INDEX_FILE} is format ${index.format}; this site reads ${INDEX_FORMAT}. Run npm run data.`,
+        `${INDEX_FILE} is format ${index.format}; this site reads ${INDEX_FORMAT}. Run npm run data, or nest build-data on the python track.`,
       )
     return index
   }
   if ((process.env.CI || process.env.CF_PAGES) && !process.env.NEST_INDEX_FALLBACK)
     throw new Error(
-      `${INDEX_FILE} is missing. The data step (npm run data) writes it before the site builds.`,
+      `${INDEX_FILE} is missing. The data step (npm run data, or nest build-data on the python track) writes it before the site builds.`,
     )
   const result = validateRepo(ROOT)
   if (result.issues.length > 0) {
