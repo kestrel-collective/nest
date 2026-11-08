@@ -1,0 +1,3122 @@
+[
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-two",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-three",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "ab",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "x9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "zz-top",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "some-longer-handle",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "q1w2e3",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "nyakachess",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "apiyo4",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "anod-a",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "k-9",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-ten",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "test-eleven",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "m",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "abc-def-ghi",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-after-cohort"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "z0",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "mid-way",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "last-one",
+  "tier": 1,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "last-one",
+  "tier": 2,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [],
+  "pick": "joined-before-cohort"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": false,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "placeholder-next"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [],
+  "pick": "name-is-handle"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "name-is-handle"
+  ],
+  "pick": "sections-out-of-order"
+ },
+ {
+  "handle": "last-one",
+  "tier": 3,
+  "cohortless": true,
+  "used": [
+   "joined-after-cohort",
+   "sections-out-of-order"
+  ],
+  "pick": "name-is-handle"
+ }
+]

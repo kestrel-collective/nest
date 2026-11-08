@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
   buildIndex,
@@ -8,10 +9,14 @@ import {
   PracticeSchema,
   ProfileSchema,
   serializeIndex,
+  validateCohort,
+  validateContributor,
   validateRepo,
 } from '@nest/schema'
 import { parseDocument } from 'yaml'
+import { planScaffold } from './commands/scaffold.js'
 import { runValidate } from './commands/validate.js'
+import { DEFECTS, detectDefects, pickDefect } from './defects.js'
 import { collectIo } from './io.js'
 import { readConfig } from './root.js'
 
@@ -330,4 +335,109 @@ export function yamlCases(): YamlCase[] {
     if (doc.errors.length > 0) return { text, error: true }
     return { text, error: false, data: doc.toJS() as unknown }
   })
+}
+
+/** Handles chosen to spread over the hash that picks a defect (pickDefect), short and long. */
+export const SCAFFOLD_HANDLES = [
+  'test-one',
+  'test-two',
+  'test-three',
+  'ab',
+  'x9',
+  'a',
+  'zz-top',
+  'some-longer-handle',
+  'q1w2e3',
+  'nyakachess',
+  'apiyo4',
+  'anod-a',
+  'k-9',
+  'test-ten',
+  'test-eleven',
+  'm',
+  'abc-def-ghi',
+  'z0',
+  'mid-way',
+  'last-one',
+]
+
+export type ScaffoldCase = {
+  handle: string
+  cohort: string
+  defect: string
+  files: { 'profile.yml': string; 'page.md': string }
+  /** Every detector's finding on the planted directory, as [id, sentence]. */
+  detected: [string, string][]
+}
+
+/**
+ * The files a scaffold writes that both tracks share, and what the detectors say about them: nest_data's
+ * python-track scaffold must write the same bytes and its detectors must find the same (ADR 0010).
+ */
+export function scaffoldCases(): ScaffoldCase[] {
+  const root = mkdtempSync(join(tmpdir(), 'nest-parity-scaffold-'))
+  try {
+    writeFileSync(
+      join(root, 'package.json'),
+      JSON.stringify({
+        name: 'fixture',
+        version: '9.9.9',
+        repository: 'github:example-org/nest',
+        homepage: 'https://nest.example.test',
+      }),
+    )
+    mkdirSync(join(root, 'cohorts', '2027-01'), { recursive: true })
+    writeFileSync(
+      join(root, 'cohorts', '2027-01', 'cohort.yml'),
+      'id: 2027-01\nname: January 2027 cohort\nstarts: 2027-01-12\nends: 2027-04-30\nmembers: []\n',
+    )
+    const config = readConfig(root)
+    const cohort = validateCohort(root, '2027-01').cohort
+    const out: ScaffoldCase[] = []
+    for (const handle of SCAFFOLD_HANDLES.slice(0, 6)) {
+      for (const cohortId of ['2027-01', 'none']) {
+        for (const defect of ['none', ...DEFECTS.map((d) => d.id)]) {
+          const plan = planScaffold(config, { handle, cohort: cohortId, defect, today: '2027-02-03' })
+          const dir = join(root, 'contributors', handle)
+          rmSync(dir, { recursive: true, force: true })
+          mkdirSync(dir, { recursive: true })
+          for (const [name, text] of Object.entries(plan.files)) writeFileSync(join(dir, name), text)
+          const c = validateContributor(root, handle).contributor
+          const detected: [string, string][] = c
+            ? detectDefects(c, cohortId === 'none' ? undefined : cohort).map((d) => [d.defect.id, d.finding])
+            : []
+          out.push({
+            handle,
+            cohort: cohortId,
+            defect,
+            files: { 'profile.yml': plan.files['profile.yml'], 'page.md': plan.files['page.md'] },
+            detected,
+          })
+        }
+      }
+    }
+    return out
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
+}
+
+export type PickCase = { handle: string; tier: number; cohortless: boolean; used: string[]; pick: string }
+
+/** The defect each handle draws from the tier-1 five, by tier, with and without a cohort and used ids. */
+export function pickCases(): PickCase[] {
+  const out: PickCase[] = []
+  const usedSets = [[], ['name-is-handle'], ['joined-after-cohort', 'sections-out-of-order']]
+  for (const handle of SCAFFOLD_HANDLES)
+    for (const tier of [1, 2, 3] as const)
+      for (const cohortless of [false, true])
+        for (const used of usedSets)
+          out.push({
+            handle,
+            tier,
+            cohortless,
+            used,
+            pick: pickDefect(handle, cohortless, { tier, used: new Set(used), bank: DEFECTS }).id,
+          })
+  return out
 }

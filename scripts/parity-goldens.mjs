@@ -5,7 +5,7 @@
 import { mkdirSync, readdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { goldenFor, schemaCases, yamlCases } from '../packages/cli/dist/parity.js'
+import { goldenFor, pickCases, scaffoldCases, schemaCases, yamlCases } from '../packages/cli/dist/parity.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const repos = join(root, 'py', 'tests', 'fixtures', 'repos')
@@ -29,3 +29,13 @@ console.log(
 const yamls = yamlCases()
 writeFileSync(join(out, 'yaml-cases.json'), `${JSON.stringify(yamls, null, 1)}\n`)
 console.log(`yaml-cases: ${yamls.length} snippets, ${yamls.filter((c) => c.error).length} refused`)
+
+const scaffolds = scaffoldCases()
+writeFileSync(join(out, 'scaffold-cases.json'), `${JSON.stringify(scaffolds, null, 1)}\n`)
+console.log(
+  `scaffold-cases: ${scaffolds.length} scaffolds, ${scaffolds.filter((c) => c.detected.length > 0).length} with a finding`,
+)
+
+const picks = pickCases()
+writeFileSync(join(out, 'pick-cases.json'), `${JSON.stringify(picks, null, 1)}\n`)
+console.log(`pick-cases: ${picks.length} draws`)
