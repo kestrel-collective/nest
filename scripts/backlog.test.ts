@@ -7,8 +7,13 @@ const text = readFileSync(fileURLToPath(new URL('../docs/backlog-seed.md', impor
 describe('docs/backlog-seed.md', () => {
   const issues = text.split(/^## /m).slice(1)
 
-  it('holds ten Stage 5 issues', () => {
-    expect(issues).toHaveLength(10)
+  it('holds the Stage 5 issues, five or more of them for the python track (ADR 0010)', () => {
+    expect(issues.length).toBeGreaterThanOrEqual(15)
+    expect(issues.filter((i) => /^Track: python$/m.test(i)).length).toBeGreaterThanOrEqual(5)
+  })
+
+  it.each(issues.map((i) => [i.split('\n')[0] ?? '', i]))('%s names its track', (_title, body) => {
+    expect(body).toMatch(/^[^\n]*\n\nTrack: (js|python)\n/)
   })
 
   it.each(issues.map((i) => [i.split('\n')[0] ?? '', i]))(

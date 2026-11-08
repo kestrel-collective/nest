@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addCodeownersLine, addCohortMember, CODEOWNERS_SECTION } from './enroll-files.js'
+import { addCodeownersLine, addCohortMember, cohortMemberTrack, CODEOWNERS_SECTION } from './enroll-files.js'
 
 const cohort =
   'id: 2027-01\nname: January 2027 cohort\nstarts: 2027-01-12\nends: 2027-04-30\nmembers:\n  - test-two\n  - test-one\n'
@@ -22,6 +22,24 @@ describe('addCohortMember', () => {
     expect(addCohortMember('id: 2027-01\nmembers: []\n', 'test-one').text).toContain(
       'members:\n  - test-one\n',
     )
+  })
+
+  it('writes a python-track member as a mapping and keeps js members as plain handles', () => {
+    const r = addCohortMember(cohort, 'test-three', 'python')
+    expect(r.text).toContain(
+      'members:\n  - test-one\n  - handle: test-three\n    track: python\n  - test-two\n',
+    )
+    expect(cohortMemberTrack(r.text, 'test-three')).toBe('python')
+    expect(cohortMemberTrack(r.text, 'test-one')).toBe('js')
+    expect(cohortMemberTrack(r.text, 'test-nine')).toBeNull()
+  })
+
+  it('moves a member to another track, and reports no change when the track is the same', () => {
+    const python = addCohortMember(cohort, 'test-one', 'python')
+    expect(python.changed).toBe(true)
+    expect(addCohortMember(python.text, 'test-one', 'python').changed).toBe(false)
+    const back = addCohortMember(python.text, 'test-one', 'js')
+    expect(back.text).toContain('members:\n  - test-one\n  - test-two\n')
   })
 })
 

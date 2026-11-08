@@ -1,9 +1,19 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { COHORT_FILE, COHORTS_DIR, explainHandle, isCohortId, SHARED_STAGE } from '@nest/schema'
+import {
+  COHORT_FILE,
+  COHORTS_DIR,
+  DEFAULT_TRACK,
+  explainHandle,
+  isCohortId,
+  SHARED_STAGE,
+  type Track,
+} from '@nest/schema'
 import { UsageError } from '../args.js'
 import type { Gh } from '../gh.js'
+import { cohortMemberTrack } from '../enroll-files.js'
 import type { Io } from '../io.js'
+import { runPythonScaffold, type PythonScaffold } from '../python-scaffold.js'
 import { NO_COHORT } from '../issue-body.js'
 import { withRetry, type RetryOptions } from '../retry.js'
 import type { RepoConfig } from '../root.js'
@@ -16,7 +26,11 @@ export type EnrollOptions = {
   name?: string | undefined
   /** A cohort id or "none". */
   cohort: string
+  /** The member's track (ADR 0010). Left out: the track the cohort file records, else js. */
+  track?: Track | undefined
   mode: EnrollMode
+  /** Writes a python-track scaffold. Tests pass a fake; the default runs nest_data. */
+  pythonScaffold?: PythonScaffold | undefined
   today?: string | undefined
   retry?: RetryOptions | undefined
 }
@@ -28,6 +42,7 @@ export type StepResult = { step: StepId; outcome: StepOutcome; detail: string }
 export type EnrollReport = {
   handle: string
   cohort: string
+  track: Track
   steps: StepResult[]
   failed: boolean
   scaffolded: boolean
@@ -40,7 +55,7 @@ export type EnrollReport = {
 
 export type EnrollContext = {
   config: RepoConfig
-  opts: EnrollOptions
+  opts: EnrollOptions & { track: Track; pythonScaffold: PythonScaffold }
   gh: Gh
   io: Io
   report: EnrollReport
@@ -89,9 +104,15 @@ export function enroll(config: RepoConfig, opts: EnrollOptions, gh: Gh, io: Io):
     }
   }
 
+  const recorded =
+    cohort === NO_COHORT
+      ? null
+      : cohortMemberTrack(readRepoFile(config.root, `${COHORTS_DIR}/${cohort}/${COHORT_FILE}`), handle)
+  const track: Track = opts.track ?? recorded ?? DEFAULT_TRACK
   const report: EnrollReport = {
     handle,
     cohort,
+    track,
     steps: [],
     failed: false,
     scaffolded: false,
@@ -102,7 +123,7 @@ export function enroll(config: RepoConfig, opts: EnrollOptions, gh: Gh, io: Io):
   }
   const ctx: EnrollContext = {
     config,
-    opts: { ...opts, handle, cohort },
+    opts: { ...opts, handle, cohort, track, pythonScaffold: opts.pythonScaffold ?? runPythonScaffold },
     gh,
     io,
     report,
@@ -135,7 +156,9 @@ export function enroll(config: RepoConfig, opts: EnrollOptions, gh: Gh, io: Io):
       ctx.done(id, 'failed', error instanceof Error ? error.message : String(error))
     }
   }
-  io.out(`Stage ${SHARED_STAGE} is not a personal issue. @${handle} claims one labelled good-shared-issue.`)
+  io.out(
+    `Stage ${SHARED_STAGE} is not a personal issue. @${handle} claims one labelled good-shared-issue and track:${track}.`,
+  )
   return report
 }
 

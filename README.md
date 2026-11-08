@@ -4,9 +4,25 @@ Nest is Kestrel Collective's open-source onboarding project. It is a real, maint
 
 The site is published at https://nest.kestrelcollective.org.
 
+## Two tracks
+
+Nest has a python track and a js track (ADR 0010). The python track works in `py/nest_data`, the Python package that checks every contributor's files and writes the data the site is built from, and needs no Node. The js track works in the Astro site and the Node tools. [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#choose-your-track) helps you choose.
+
 ## Quick start
 
-You need Git and Node 20 or newer (`node --version` to check). Then:
+On the python track you need Git and Python 3.11 or newer (`python --version` to check). Then:
+
+```bash
+git clone https://github.com/kestrel-collective/nest.git
+cd nest
+python -m venv .venv
+source .venv/bin/activate        # on Windows: .venv\Scripts\activate
+pip install -e "py[dev]"
+pytest
+nest build-data
+```
+
+On the js track you need Git and Node 20 or newer (`node --version` to check). Then:
 
 ```bash
 git clone https://github.com/kestrel-collective/nest.git
@@ -15,9 +31,11 @@ npm install
 npm test
 ```
 
-`npm install` fetches everything and builds the `nest` command. `npm test` should end with a line saying all tests passed. If it does not, say so on your stage issue before changing anything.
+`npm install` fetches everything and builds the js track's `nest` command. Either track's tests should end with a line saying they passed. If they do not, say so on your stage issue before changing anything.
 
 ## See the site in your browser
+
+On the python track, open the preview link Cloudflare posts on every pull request: it is the whole site, built from your branch. The rest of this section is the js track's, on your own machine.
 
 ```bash
 npm run dev
@@ -31,18 +49,29 @@ To see exactly what production will serve, build and preview it: `npm run build`
 
 ## Everyday commands
 
-Every command here starts with `npm run`, except `npm install` and `npm test`. Typing `npm build` prints "Unknown command"; it is `npm run build`.
+On the python track, with the virtual environment active:
 
-| Command            | What it does                                                                 | What you should see                         |
-| ------------------ | ---------------------------------------------------------------------------- | ------------------------------------------- |
-| `npm run dev`      | Runs the site locally with live reload.                                      | A local address to open; Ctrl+C stops it.   |
-| `npm run validate` | Checks every contributor and cohort file. CI runs the same thing.            | "no problems", or file:line and what to do  |
-| `npm test`         | Runs every test, including the ones in contributor directories.              | "passed"                                    |
-| `npm run lint`     | Checks formatting and that no em dash slipped in.                            | "All matched files use Prettier code style" |
-| `npm run format`   | Fixes formatting for you.                                                    | The files it changed, if any                |
-| `npm run build`    | Builds the packages and the site into `site/dist`.                           | "3 page(s) built" or more                   |
-| `npm run preview`  | Serves the built site, the way production will.                              | A local address to open                     |
-| `npx nest help`    | The `nest` command: validate, scaffold, new-task, feed, enroll, open-cohort. | A list of commands                          |
+| Command                  | What it does                                                                         | What you should see                        |
+| ------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------ |
+| `nest validate`          | Checks every contributor and cohort file. CI runs the same thing.                    | "no problems", or file:line and what to do |
+| `pytest`                 | Runs nest_data's tests and every `test_*.py` in contributor directories.             | "passed"                                   |
+| `nest build-data`        | Writes `site/.nest/data.json`, the data the site is built from.                      | "Wrote site/.nest/data.json"               |
+| `nest page-status <you>` | Whether the site would build your page, and what is in the way.                      | yes or no for each place, and why          |
+| `ruff check py`          | The Python style check, for changes to `py/nest_data`.                               | "All checks passed!"                       |
+| `nest --help`            | The python track's `nest`: validate, build-data, page-status, feed, the defect bank. | A list of commands                         |
+
+On the js track, every command here starts with `npm run`, except `npm install` and `npm test`. Typing `npm build` prints "Unknown command"; it is `npm run build`.
+
+| Command            | What it does                                                                                           | What you should see                         |
+| ------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| `npm run dev`      | Runs the site locally with live reload.                                                                | A local address to open; Ctrl+C stops it.   |
+| `npm run validate` | Checks every contributor and cohort file. CI runs the same thing.                                      | "no problems", or file:line and what to do  |
+| `npm test`         | Runs every test, including the ones in contributor directories.                                        | "passed"                                    |
+| `npm run lint`     | Checks formatting and that no em dash slipped in.                                                      | "All matched files use Prettier code style" |
+| `npm run format`   | Fixes formatting for you.                                                                              | The files it changed, if any                |
+| `npm run build`    | Runs the data step (Python, when it is there), then builds the packages and the site into `site/dist`. | "3 page(s) built" or more                   |
+| `npm run preview`  | Serves the built site, the way production will.                                                        | A local address to open                     |
+| `npx nest help`    | The js track's `nest`: validate, scaffold, new-task, enroll, open-cohort.                              | A list of commands                          |
 
 ## The ladder
 
@@ -64,7 +93,8 @@ Each stage arrives as an issue assigned to you, with the steps written out. Star
 
 - `Unknown command: "build"`: you typed `npm build`. Use `npm run build`. The same goes for dev, lint, format, validate and preview.
 - `Node.js v18... is not supported` or similar: install Node 20 or newer, then run `npm install` again.
-- `nest: command not found` or `Cannot find module`: run `npm install` again; it builds the command.
+- `nest: command not found` on the python track: the virtual environment is not active in this terminal. Run `source .venv/bin/activate` (on Windows `.venv\Scripts\activate`) and try again.
+- `nest: command not found` or `Cannot find module` on the js track: run `npm install` again; it builds the command.
 - `Port 4321 is in use`: something else is using it. Run `npx astro dev --root site --port 4322` and open that port instead.
 - `npm run validate` lists problems: each line is file, line number, field and what to change. Fix only what it names and run it again.
 - A test fails: read the first failure, not the last. The file and line are in the output.
@@ -73,15 +103,16 @@ Each stage arrives as an issue assigned to you, with the steps written out. Star
 
 ## Repository map
 
-| Path                     | What lives there                                                           |
-| ------------------------ | -------------------------------------------------------------------------- |
-| `contributors/<handle>/` | One directory per contributor: `profile.yml`, `page.md`, `.practice.json`. |
-| `cohorts/<id>/`          | One `cohort.yml` per cohort.                                               |
-| `packages/schema/`       | The schemas and loaders every other part of the repo uses.                 |
-| `packages/cli/`          | The `nest` command.                                                        |
-| `site/`                  | The Astro site, built from the directories above. No network at build.     |
-| `stages/`                | The issue body for each stage of the ladder.                               |
-| `docs/`                  | Contributing guide, decisions, privacy, roadmap, enrolment, build log.     |
+| Path                     | What lives there                                                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `contributors/<handle>/` | One directory per contributor: `profile.yml`, `page.md`, `.practice.json`, and `test_profile.py` or `profile.test.ts` by track. |
+| `cohorts/<id>/`          | One `cohort.yml` per cohort, with each member's track.                                                                          |
+| `py/nest_data/`          | The python track: the data step, page-status, scaffolds and the defect bank.                                                    |
+| `packages/schema/`       | The js track's schemas and loaders, held to nest_data's behaviour by goldens.                                                   |
+| `packages/cli/`          | The js track's `nest` command: scaffold, enrolment and stage issues.                                                            |
+| `site/`                  | The Astro site, built from `site/.nest/data.json`. No network at build.                                                         |
+| `stages/`                | The issue body for each stage of the ladder, per track for 1, 3, 4 and 5.                                                       |
+| `docs/`                  | Contributing guide, decisions, privacy, roadmap, enrolment, build log.                                                          |
 
 ## How evidence is labelled
 

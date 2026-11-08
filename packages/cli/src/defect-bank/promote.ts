@@ -96,7 +96,7 @@ function restamp(source: string, number: number, by: string, at: string): string
 export function promote(
   root: string,
   id: string,
-  opts: { by?: string; at?: Date } = {},
+  opts: { by?: string; at?: Date; number?: number } = {},
 ): { number: number; files: string[] } {
   const from = join(root, CANDIDATES_DIR)
   if (!existsSync(join(from, `${id}.ts`)))
@@ -106,7 +106,8 @@ export function promote(
     throw new UsageError(
       `${id} has not passed the gate${check ? ` (${check.reason})` : ''}. Run nest defect-check ${id} first.`,
     )
-  const number = Math.max(FIRST_NUMBER - 1, ...promoted(root).map((p) => p.number)) + 1
+  // nest_data passes the next number counted across both tracks' banks (ADR 0010)
+  const number = opts.number ?? Math.max(FIRST_NUMBER - 1, ...promoted(root).map((p) => p.number)) + 1
   const by = opts.by ?? gitUser(root)
   const at = (opts.at ?? new Date()).toISOString()
   const to = join(root, PROMOTED_DIR)

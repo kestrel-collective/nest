@@ -1,0 +1,115 @@
+{
+  "validate": {
+    "code": 1,
+    "out": [],
+    "err": [
+      "contributors/test-three/profile.yml:2 name: must be a string.",
+      "contributors/test-three/profile.yml:5 intro: must be a string.",
+      "contributors/test-three/profile.yml:6 next: must be a string.",
+      "contributors/test-two/profile.yml:2 name: must be a string.",
+      "contributors/test-two/profile.yml:5 intro: must be a string.",
+      "5 problems found in 3 contributor directories, 0 templates and 1 cohort."
+    ]
+  },
+  "index": null,
+  "page_status": {
+    "test-one": {
+      "code": 1,
+      "out": [
+        "Page status for @test-one on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-one/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       no, 5 problems in the repository",
+        "                    contributors/test-three/profile.yml:2 name: must be a string.",
+        "                    contributors/test-three/profile.yml:5 intro: must be a string.",
+        "                    contributors/test-three/profile.yml:6 next: must be a string.",
+        "                    contributors/test-two/profile.yml:2 name: must be a string.",
+        "                    contributors/test-two/profile.yml:5 intro: must be a string.",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-one/",
+        "",
+        "Why it would not appear:",
+        "  - 5 problems in other files stop the whole site from building, so no page changes until they are fixed."
+      ]
+    },
+    "test-three": {
+      "code": 1,
+      "out": [
+        "Page status for @test-three on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-three/profile.yml",
+        "visibility.page   public",
+        "validates         no, 3 problems:",
+        "                    contributors/test-three/profile.yml:2 name: must be a string.",
+        "                    contributors/test-three/profile.yml:5 intro: must be a string.",
+        "                    contributors/test-three/profile.yml:6 next: must be a string.",
+        "site builds       no, 5 problems in the repository",
+        "                    contributors/test-two/profile.yml:2 name: must be a string.",
+        "                    contributors/test-two/profile.yml:5 intro: must be a string.",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-three/",
+        "",
+        "Why it would not appear:",
+        "  - The files in this directory do not validate. Fix the problems listed above in a pull request.",
+        "  - 2 problems in other files stop the whole site from building, so no page changes until they are fixed."
+      ]
+    },
+    "test-two": {
+      "code": 1,
+      "out": [
+        "Page status for @test-two on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-two/profile.yml",
+        "visibility.page   public",
+        "validates         no, 2 problems:",
+        "                    contributors/test-two/profile.yml:2 name: must be a string.",
+        "                    contributors/test-two/profile.yml:5 intro: must be a string.",
+        "site builds       no, 5 problems in the repository",
+        "                    contributors/test-three/profile.yml:2 name: must be a string.",
+        "                    contributors/test-three/profile.yml:5 intro: must be a string.",
+        "                    contributors/test-three/profile.yml:6 next: must be a string.",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-two/",
+        "",
+        "Why it would not appear:",
+        "  - The files in this directory do not validate. Fix the problems listed above in a pull request.",
+        "  - 3 problems in other files stop the whole site from building, so no page changes until they are fixed."
+      ]
+    },
+    "test-missing": {
+      "code": 1,
+      "out": [
+        "Page status for @test-missing on the working tree",
+        "",
+        "profile.yml       not found: contributors/test-missing/profile.yml",
+        "visibility.page   -",
+        "validates         -",
+        "site builds       no, 5 problems in the repository",
+        "                    contributors/test-three/profile.yml:2 name: must be a string.",
+        "                    contributors/test-three/profile.yml:5 intro: must be a string.",
+        "                    contributors/test-three/profile.yml:6 next: must be a string.",
+        "                    contributors/test-two/profile.yml:2 name: must be a string.",
+        "                    contributors/test-two/profile.yml:5 intro: must be a string.",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-missing/",
+        "",
+        "Why it would not appear:",
+        "  - contributors/test-missing/profile.yml is not on the working tree. The scaffold pull request for @test-missing has to be merged first."
+      ]
+    }
+  }
+}

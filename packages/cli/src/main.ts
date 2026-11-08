@@ -1,10 +1,6 @@
 import { flagBool, flagString, parseArgs, UsageError } from './args.js'
-import { runDefectCheck } from './commands/defect-check.js'
-import { runDefectImport } from './commands/defect-import.js'
-import { runDefectPromote } from './commands/defect-promote.js'
-import { runDefectRequest } from './commands/defect-request.js'
+import { isTrack, TRACKS, type Track } from '@nest/schema'
 import { enroll, type EnrollMode } from './commands/enroll.js'
-import { runFeed } from './commands/feed.js'
 import { runNewTask } from './commands/new-task.js'
 import { cohortOpen } from './commands/cohort-open.js'
 import { openCohort } from './commands/open-cohort.js'
@@ -27,24 +23,38 @@ Usage: nest <command> [options]
   scaffold <handle>                Create contributors/<handle>/ from the template.
       [--cohort <id|none>] [--defect <number|id|none>] [--force] [--template]
   new-task <stage> --handle <h>    Print the issue for a stage, or create it with --gh.
-      [--cohort <id|none>] [--gh] [--dry-run]
-  feed [--out <file>]              Print the pages feed, or write it to a file.
+      [--cohort <id|none>] [--track js|python] [--gh] [--dry-run]
   enroll <handle>                  Cohort files, scaffold PR, invitation and stage issues for one person.
-      --name "<Name>" --cohort <id|none> [--gh] [--dry-run]
+      --name "<Name>" --cohort <id|none> [--track js|python] [--gh] [--dry-run]
   open-cohort <id>                 Enrol every member of a cohort.
       [--gh] [--dry-run]
   cohort-open <id>                 Create cohorts/<id>/cohort.yml on main for a cohort the platform opened.
       --name "<Name>" --starts YYYY-MM-DD --ends YYYY-MM-DD [--gh] [--dry-run]
   withdraw <handle>                Close and rename the person's stage issues and close their open
       [--gh] [--dry-run]           pull requests, so a new enrolment starts them afresh.
-  defect-request --round <n>       Write the request file for a round of candidate defects (P2).
-      [--count <n>] [--out <file>]
-  defect-import <runner-output>    Write the runner's acceptable outputs as candidate defects.
-  defect-check <id> | --all        Run the gate on candidate defects and record the results.
-  defect-promote <id>              Move a candidate that passed the gate into the bank.
 
 Every command accepts --root <dir>. Without it the repository is found from the current directory.
 --dry-run prints what would happen and makes no GitHub calls. Without --gh the bodies are printed instead.`
+
+/** --track js|python, or undefined when it is left out. */
+function trackFlag(flags: Record<string, string | true>): Track | undefined {
+  const value = flagString(flags, 'track')
+  if (value === undefined) return undefined
+  if (!isTrack(value)) throw new UsageError(`--track must be ${TRACKS.join(' or ')}, not "${value}".`)
+  return value
+}
+
+/** The data commands that moved to nest_data (py/) and are no longer here. */
+const PYTHON_COMMANDS = [
+  'build-data',
+  'page-status',
+  'feed',
+  'practice-counts',
+  'defect-request',
+  'defect-import',
+  'defect-check',
+  'defect-promote',
+]
 
 function modeFor(wantGh: boolean, dryRun: boolean): EnrollMode {
   return dryRun ? 'dry-run' : wantGh ? 'apply' : 'print'
@@ -106,10 +116,13 @@ export function main(argv: readonly string[]): number | Promise<number> {
         throw new UsageError('new-task needs a stage number: nest new-task <1-7> --handle <handle>')
       if (!handle) throw new UsageError('new-task needs --handle <handle>.')
       const gh = wantGh ? ghFor(config, dryRun ? 'dry-run' : 'apply') : null
-      return runNewTask(config, { stage, handle, cohort: flagString(flags, 'cohort'), dryRun }, gh, io)
+      return runNewTask(
+        config,
+        { stage, handle, cohort: flagString(flags, 'cohort'), track: trackFlag(flags), dryRun },
+        gh,
+        io,
+      )
     }
-    case 'feed':
-      return runFeed(config, { out: flagString(flags, 'out') }, io)
     case 'enroll': {
       const handle = positionals[0]
       const cohort = flagString(flags, 'cohort')
@@ -118,7 +131,7 @@ export function main(argv: readonly string[]): number | Promise<number> {
       if (!cohort) throw new UsageError(`enroll needs --cohort <id> or --cohort ${NO_COHORT}.`)
       const report = enroll(
         config,
-        { handle, name: flagString(flags, 'name'), cohort, mode },
+        { handle, name: flagString(flags, 'name'), cohort, track: trackFlag(flags), mode },
         ghFor(config, mode),
         io,
       )
@@ -153,27 +166,11 @@ export function main(argv: readonly string[]): number | Promise<number> {
       const report = openCohort(config, { id, mode }, ghFor(config, mode), io)
       return report.failed.length > 0 ? 1 : 0
     }
-    case 'defect-request': {
-      const round = Number(flagString(flags, 'round'))
-      if (!Number.isInteger(round) || round < 1)
-        throw new UsageError('defect-request needs --round <n>, a whole number from 1.')
-      const count = flagString(flags, 'count')
-      return runDefectRequest(
-        config,
-        { round, count: count === undefined ? undefined : Number(count), out: flagString(flags, 'out') },
-        io,
-      )
-    }
-    case 'defect-check':
-      return runDefectCheck(config, { id: positionals[0], all: flagBool(flags, 'all') }, io)
-    case 'defect-promote':
-      return runDefectPromote(config, positionals[0], io)
-    case 'defect-import': {
-      const file = positionals[0]
-      if (!file) throw new UsageError('defect-import needs the runner output file: nest defect-import <file>')
-      return runDefectImport(config, file, io)
-    }
     default:
+      if (PYTHON_COMMANDS.includes(command))
+        throw new UsageError(
+          `${command} is a command of the python track's nest (ADR 0010). Run it from py/: python -m nest_data ${command}, or see py/README.md.`,
+        )
       throw new UsageError(`Unknown command "${command}". Run nest help to see the commands.`)
   }
 }

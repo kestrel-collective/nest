@@ -1,0 +1,478 @@
+[
+ {
+  "text": "v: yes",
+  "error": false,
+  "data": {
+   "v": "yes"
+  }
+ },
+ {
+  "text": "v: no",
+  "error": false,
+  "data": {
+   "v": "no"
+  }
+ },
+ {
+  "text": "v: on",
+  "error": false,
+  "data": {
+   "v": "on"
+  }
+ },
+ {
+  "text": "v: off",
+  "error": false,
+  "data": {
+   "v": "off"
+  }
+ },
+ {
+  "text": "v: y",
+  "error": false,
+  "data": {
+   "v": "y"
+  }
+ },
+ {
+  "text": "v: true",
+  "error": false,
+  "data": {
+   "v": true
+  }
+ },
+ {
+  "text": "v: True",
+  "error": false,
+  "data": {
+   "v": true
+  }
+ },
+ {
+  "text": "v: TRUE",
+  "error": false,
+  "data": {
+   "v": true
+  }
+ },
+ {
+  "text": "v: tRUE",
+  "error": false,
+  "data": {
+   "v": "tRUE"
+  }
+ },
+ {
+  "text": "v: false",
+  "error": false,
+  "data": {
+   "v": false
+  }
+ },
+ {
+  "text": "v: null",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: Null",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: NULL",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: ~",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v:",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: nULL",
+  "error": false,
+  "data": {
+   "v": "nULL"
+  }
+ },
+ {
+  "text": "v: 1",
+  "error": false,
+  "data": {
+   "v": 1
+  }
+ },
+ {
+  "text": "v: -1",
+  "error": false,
+  "data": {
+   "v": -1
+  }
+ },
+ {
+  "text": "v: +1",
+  "error": false,
+  "data": {
+   "v": 1
+  }
+ },
+ {
+  "text": "v: 012",
+  "error": false,
+  "data": {
+   "v": 12
+  }
+ },
+ {
+  "text": "v: 0o17",
+  "error": false,
+  "data": {
+   "v": 15
+  }
+ },
+ {
+  "text": "v: 0x1F",
+  "error": false,
+  "data": {
+   "v": 31
+  }
+ },
+ {
+  "text": "v: 0b101",
+  "error": false,
+  "data": {
+   "v": "0b101"
+  }
+ },
+ {
+  "text": "v: 1_000",
+  "error": false,
+  "data": {
+   "v": "1_000"
+  }
+ },
+ {
+  "text": "v: 1:20",
+  "error": false,
+  "data": {
+   "v": "1:20"
+  }
+ },
+ {
+  "text": "v: 1.5",
+  "error": false,
+  "data": {
+   "v": 1.5
+  }
+ },
+ {
+  "text": "v: 1.",
+  "error": false,
+  "data": {
+   "v": 1
+  }
+ },
+ {
+  "text": "v: .5",
+  "error": false,
+  "data": {
+   "v": 0.5
+  }
+ },
+ {
+  "text": "v: 1e3",
+  "error": false,
+  "data": {
+   "v": 1000
+  }
+ },
+ {
+  "text": "v: 1E-2",
+  "error": false,
+  "data": {
+   "v": 0.01
+  }
+ },
+ {
+  "text": "v: .inf",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: -.Inf",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: .NaN",
+  "error": false,
+  "data": {
+   "v": null
+  }
+ },
+ {
+  "text": "v: 2027-01-12",
+  "error": false,
+  "data": {
+   "v": "2027-01-12"
+  }
+ },
+ {
+  "text": "v: 2027-01-12T09:30:00Z",
+  "error": false,
+  "data": {
+   "v": "2027-01-12T09:30:00Z"
+  }
+ },
+ {
+  "text": "v: ''",
+  "error": false,
+  "data": {
+   "v": ""
+  }
+ },
+ {
+  "text": "v: \"\"",
+  "error": false,
+  "data": {
+   "v": ""
+  }
+ },
+ {
+  "text": "v: \"a\\tb\\u00e9\\x41\"",
+  "error": false,
+  "data": {
+   "v": "a\tbéA"
+  }
+ },
+ {
+  "text": "v: 'it''s'",
+  "error": false,
+  "data": {
+   "v": "it's"
+  }
+ },
+ {
+  "text": "v: plain text # comment",
+  "error": false,
+  "data": {
+   "v": "plain text"
+  }
+ },
+ {
+  "text": "v: a#b",
+  "error": false,
+  "data": {
+   "v": "a#b"
+  }
+ },
+ {
+  "text": "v: >\n  folded\n  text\n",
+  "error": false,
+  "data": {
+   "v": "folded text\n"
+  }
+ },
+ {
+  "text": "v: |\n  literal\n  text\n",
+  "error": false,
+  "data": {
+   "v": "literal\ntext\n"
+  }
+ },
+ {
+  "text": "v: |-\n  strip\n",
+  "error": false,
+  "data": {
+   "v": "strip"
+  }
+ },
+ {
+  "text": "v: |+\n  keep\n\n",
+  "error": false,
+  "data": {
+   "v": "keep\n\n"
+  }
+ },
+ {
+  "text": "v: multi\n  line\n  plain",
+  "error": false,
+  "data": {
+   "v": "multi line plain"
+  }
+ },
+ {
+  "text": "v: !!str 1",
+  "error": false,
+  "data": {
+   "v": "1"
+  }
+ },
+ {
+  "text": "a: &x 1\nb: *x",
+  "error": false,
+  "data": {
+   "a": 1,
+   "b": 1
+  }
+ },
+ {
+  "text": "v: [1, two, \"3\"]",
+  "error": false,
+  "data": {
+   "v": [
+    1,
+    "two",
+    "3"
+   ]
+  }
+ },
+ {
+  "text": "v: {a: 1, b: [x]}",
+  "error": false,
+  "data": {
+   "v": {
+    "a": 1,
+    "b": [
+     "x"
+    ]
+   }
+  }
+ },
+ {
+  "text": "v:\n  - a\n  - b",
+  "error": false,
+  "data": {
+   "v": [
+    "a",
+    "b"
+   ]
+  }
+ },
+ {
+  "text": "v:\n- a\n- b",
+  "error": false,
+  "data": {
+   "v": [
+    "a",
+    "b"
+   ]
+  }
+ },
+ {
+  "text": "<<: {a: 1}\nb: 2",
+  "error": false,
+  "data": {
+   "<<": {
+    "a": 1
+   },
+   "b": 2
+  }
+ },
+ {
+  "text": "a: 1\na: 2",
+  "error": true
+ },
+ {
+  "text": "1: one",
+  "error": false,
+  "data": {
+   "1": "one"
+  }
+ },
+ {
+  "text": "v: \"unterminated",
+  "error": true
+ },
+ {
+  "text": "v: [unclosed",
+  "error": true
+ },
+ {
+  "text": "- a\n- b",
+  "error": false,
+  "data": [
+   "a",
+   "b"
+  ]
+ },
+ {
+  "text": "just text",
+  "error": false,
+  "data": "just text"
+ },
+ {
+  "text": "",
+  "error": false,
+  "data": null
+ },
+ {
+  "text": "# only a comment",
+  "error": false,
+  "data": null
+ },
+ {
+  "text": "v: @at",
+  "error": true
+ },
+ {
+  "text": "v: `tick",
+  "error": true
+ },
+ {
+  "text": "﻿v: bom",
+  "error": false,
+  "data": {
+   "v": "bom"
+  }
+ },
+ {
+  "text": "key with spaces: 1",
+  "error": false,
+  "data": {
+   "key with spaces": 1
+  }
+ },
+ {
+  "text": "\"quoted key\": 1",
+  "error": false,
+  "data": {
+   "quoted key": 1
+  }
+ },
+ {
+  "text": "v: x\r\nw: y\r\n",
+  "error": false,
+  "data": {
+   "v": "x",
+   "w": "y"
+  }
+ },
+ {
+  "text": "v: |\r\n  crlf\r\n  block\r\n",
+  "error": false,
+  "data": {
+   "v": "crlf\nblock\n"
+  }
+ }
+]

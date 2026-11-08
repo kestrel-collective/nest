@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import {
   ALLOWED_CONTRIBUTOR_FILE,
   CONTRIBUTORS_DIR,
+  IGNORED_CONTRIBUTOR_ENTRY,
   PAGE_FILE,
   PRACTICE_FILE,
   PROFILE_FILE,
@@ -46,13 +47,14 @@ export function validateContributor(root: string, dir: string): ContributorResul
       })
   }
 
-  for (const name of readdirSync(dirPath)) {
+  for (const name of readdirSync(dirPath).sort()) {
+    if (name === IGNORED_CONTRIBUTOR_ENTRY) continue
     if (!ALLOWED_CONTRIBUTOR_FILE.test(name)) {
       issues.push({
         file: rel(CONTRIBUTORS_DIR, dir, name),
         field: 'file',
         message:
-          'does not belong here. A contributor directory holds profile.yml, page.md, .practice.json, README.md and *.test.ts files only.',
+          'does not belong here. A contributor directory holds profile.yml, page.md, .practice.json, README.md, *.test.ts and test_*.py files only.',
       })
     }
   }

@@ -10,9 +10,15 @@ export const PROFILE_FILE = 'profile.yml'
 export const PAGE_FILE = 'page.md'
 export const PRACTICE_FILE = '.practice.json'
 
-/** Files allowed in a contributor directory. Tests are allowed so Stage 4 has somewhere to live. */
+/**
+ * Files allowed in a contributor directory. Tests are allowed so Stage 4 has somewhere to live:
+ * *.test.ts on the js track, test_*.py on the python track (ADR 0010).
+ */
 export const ALLOWED_CONTRIBUTOR_FILE =
-  /^(profile\.yml|page\.md|\.practice\.json|README\.md|[a-z0-9-]+\.test\.ts)$/
+  /^(profile\.yml|page\.md|\.practice\.json|README\.md|[a-z0-9-]+\.test\.ts|test_[a-z0-9_]+\.py)$/
+
+/** Left behind by Python when the track's tests run. Never committed (.gitignore), never reported. */
+export const IGNORED_CONTRIBUTOR_ENTRY = '__pycache__'
 
 /** Repository-relative path with forward slashes, the form used in every message. */
 export const rel = (...parts: string[]): string => parts.join('/')

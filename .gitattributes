@@ -3,3 +3,5 @@
 *.jpg binary
 *.ico binary
 *.woff2 binary
+# Parity fixtures keep their exact bytes, Windows line endings included (py/tests/fixtures/README.md)
+py/tests/fixtures/** -text

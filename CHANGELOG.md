@@ -11,7 +11,14 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 
 ### Added
 
+- The python track (ADR 0010). `py/nest_data` reads and validates every contributor and cohort file with the same rules and messages as `@nest/schema`, and writes `site/.nest/data.json`, which the site now reads; CI and the Cloudflare build run it as the data step. Goldens recorded from the Node code hold both libraries to the same output.
+- Tracks: a cohort member is a handle (js) or a handle with `track: python`. `nest enroll --track`, a track input on the Enrol workflow, and a `track:` label on every stage issue.
+- Stages 1, 3, 4 and 5 have a body per track; the python Stage 1 needs no Node. Stages 2, 6 and 7 are shared, with each track's commands filled in.
+- `nest scaffold` for python-track members, with `test_profile.py` and the five tier-1 defects ported; the defect bank commands for both tracks, with a python candidate prompt.
+- CI runs a python job (ruff and pytest on 3.11 and 3.13), a js job and a site build behind the one `checks` gate. Every shared issue in the backlog names its track, and five python starter issues are added.
 - `nest enroll`, the Enrol and Onboarding workflows, and docs/ENROLMENT.md.
+- `nest page-status <handle>` (in `py/` since ADR 0010): whether the site would build a person's page from `main`, with the feed, cohort page and home page entries, the URL, and what is in the way.
+- A test that builds the real site from a fixture with one public and one private profile, and one that checks an invalid public profile stops the build with the file, line and field.
 
 ## 0.1.0, 2026-10-24
 

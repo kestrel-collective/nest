@@ -1,5 +1,9 @@
 name: CI
 
+# Two tracks, one gate (ADR 0010). `python` runs ruff and pytest for py/ and the python track's own tests;
+# `js` runs the lint, vitest and the Astro check; `site` builds the site the way Cloudflare Pages does,
+# with the Python data step. `checks` passes only when all three pass: it is the required status check
+# on main, so its name must not change (docs/REPO-SETTINGS.md).
 on:
   pull_request:
   push:
@@ -9,7 +13,31 @@ permissions:
   contents: read
 
 jobs:
-  checks:
+  python:
+    name: python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: py/pyproject.toml
+      - name: Install nest_data with its tools
+        run: python -m pip install -e "./py[dev]"
+      - name: Ruff
+        working-directory: py
+        run: ruff check . && ruff format --check .
+      - name: Validate contributor and cohort files
+        run: nest validate
+      - name: Tests (nest_data, the parity goldens and contributors/*/test_*.py)
+        run: python -m pytest
+
+  js:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -18,26 +46,57 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Validate contributor and cohort files
-        run: npm run validate
-      - name: Tests
-        run: npm test
       - name: Formatting and em dashes
         run: npm run lint
+      - name: Tests (vitest, contributors/*/*.test.ts included)
+        env:
+          # the site's own tests compute its data with @nest/schema; the site job uses the data file
+          NEST_INDEX_FALLBACK: '1'
+        run: npm test
       - name: Astro type check
+        env:
+          NEST_INDEX_FALLBACK: '1'
         run: npm run check -w site
-      - name: Build packages and site
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - name: Build packages and site (the data step runs nest build-data first)
         run: npm run build
-      - name: Feed has the agreed shape
+      - name: The data file and the feed have the agreed shape
         run: |
           node -e "
+            const d = require('./site/.nest/data.json')
+            if (d.format !== 1 || !Array.isArray(d.contributors) || !Array.isArray(d.cohorts)) { console.error('data.json is not { format: 1, release, cohorts[], contributors[] }'); process.exit(1) }
             const f = require('./site/dist/api/pages.json')
             const ok = typeof f.generated_at === 'string' && typeof f.release === 'string' && Array.isArray(f.pages)
             if (!ok) { console.error('pages.json is not { generated_at, release, pages[] }'); process.exit(1) }
-            console.log('pages.json ok, ' + f.pages.length + ' page(s), release ' + f.release)
+            if (f.pages.length !== d.contributors.length) { console.error('the feed and the data file disagree on the published pages'); process.exit(1) }
+            console.log('data.json and pages.json ok, ' + f.pages.length + ' page(s), release ' + f.release)
           "
       - uses: actions/upload-artifact@v7
         with:
           name: site
           path: site/dist
           retention-days: 7
+
+  checks:
+    if: always()
+    needs: [python, js, site]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every track passed
+        env:
+          RESULTS: ${{ needs.python.result }} ${{ needs.js.result }} ${{ needs.site.result }}
+        run: |
+          echo "python, js, site: $RESULTS"
+          for r in $RESULTS; do [ "$r" = success ] || exit 1; done

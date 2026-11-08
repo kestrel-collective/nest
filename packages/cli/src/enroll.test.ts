@@ -61,7 +61,7 @@ describe('enroll', () => {
     expect(gh.issues[0]).toMatchObject({
       assignee: 'test-three',
       milestone: '2027-01',
-      labels: ['onboarding', 'cohort:2027-01', 'stage:1'],
+      labels: ['onboarding', 'cohort:2027-01', 'stage:1', 'track:js'],
     })
     expect(gh.milestones.has('2027-01')).toBe(true)
   })

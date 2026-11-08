@@ -2,7 +2,15 @@
 
 Copied from the Kestrel repository's `docs/kestrel-ai-patterns-plan.md`, section P2, on 2026-10-26, so this repository holds the plan it implements. Section 0 of that plan (model output is a suggestion a person reviews; provenance on every asset) applies; in Kestrel it is decision D-39.
 
-The plan names the new decision record ADR 0008. That number was taken by the visual system record, so the defect bank is [ADR 0009](adr/0009-defect-bank-in-three-tiers.md). The commands are `nest defect-request`, `nest defect-import`, `nest defect-check` and `nest defect-promote`; the logic lives in `packages/cli/src/defect-bank/` because Node 20, the repository's floor, cannot run TypeScript files directly.
+The plan names the new decision record ADR 0008. That number was taken by the visual system record, so the defect bank is [ADR 0009](adr/0009-defect-bank-in-three-tiers.md). The commands are `nest defect-request`, `nest defect-import`, `nest defect-check` and `nest defect-promote`.
+
+Since [ADR 0010](adr/0010-two-tracks.md) the bank has two tracks, and the four commands run from `py/` (`nest_data/defect_bank.py`) for both:
+
+- A round's slots alternate js and python, or `--track` picks one. A js slot uses the prompt `tools/defect-bank/nest_defect_v1.md` with the TypeScript files as context; a python slot uses `nest_defect_python_v1.md` with nest_data's files.
+- A python candidate is a module defining `DEFECT` and a pytest test, in `py/nest_data/defects/candidates/`. Import, the gate and promotion are all in nest_data, and promoted python defects are listed in `py/nest_data/defects/bank.py`.
+- A js candidate is still a TypeScript module and a vitest test in `packages/cli/src/defects/candidates/`. Only Node can load those, so the commands hand them to `packages/cli/dist/defect-bank/js-entry.js`, which runs the js track's gate and promotion in `packages/cli/src/defect-bank/` (build it with `npx tsc -b` first).
+- Numbers count from 6 across both tracks, so a number names one defect. The five tier-1 defects exist on both tracks, with detectors that say the same sentences.
+- Each track's scaffold plants from its own bank, and both read and write the cohort's `.defects.json`, so one cohort's members spread over different defects whatever their track.
 
 ## The plan text
 

@@ -60,6 +60,7 @@ export const LABEL_COLORS: Record<string, string> = {
   onboarding: '0E5450',
   stage: '569289',
   cohort: '9FD9CF',
+  track: '3B6EA8',
   maintainers: 'B3401E',
 }
 

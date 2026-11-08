@@ -1,0 +1,992 @@
+[
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: test-one\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-one\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-one",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-one\nname: test-one\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-one\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: test-two\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-two\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-two",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-two\nname: test-two\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-two\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: test-three\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-three\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "test-three",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: test-three\nname: test-three\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"test-three\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: ab\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"ab\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "ab",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: ab\nname: ab\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"ab\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: x9\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"x9\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "x9",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: x9\nname: x9\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"x9\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2077-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-01-12, after cohort 2027-01 ended on 2027-04-30."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2026-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-before-cohort",
+    "joined is 2026-01-12, before cohort 2027-01 started on 2027-01-12."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "2027-01",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: a\ncohort: 2027-01\njoined: 2027-01-12\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"a\", the same as the handle."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "none",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "joined-after-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2077-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "joined-after-cohort",
+    "joined is 2077-02-03, which is in the future."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "joined-before-cohort",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2026-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": []
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "sections-out-of-order",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n"
+  },
+  "detected": [
+   [
+    "sections-out-of-order",
+    "page.md sections are in the order What I am working on next, What I built, What I learned, Where I started; expected Where I started, What I learned, What I built, What I am working on next."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "placeholder-next",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: Replace this with the name you want on your page\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nnext: Replace this with the one thing you want to learn next.\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "placeholder-next",
+    "next still has the template text."
+   ]
+  ]
+ },
+ {
+  "handle": "a",
+  "cohort": "none",
+  "defect": "name-is-handle",
+  "files": {
+   "profile.yml": "# Your profile. Fill in name, intro and skills_developing in your own words.\n# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.\nhandle: a\nname: a\n# cohort: none. Set it when you join one, as YYYY-MM.\njoined: 2027-02-03\nintro: Replace this with one or two sentences about where you are now, not where you want to be.\nskills_developing: []\nvisibility:\n  # private until Stage 2. Change it to public when your page is ready; change it back any time.\n  page: private\n# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.\nprojects: []\n",
+   "page.md": "## Where I started\n\nReplace this paragraph with where you were when you joined: what you could already do, and what brought you here. Two or three sentences are plenty.\n\n## What I learned\n\nReplace this paragraph with one thing you learned that you did not expect to, or delete this section until you have one.\n\n## What I built\n\nReplace this paragraph with what you built, starting with this page, or delete this section for now.\n\n## What I am working on next\n\nReplace this paragraph with what you are working on next and why, or delete this section for now.\n"
+  },
+  "detected": [
+   [
+    "name-is-handle",
+    "name is \"a\", the same as the handle."
+   ]
+  ]
+ }
+]

@@ -58,5 +58,15 @@
     "name": "stage:7",
     "color": "569289",
     "description": "Stage 7 of the ladder: propose something"
+  },
+  {
+    "name": "track:js",
+    "color": "3B6EA8",
+    "description": "The js track: the site, its components and the Node tooling (ADR 0010)"
+  },
+  {
+    "name": "track:python",
+    "color": "3B6EA8",
+    "description": "The python track: py/nest_data, the data step (ADR 0010)"
   }
 ]

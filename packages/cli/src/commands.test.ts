@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { runFeed } from './commands/feed.js'
 import { runNewTask } from './commands/new-task.js'
 import { scaffold } from './commands/scaffold.js'
 import { runValidate } from './commands/validate.js'
@@ -37,24 +36,6 @@ describe('validate command', () => {
       expect.stringContaining('contributors/test-one/profile.yml:7 intro: still has the template text'),
     )
     expect(io.errors.at(-1)).toMatch(/problems found/)
-  })
-})
-
-describe('feed command', () => {
-  it('prints an empty feed with the release and no pages', () => {
-    const io = collectIo()
-    expect(runFeed(tempRepo(), {}, io)).toBe(0)
-    const feed = JSON.parse(io.lines.join('\n'))
-    expect(Object.keys(feed)).toEqual(['generated_at', 'release', 'pages'])
-    expect(feed.release).toBe('0.1.0')
-    expect(feed.pages).toEqual([])
-  })
-
-  it('refuses to build a feed from a repository with problems', () => {
-    const config = tempRepo({ 'contributors/test-one/profile.yml': 'handle: nope\n' })
-    const io = collectIo()
-    expect(runFeed(config, {}, io)).toBe(1)
-    expect(io.errors.at(-1)).toMatch(/not generated/)
   })
 })
 

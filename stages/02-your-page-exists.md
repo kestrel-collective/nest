@@ -19,10 +19,10 @@ Your page is the thing that keeps growing for as long as you contribute, anywher
 2. Open `contributors/{{handle}}/profile.yml`. Fill in `name`, `intro` (one or two sentences about where you are now, not where you want to be) and up to eight `skills_developing`. `next` is optional. Leave `handle`, `cohort` and `joined` exactly as they are, even if something about them looks odd. That is Stage 3, on purpose.
 3. Open `contributors/{{handle}}/page.md`. Write a few sentences under "Where I started". The other three sections: write them now, or delete them until you have something to say. A public page may not keep template text.
 4. Check-in (one line): post here what your intro says. Not for approval, for the habit of saying things before they ship.
-5. Run `npm run validate`. It names the file, the line, the field and what to change. Fix only what it names, then run it again, until it says "no problems".
+5. Run {{validate_command}}. It names the file, the line, the field and what to change. Fix only what it names, then run it again, until it says "no problems".
 6. Set `visibility.page` to `public` in `profile.yml`.
-7. See it on your own machine before anyone else does: run `npm run dev` and open http://localhost:4321/p/{{handle}}/ in your browser. Read it as a stranger would. Edit, save, reload, until it reads right. Press Ctrl+C in the terminal to stop.
-8. Run `npm test`, then commit and push:
+7. See it before anyone else does: {{see_your_page}} Read it as a stranger would.
+8. Run {{test_command}}, then commit and push:
 
    ```bash
    git commit -am "feat: publish the page for {{handle}}"
@@ -36,13 +36,13 @@ Your page is the thing that keeps growing for as long as you contribute, anywher
 
 ## Done when
 
-- [ ] `npm run validate` reports no problems.
+- [ ] {{validate_command}} reports no problems.
 - [ ] Your pull request merged without anyone else pressing a button.
 - [ ] {{site}}/p/{{handle}}/ shows your name, your intro and your first section.
 
 ## If you get stuck
 
-Paste the output of `npm run validate` here, exactly. The message tells you what to change; if it does not, that is a bug in Nest and worth an issue of its own, which also counts as a contribution.
+Paste the output of {{validate_command}} here, exactly. The message tells you what to change; if it does not, that is a bug in Nest and worth an issue of its own, which also counts as a contribution.
 
 <!-- Machine-readable summary read by the Kestrel platform. Keep it in step with the text above. -->
 

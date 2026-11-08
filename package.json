@@ -15,9 +15,10 @@
     "site"
   ],
   "scripts": {
-    "build": "tsc -b && npm run build -w site",
-    "dev": "npm run dev -w site",
-    "start": "npm run dev -w site",
+    "build": "node scripts/data-step.mjs && tsc -b && npm run build -w site",
+    "data": "node scripts/data-step.mjs",
+    "dev": "node scripts/data-step.mjs && npm run dev -w site",
+    "start": "npm run dev",
     "preview": "npm run preview -w site",
     "test": "vitest run",
     "typecheck": "tsc -b --dry",

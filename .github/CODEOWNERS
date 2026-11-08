@@ -4,5 +4,9 @@
 # file is inside the author's own contributors/<login>/ directory and CI is green.
 * @Nyakachess
 
+# The python track's code (ADR 0010): nest_data, its tests and the parity goldens.
+/py/ @Nyakachess
+/pytest.ini @Nyakachess
+
 # Contributor directories, one line each, kept sorted. Added by nest enroll.
 /contributors/apiyo4/ @apiyo4

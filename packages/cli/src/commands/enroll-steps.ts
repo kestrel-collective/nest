@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { COHORT_FILE, COHORTS_DIR, CONTRIBUTORS_DIR, PERSONAL_STAGES } from '@nest/schema'
+import { COHORT_FILE, COHORTS_DIR, CONTRIBUTORS_DIR, PERSONAL_STAGES, type Track } from '@nest/schema'
 import { addCodeownersLine, addCohortMember } from '../enroll-files.js'
 import { fillTemplate, NO_COHORT, renderIssue, templateVars } from '../issue-body.js'
 import { planScaffold, scaffold } from './scaffold.js'
@@ -21,9 +21,10 @@ function cohortEdits(
   read: (path: string) => string | null,
   cohortPath: string,
   handle: string,
+  track: Track,
 ): Record<string, string> {
   const files: Record<string, string> = {}
-  const members = addCohortMember(read(cohortPath) ?? '', handle)
+  const members = addCohortMember(read(cohortPath) ?? '', handle, track)
   const owners = addCodeownersLine(read(CODEOWNERS) ?? '', handle)
   if (members.changed) files[cohortPath] = members.text
   if (owners.changed) files[CODEOWNERS] = owners.text
@@ -37,10 +38,10 @@ function cohortEdits(
  */
 export function stepCohortFiles(ctx: EnrollContext): void {
   const { config, opts, gh, io, report } = ctx
-  const { handle, cohort, mode } = opts
+  const { handle, cohort, mode, track } = opts
   if (cohort === NO_COHORT) return ctx.done('a', 'skipped', 'no cohort')
   const cohortPath = `${COHORTS_DIR}/${cohort}/${COHORT_FILE}`
-  const local = cohortEdits((p) => readRepoFile(config.root, p), cohortPath, handle)
+  const local = cohortEdits((p) => readRepoFile(config.root, p), cohortPath, handle, track)
   if (Object.keys(local).length === 0) return ctx.done('a', 'skipped', 'already a member and owner')
   const message = enrollCommitMessage(handle, cohort)
   const changed = Object.keys(local).join(', ')
@@ -53,7 +54,7 @@ export function stepCohortFiles(ctx: EnrollContext): void {
   if (mode === 'dry-run')
     return ctx.done('a', 'would create', `commit "${message}" on main changing ${changed}`)
   const result = ctx.retry('cohort files', () =>
-    gh.commitToMain({ message, edit: (read) => cohortEdits(read, cohortPath, handle) }),
+    gh.commitToMain({ message, edit: (read) => cohortEdits(read, cohortPath, handle, track) }),
   )
   report.cohortCommit = result.sha
   if (result.action === 'unchanged') return ctx.done('a', 'skipped', 'already a member and owner on main')
@@ -67,7 +68,7 @@ export function stepCohortFiles(ctx: EnrollContext): void {
 /** b. The contributor directory exists on main or on a scaffold branch, otherwise a draft PR creates it. */
 export function stepScaffold(ctx: EnrollContext): void {
   const { config, opts, gh, io, report } = ctx
-  const { handle, cohort, mode } = opts
+  const { handle, cohort, mode, track } = opts
   if (existsSync(join(config.root, CONTRIBUTORS_DIR, handle)))
     return ctx.done('b', 'skipped', `contributors/${handle}/ exists on main`)
   const branch = scaffoldBranch(handle)
@@ -76,18 +77,25 @@ export function stepScaffold(ctx: EnrollContext): void {
     readRepoFile(config.root, SCAFFOLD_TEMPLATE) || 'Starter directory for @{{handle}}{{cohort_phrase}}.\n'
   const body = fillTemplate(template, templateVars(config, { handle, name: opts.name, cohort }))
   if (mode !== 'apply') {
-    const plan = planScaffold(config, { handle, cohort, today: opts.today })
+    const planned =
+      track === 'python'
+        ? opts.pythonScaffold(config, { handle, cohort, today: opts.today, plan: true }).defect
+        : (planScaffold(config, { handle, cohort, today: opts.today }).defect?.id ?? null)
     if (mode === 'print') {
       io.out(`# ${title}`)
       io.out(body.trimEnd())
       io.out('')
     }
-    const detail = `draft PR "${title}" from ${branch} assigned to ${handle}, planted defect ${plan.defect?.id ?? 'none'}; open branches not checked without --gh`
+    const detail = `draft PR "${title}" from ${branch} assigned to ${handle}, ${track} track, planted defect ${planned ?? 'none'}; open branches not checked without --gh`
     return ctx.done('b', 'would create', detail)
   }
   const existing = ctx.retry('scaffold branch lookup', () => gh.findPr(branch))
   if (existing) return ctx.done('b', 'skipped', `${existing} is already open from ${branch}`)
-  const result = scaffold(config, { handle, cohort, today: opts.today })
+  // ADR 0010: the python track's scaffold comes from nest_data, the js track's from here
+  const planted =
+    track === 'python'
+      ? opts.pythonScaffold(config, { handle, cohort, today: opts.today, plan: false }).defect
+      : (scaffold(config, { handle, cohort, today: opts.today }).defect?.id ?? null)
   const url = ctx.retry('scaffold pull request', () =>
     gh.createDraftPr({
       handle,
@@ -99,7 +107,7 @@ export function stepScaffold(ctx: EnrollContext): void {
     }),
   )
   report.scaffolded = true
-  ctx.done('b', 'created', `${url} (planted defect ${result.defect?.id ?? 'none'})`)
+  ctx.done('b', 'created', `${url} (${track} track, planted defect ${planted ?? 'none'})`)
 }
 
 /** c. The handle is a collaborator with push permission, or has an invitation waiting. */
@@ -131,8 +139,10 @@ export function stepInvite(ctx: EnrollContext): void {
 /** d. One personal issue per stage 1, 2, 3, 4, 6 and 7, skipping any title that already exists. */
 export function stepIssues(ctx: EnrollContext): void {
   const { config, opts, gh, io, report } = ctx
-  const { handle, cohort, mode } = opts
-  const issues = PERSONAL_STAGES.map((n) => renderIssue(config, n, { handle, name: opts.name, cohort }))
+  const { handle, cohort, mode, track } = opts
+  const issues = PERSONAL_STAGES.map((n) =>
+    renderIssue(config, n, { handle, name: opts.name, cohort, track }),
+  )
   const milestone = cohort === NO_COHORT ? 'none' : cohort
   if (mode !== 'apply') {
     for (const issue of issues) {

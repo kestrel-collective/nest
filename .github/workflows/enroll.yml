@@ -1,6 +1,7 @@
 name: Enrol
 
-# Kestrel sends a repository_dispatch of type "enroll" with client_payload { handle, name, cohort }.
+# Kestrel sends a repository_dispatch of type "enroll" with client_payload { handle, name, cohort, track }.
+# track is js or python (ADR 0010); left out, it is the track the cohort file records, else js.
 # A maintainer can run the same thing for one person from the Actions tab.
 on:
   repository_dispatch:
@@ -20,6 +21,12 @@ on:
         required: true
         type: string
         default: none
+      track:
+        description: The member's track; recorded keeps the one their cohort file has (js when none)
+        required: true
+        type: choice
+        options: [recorded, js, python]
+        default: recorded
 
 permissions:
   contents: write
@@ -37,6 +44,8 @@ jobs:
       HANDLE: ${{ github.event.client_payload.handle || inputs.handle }}
       NAME: ${{ github.event.client_payload.name || inputs.name }}
       COHORT: ${{ github.event.client_payload.cohort || inputs.cohort }}
+      # empty for "recorded" or a dispatch without one: nest enroll then keeps the cohort file's track, else js
+      TRACK: ${{ github.event.client_payload.track || (inputs.track != 'recorded' && inputs.track) || '' }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -45,9 +54,14 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - run: npm ci
       - name: Build the CLI
         run: npx tsc -b
+      - name: Install nest_data (writes python-track scaffolds)
+        run: python -m pip install ./py
       - name: Git identity for the bot
         run: |
           git config user.name "github-actions[bot]"
@@ -67,7 +81,7 @@ jobs:
           # only for the collaborator invitation, which the workflow token is not allowed to send:
           # a token from a repository admin with Administration: write (see docs/ENROLMENT.md)
           NEST_ADMIN_TOKEN: ${{ secrets.NEST_ADMIN_TOKEN }}
-        run: node packages/cli/bin/nest.js enroll "$HANDLE" --name "$NAME" --cohort "$COHORT" --gh
+        run: node packages/cli/bin/nest.js enroll "$HANDLE" --name "$NAME" --cohort "$COHORT" ${TRACK:+--track "$TRACK"} --gh
       - name: Open or update the failure issue
         if: failure()
         env:

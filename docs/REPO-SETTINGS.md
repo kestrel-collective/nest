@@ -17,7 +17,7 @@ Everything that cannot be a file in the repository. Follow it top to bottom in t
 ## Repository: Rules, branch `main`
 
 - [ ] Add a ruleset (or classic protection) for `main`: require a pull request before merging, 1 approval, dismiss stale approvals.
-- [ ] Require status checks to pass: `checks` (the CI workflow job). Require branches to be up to date.
+- [ ] Require status checks to pass: `checks` (the CI workflow's gate job, which passes only when its `python`, `js` and `site` jobs all pass; ADR 0010). Require `checks` only, not the jobs behind it, so the Python versions in the matrix can change without touching this rule. Require branches to be up to date.
 - [ ] Require review from code owners.
 - [ ] Block force pushes and deletions.
 - [ ] Bypass list: add the **Nest bot** GitHub App (next section). Nothing else bypasses. The workflows' own token (`github-actions[bot]`) cannot be put on a bypass list, and "Repository admin" does not cover it, so without the app three things fail once this rule is on: the practice counts, a new cohort's file (the Cohort workflow) and adding each new member to their cohort (Enrol step a).
@@ -50,13 +50,14 @@ Without `NEST_BOT_APP_ID` the workflows use their own token, which works only wh
 
 ## Labels
 
-- [ ] Run the "Sync labels" workflow once from the Actions tab (workflow_dispatch). It creates onboarding, good-shared-issue, proposal, bug and stage:1 to stage:7. Cohort labels are created by `nest open-cohort`.
+- [ ] Run the "Sync labels" workflow once from the Actions tab (workflow_dispatch). It creates onboarding, good-shared-issue, proposal, bug, stage:1 to stage:7, track:js and track:python. Cohort labels are created by `nest open-cohort`.
 
 ## Cloudflare Pages (the site)
 
 - [ ] Workers and Pages: create a Pages project connected to this repository, production branch `main`.
-- [ ] Build command: `npm ci && npm run build`. Build output directory: `site/dist`. Root directory: `/` (the repository root, not `site/`).
+- [ ] Build command: `npm ci && npm run build`. Build output directory: `site/dist`. Root directory: `/` (the repository root, not `site/`). `npm run build` runs the Python data step first (`nest build-data`, ADR 0010), so the build needs Python as well as Node.
 - [ ] Environment variable `NODE_VERSION` = `20`.
+- [ ] Environment variable `PYTHON_VERSION` = `3.12`. The data step needs 3.11 or newer and fails the build, saying so, without it. The build image has Python already; this pins the version so an image update cannot change it.
 - [ ] Preview deployments: all branches (pull requests get a preview link).
 - [ ] Custom domain: `nest.kestrelcollective.org`.
 
@@ -68,7 +69,7 @@ Without `NEST_BOT_APP_ID` the workflows use their own token, which works only wh
 
 ## Secrets
 
-None. Every workflow uses the built-in `GITHUB_TOKEN`. Cloudflare Pages deploys through its git integration.
+The workflows use the built-in `GITHUB_TOKEN`, plus `NEST_ADMIN_TOKEN` for invitations (docs/ENROLMENT.md) and the Nest bot app's `NEST_BOT_APP_ID` and `NEST_BOT_PRIVATE_KEY` (above). Cloudflare Pages deploys through its git integration and needs no secret.
 
 ## Enrolment
 
