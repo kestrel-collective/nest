@@ -1,0 +1,14 @@
+# Your profile. Fill in name, intro and skills_developing in your own words.
+# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.
+handle: apiyo4
+name: Replace this with the name you want on your page
+cohort: 2026-10-27
+joined: 2026-10-27
+intro: Replace this with one or two sentences about where you are now, not where you want to be.
+skills_developing: []
+next: Replace this with the one thing you want to learn next.
+visibility:
+  # private until Stage 2. Change it to public when your page is ready; change it back any time.
+  page: private
+# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.
+projects: []
