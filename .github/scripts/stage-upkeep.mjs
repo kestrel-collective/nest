@@ -6,18 +6,19 @@
 //   2. on every run, put the current kestrel-ticket block from stages/ into every open stage
 //      issue whose block differs, so a template change reaches Kestrel with nobody running
 //      anything by hand;
-//   3. report every open good-shared-issue without stage:5, and fail the run when there is one,
-//      so a shared-pool issue opened without its stage label shows up in the Actions tab.
+//   3. check the shared pool: every open good-shared-issue needs stage:5 and a track label, and each
+//      track needs at least three open ones. Every problem is reported and the run fails, so it
+//      shows up in the Actions tab.
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import {
   blockFor,
+  checkSharedPool,
   handleFromTitle,
   issuesToAssign,
   refreshBody,
   renderBlock,
   SHARED_ISSUE_LABEL,
-  sharedIssuesMissingStage,
   stageOf,
   templateBlock,
   templateKey,
@@ -115,11 +116,7 @@ const pool = JSON.parse(
     'number,title,labels',
   ]),
 ).map((i) => ({ number: i.number, title: i.title, labels: i.labels.map((l) => l.name) }))
-const unstaged = sharedIssuesMissingStage(pool)
-for (const issue of unstaged) {
-  console.log(
-    `::error title=Shared issue without stage:5::#${issue.number} (${issue.title}) is labelled ${SHARED_ISSUE_LABEL} but not stage:5. Add the label: gh issue edit ${issue.number} --add-label stage:5`,
-  )
-}
-console.log(`${pool.length} open ${SHARED_ISSUE_LABEL} issue(s) checked, ${unstaged.length} without stage:5`)
-if (unstaged.length > 0) process.exitCode = 1
+const problems = checkSharedPool(pool)
+for (const p of problems) console.log(`::error title=Shared pool::${p.message}`)
+console.log(`${pool.length} open ${SHARED_ISSUE_LABEL} issue(s) checked, ${problems.length} problem(s)`)
+if (problems.length > 0) process.exitCode = 1

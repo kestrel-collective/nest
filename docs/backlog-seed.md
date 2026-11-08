@@ -2,7 +2,7 @@
 
 Issues for the `good-shared-issue` pool, each a gap found while building this repository, not invented for practice. Open them with `node scripts/open-backlog.mjs --gh` (without `--gh` it only lists them). Each follows the stage issue format: why, steps, done when.
 
-Each issue names its track on a `Track:` line under its title (ADR 0010). The script labels every issue `good-shared-issue` and `stage:5`, and `track:js` or `track:python`, which is how Stage 5 sends each member to their own pool. The Onboarding upkeep reports any open `good-shared-issue` without `stage:5`. `--track python` opens one track's issues only. A python issue's code is in `py/nest_data`; a js issue's is in the site, `packages/` or the workflows.
+Each issue names its track on a `Track:` line under its title (ADR 0010). The script labels every issue `good-shared-issue` and `stage:5`, and `track:js` or `track:python`, which is how Stage 5 sends each member to their own pool. Before creating anything it creates any of those labels the repository lacks, from `.github/labels.json`, and it checks the labels on every issue GitHub reports back. The Onboarding upkeep fails when an open `good-shared-issue` lacks `stage:5` or a track label, or when a track has fewer than three open ones. `--track python` opens one track's issues only. A python issue's code is in `py/nest_data`; a js issue's is in the site, `packages/` or the workflows.
 
 ## Count merged pull requests without one API call per pull request
 
@@ -114,7 +114,7 @@ Every contributor page says "updated after merges" next to the contributions car
 ### Steps
 
 1. Read `site/src/pages/p/[handle]/index.astro`, the contributions card, and `site/src/lib/format.ts`.
-2. Replace the static "updated after merges" with "counts updated <date>" using `formatDate` on `c.practice.updated_at`, and "no counts yet" when the file is missing (the schema fills `EMPTY_PRACTICE` whose timestamp is the Unix epoch; treat that as missing).
+2. Replace the static "updated after merges" with "counts updated <date>" using `formatDate` on the date part of `c.practice.updated_at` (`formatDate` reads a plain date, so pass the first ten characters; "Tests for the date and count helpers in format.ts" fixes that in the helper itself), and "no counts yet" when the file is missing (the schema fills `EMPTY_PRACTICE` whose timestamp is the Unix epoch; treat that as missing).
 3. Add a test in `site/src/lib` for the small helper that turns a practice record into that label.
 
 ### Done when
@@ -167,12 +167,12 @@ Track: js
 
 ### Why
 
-`.prettierignore` excludes `*.astro` because prettier has no parser for them without a plugin. The site's components are therefore the only files in the repository that `npm run format` does not touch, and reviews of them spend time on spacing.
+Prettier has no parser for `.astro` files without a plugin, so `npm run format` and `npm run lint` pass over them without a word (`npx prettier --check site/src/components/SiteHeader.astro` says "No parser could be inferred"). The site's components and pages are the only source files in the repository that nothing formats, and reviews of them spend time on spacing.
 
 ### Steps
 
 1. Add `prettier-plugin-astro` as a root dev dependency and list it under `plugins` in `.prettierrc`.
-2. Remove `*.astro` from `.prettierignore`, run `npm run format`, and review the diff: it must be whitespace only.
+2. Run `npm run format` and review the diff: it must be whitespace only. Nothing needs removing from `.prettierignore`; it lists `.astro/`, the generated folder, not the components.
 3. Confirm `npm run lint` passes and that CI still runs on Node 20.
 
 ### Done when
@@ -298,3 +298,43 @@ Track: python
 - [ ] Every module in `py/nest_data` appears in the table once.
 - [ ] A reviewer on the js track can find the rule behind a message from the table alone.
 - [ ] The section passes `npm run lint` (formatting and no em dashes).
+
+## Tests for the date and count helpers in format.ts
+
+Track: js
+
+### Why
+
+`site/src/lib/format.ts` turns dates into "Jan 12, 2027", date pairs into ranges, and counts into "1 page" or "2 pages". Every page uses them, and none has a test. One of them is already wrong: `formatDate` expects a plain date, and given a full timestamp such as `2026-11-08T10:46:20Z` it returns "Nov NaN, 2026".
+
+### Steps
+
+1. Read `site/src/lib/format.ts` and one existing test, `site/src/lib/markdown.test.ts`, for the shape.
+2. Add `site/src/lib/format.test.ts` with cases for `formatDate` (a plain date, the first and last day of a year), `formatRange` (same year, two years), `plural` (one, many, a custom plural) and `tone` (the same handle always gets the same colour).
+3. Add a failing case for a full timestamp, then make `formatDate` read only the date part (the first ten characters), so the case passes.
+4. Run `npm test`.
+
+### Done when
+
+- [ ] `site/src/lib/format.test.ts` covers the four helpers, including the timestamp case.
+- [ ] `formatDate('2026-11-08T10:46:20Z')` returns "Nov 8, 2026".
+
+## Say whose progress the ladder shows
+
+Track: js
+
+### Why
+
+`site/src/components/Ladder.astro` draws the seven stages. The home page uses it as an overview, and every contributor page uses it to show that person's progress. Both are announced to a screen reader as "The ladder", so someone listening to `/p/<handle>/` cannot tell that the list is that person's progress rather than the overview.
+
+### Steps
+
+1. Read `site/src/components/Ladder.astro` and the two places that use it: `site/src/pages/index.astro` and `site/src/pages/p/[handle]/index.astro`.
+2. Add an optional `label` prop that sets the list's `aria-label`, keeping "The ladder" when it is not given.
+3. On the contributor page pass a label such as "Stages @<handle> has done", with the handle filled in.
+4. In `site/src/build.test.ts`, assert that the built page for the public fixture has the new label and the home page still has "The ladder".
+
+### Done when
+
+- [ ] A contributor page's ladder is announced with that person's handle.
+- [ ] The home page's ladder is unchanged, and the build test checks both.

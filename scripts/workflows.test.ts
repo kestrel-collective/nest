@@ -48,7 +48,7 @@ describe('GitHub configuration as code', () => {
   it('has issue templates that parse and carry a label', () => {
     const dir = join(ROOT, '.github', 'ISSUE_TEMPLATE')
     const forms = readdirSync(dir).filter((f) => f.endsWith('.yml') && f !== 'config.yml')
-    expect(forms.length).toBe(3)
+    expect(forms.length).toBe(4)
     for (const f of forms) {
       const form = parse(readFileSync(join(dir, f), 'utf8')) as {
         name?: string

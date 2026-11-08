@@ -50,7 +50,7 @@ Without `NEST_BOT_APP_ID` the workflows use their own token, which works only wh
 
 ## Labels
 
-- [ ] Run the "Sync labels" workflow once from the Actions tab (workflow_dispatch). It creates onboarding, good-shared-issue, proposal, bug, stage:1 to stage:7, track:js and track:python. Cohort labels are created by `nest open-cohort`.
+- [ ] Run the "Sync labels" workflow once from the Actions tab (workflow_dispatch). It creates onboarding, good-shared-issue, proposal, bug, stage:1 to stage:7, track:js and track:python. Cohort labels are created by `nest open-cohort`. A label that fails does not stop the others: the run lists every failure at the end and is marked failed, so read its last lines.
 
 ## Cloudflare Pages (the site)
 

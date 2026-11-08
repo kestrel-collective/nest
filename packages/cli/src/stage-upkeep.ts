@@ -10,11 +10,11 @@
  * summary Kestrel reads. When a template's block changes, refreshBody puts the new block
  * into issues that were created from the old one.
  *
- * Checking the pool: every open good-shared-issue must carry stage:5; sharedIssuesMissingStage
- * names those that do not, and the job reports them.
+ * Checking the pool: every open good-shared-issue must carry stage:5 and a track label, and each
+ * track needs POOL_MINIMUM open ones; checkSharedPool names what is wrong, and the job fails on it.
  */
 
-import { SHARED_STAGE } from '@nest/schema'
+import { SHARED_STAGE, TRACKS, type Track } from '@nest/schema'
 
 export type OpenStageIssue = {
   number: number
@@ -99,14 +99,51 @@ export function refreshBody(body: string, fresh: string): string | null {
 
 /** The label of the Stage 5 pool, which onboarding members claim from instead of a personal issue. */
 export const SHARED_ISSUE_LABEL = 'good-shared-issue'
+/** The fewest open shared-pool issues each track may have before the upkeep job fails. */
+export const POOL_MINIMUM = 3
+
+export type PoolIssue = { number: number; title: string; labels: string[] }
+export type PoolProblem =
+  | { kind: 'no-stage'; number: number; message: string }
+  | { kind: 'no-track'; number: number; message: string }
+  | { kind: 'too-few'; track: Track; open: number; message: string }
 
 /**
- * Open issues in the shared pool that lack the Stage 5 label. Every good-shared-issue is a Stage 5
- * issue, and the stage label is what Kestrel and the pool links read, so one without it is reported.
+ * What is wrong with the open shared pool: an issue without stage:5, an issue without a track label,
+ * and a track with fewer than POOL_MINIMUM open issues. Every good-shared-issue is a Stage 5 issue on
+ * one track (ADR 0010); Kestrel reads the stage label and each track's Stage 5 link filters by its own
+ * track label, so an issue missing either is invisible to someone.
  */
-export function sharedIssuesMissingStage<T extends { number: number; title: string; labels: string[] }>(
-  issues: readonly T[],
-): T[] {
+export function checkSharedPool(issues: readonly PoolIssue[]): PoolProblem[] {
   const stageLabel = `stage:${SHARED_STAGE}`
-  return issues.filter((i) => i.labels.includes(SHARED_ISSUE_LABEL) && !i.labels.includes(stageLabel))
+  const pool = issues.filter((i) => i.labels.includes(SHARED_ISSUE_LABEL))
+  const problems: PoolProblem[] = []
+  for (const i of pool) {
+    if (!i.labels.includes(stageLabel)) {
+      problems.push({
+        kind: 'no-stage',
+        number: i.number,
+        message: `#${i.number} (${i.title}) is labelled ${SHARED_ISSUE_LABEL} but not ${stageLabel}. Add it: gh issue edit ${i.number} --add-label ${stageLabel}`,
+      })
+    }
+    if (!TRACKS.some((t) => i.labels.includes(`track:${t}`))) {
+      problems.push({
+        kind: 'no-track',
+        number: i.number,
+        message: `#${i.number} (${i.title}) is labelled ${SHARED_ISSUE_LABEL} but has no track label. Add ${TRACKS.map((t) => `track:${t}`).join(' or ')}.`,
+      })
+    }
+  }
+  for (const track of TRACKS) {
+    const open = pool.filter((i) => i.labels.includes(`track:${track}`)).length
+    if (open < POOL_MINIMUM) {
+      problems.push({
+        kind: 'too-few',
+        track,
+        open,
+        message: `track:${track} has ${open} open ${SHARED_ISSUE_LABEL} issue(s); keep at least ${POOL_MINIMUM}. Add issues to docs/backlog-seed.md and run node scripts/open-backlog.mjs --track ${track} --gh.`,
+      })
+    }
+  }
+  return problems
 }
