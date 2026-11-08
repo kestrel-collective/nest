@@ -1,6 +1,6 @@
-name: Good shared issue
-description: A Stage 5 task in shared code, scoped so a first contributor can finish it
-labels: [good-shared-issue]
+name: Good shared issue, js track
+description: A Stage 5 task in the site, packages/ or the workflows, scoped so a first contributor can finish it
+labels: [good-shared-issue, 'stage:5', 'track:js']
 body:
   - type: textarea
     id: context

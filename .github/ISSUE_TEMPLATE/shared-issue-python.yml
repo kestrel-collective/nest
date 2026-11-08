@@ -1,0 +1,25 @@
+name: Good shared issue, python track
+description: A Stage 5 task in py/nest_data, scoped so a first contributor can finish it
+labels: [good-shared-issue, 'stage:5', 'track:python']
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What is wrong or missing today, and where in the code it lives.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: Numbered. Name the files. Say what to run to see the problem and to check the fix.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: A checklist. Every item is something CI or a reviewer can verify.
+    validations:
+      required: true

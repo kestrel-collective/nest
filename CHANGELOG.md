@@ -4,6 +4,13 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 
 ## Unreleased
 
+### Fixed
+
+- Shared-pool issues are opened with `good-shared-issue`, `stage:5` and their track label together, by `scripts/open-backlog.mjs` and by a shared-issue form per track. The script creates any missing label from `.github/labels.json` first and checks the labels GitHub reports on each new issue.
+- The js track had no Stage 5 issues: its backlog had never been opened. Two js starters are added to `docs/backlog-seed.md`, and one stale js issue is corrected.
+- The Onboarding upkeep fails when an open `good-shared-issue` lacks `stage:5` or a track label, or when a track has fewer than three open ones.
+- Sync labels carries on past a label that fails, lists every failure at the end and exits non-zero.
+
 ### Changed
 
 - The site follows design scope v1, the logo palette: the Kestrel Collective wordmark in the header, new tokens with the first brand sheet behind `data-palette="classic"`, a stepper ladder, person and stat cards, and a 404 with numerals (docs/adr/0008-visual-system-v2.md).

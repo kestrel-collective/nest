@@ -8,6 +8,7 @@ name: Onboarding
 #   invitation (enrolment creates the issues while the invitation is pending, and GitHub drops
 #   an assignee who has no access yet), and put the current kestrel-ticket block from stages/
 #   into every open stage issue whose block is out of date. Nobody has to remember to refresh.
+#   The same job reports every open good-shared-issue without stage:5 and fails when it finds one.
 on:
   schedule:
     - cron: '23 7 * * *'
@@ -49,7 +50,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Assign stage issues and refresh their blocks
+      - name: Assign stage issues, refresh their blocks, check the shared pool
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node .github/scripts/stage-upkeep.mjs

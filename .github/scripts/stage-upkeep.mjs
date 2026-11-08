@@ -5,15 +5,20 @@
 //      opened, D-42, but the assignment keeps GitHub's own views right);
 //   2. on every run, put the current kestrel-ticket block from stages/ into every open stage
 //      issue whose block differs, so a template change reaches Kestrel with nobody running
-//      anything by hand.
+//      anything by hand;
+//   3. check the shared pool: every open good-shared-issue needs stage:5 and a track label, and each
+//      track needs at least three open ones. Every problem is reported and the run fails, so it
+//      shows up in the Actions tab.
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import {
   blockFor,
+  checkSharedPool,
   handleFromTitle,
   issuesToAssign,
   refreshBody,
   renderBlock,
+  SHARED_ISSUE_LABEL,
   stageOf,
   templateBlock,
   templateKey,
@@ -94,3 +99,24 @@ for (const issue of issues) {
   refreshed += 1
 }
 console.log(`${issues.length} open stage issue(s) checked, ${refreshed} block(s) refreshed`)
+
+const pool = JSON.parse(
+  gh([
+    'issue',
+    'list',
+    '--repo',
+    repo,
+    '--state',
+    'open',
+    '--label',
+    SHARED_ISSUE_LABEL,
+    '--limit',
+    '500',
+    '--json',
+    'number,title,labels',
+  ]),
+).map((i) => ({ number: i.number, title: i.title, labels: i.labels.map((l) => l.name) }))
+const problems = checkSharedPool(pool)
+for (const p of problems) console.log(`::error title=Shared pool::${p.message}`)
+console.log(`${pool.length} open ${SHARED_ISSUE_LABEL} issue(s) checked, ${problems.length} problem(s)`)
+if (problems.length > 0) process.exitCode = 1
