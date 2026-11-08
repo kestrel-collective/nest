@@ -38,6 +38,10 @@ What you should see: `npm install` ends quietly after a minute or two; it also b
 
 ## See it in a browser
 
+On the python track you do not need to run the site yourself. Every pull request gets a preview: Cloudflare posts a link on it a minute or two after you push, and that link is the whole site built from your branch, your page included once it is public. Before you push, `nest page-status your-handle --local` tells you whether the site would build your page, and what is in the way if not. If you have Node 20 or newer as well, `npm install` and `npm run dev` work as below, and use your Python for the data step.
+
+On the js track:
+
 ```bash
 npm run dev
 ```
@@ -52,7 +56,19 @@ Open http://localhost:4321/. The site rebuilds in the background every time you 
 
 ## Everyday commands
 
-Every command starts with `npm run`, except `npm install` and `npm test`. `npm build` on its own prints "Unknown command".
+On the python track, with the virtual environment active (your prompt starts with `(.venv)`):
+
+| Command                  | What it does                                                             | What you should see                        |
+| ------------------------ | ------------------------------------------------------------------------ | ------------------------------------------ |
+| `nest validate`          | Checks every contributor and cohort file; CI runs the same thing.        | "no problems", or file:line and what to do |
+| `pytest`                 | Runs nest_data's tests and every `test_*.py` in contributor directories. | "passed"                                   |
+| `nest build-data`        | Writes `site/.nest/data.json`, the data the site is built from.          | "Wrote site/.nest/data.json"               |
+| `nest page-status <you>` | Whether the site would build your page, and what is in the way.          | yes or no for each place, and why          |
+| `ruff check py`          | The Python style check, for changes to `py/nest_data`.                   | "All checks passed!"                       |
+| `ruff format py`         | Fixes the formatting of `py/nest_data`.                                  | The files it changed, if any               |
+| `nest --help`            | The python track's `nest` and its commands.                              | A list of commands                         |
+
+On the js track, every command starts with `npm run`, except `npm install` and `npm test`. `npm build` on its own prints "Unknown command".
 
 | Command            | What it does                                                      | What you should see                         |
 | ------------------ | ----------------------------------------------------------------- | ------------------------------------------- |
@@ -81,9 +97,10 @@ On a machine without Python the step says so, and the site computes the same dat
 
 ## If something fails
 
-- Read the first error, not the last. `nest validate` names the file, the line and the field. Test failures show the file and line.
-- `Unknown command`: you left out `run`. It is `npm run build`, `npm run dev`, and so on.
-- `is not supported by Astro` or `Unsupported engine`: your Node is too old. Install Node 20 or newer and run `npm install` again.
+- Read the first error, not the last. `nest validate` and `npm run validate` name the file, the line and the field. Test failures, from pytest or from `npm test`, show the file and line.
+- `python: command not found`, or a version older than 3.11, on the python track: on macOS and Linux try `python3`; otherwise install Python 3.11 or newer (see Prerequisites) and make the virtual environment again.
+- `Unknown command` on the js track: you left out `run`. It is `npm run build`, `npm run dev`, and so on.
+- `is not supported by Astro` or `Unsupported engine` on the js track: your Node is too old. Install Node 20 or newer and run `npm install` again.
 - `nest: command not found` on the python track: activate the virtual environment again in this terminal.
 - `Cannot find module` or `nest: command not found` on the js track: run `npm install` again.
 - `No module named nest_data` or `yaml`: run `pip install -e "py[dev]"` with the virtual environment active.
