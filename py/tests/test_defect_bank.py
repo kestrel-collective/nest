@@ -12,6 +12,7 @@ from nest_data.cli import main
 from nest_data.config import UsageError
 
 REPO = Path(__file__).resolve().parents[2]
+EM_DASH = chr(0x2014)  # spelt out: the repository allows no literal em dash
 
 MODULE = """from nest_data.defects import Defect
 from nest_data.page import is_placeholder
@@ -68,7 +69,7 @@ def output(**over) -> str:
         "needs_cohort": False,
         "module": MODULE,
         "test": TEST,
-        "notes": "A fair search — the skill chip shows template text.",
+        "notes": f"A fair search {EM_DASH} the skill chip shows template text.",
     }
     obj.update(over)
     return json.dumps(obj)
@@ -148,7 +149,7 @@ def test_import_writes_python_candidates_with_provenance_and_hands_js_rows_on(ro
     module = (root / bank.PY_CANDIDATES / "skill_is_placeholder.py").read_text(encoding="utf-8")
     assert module.startswith("# A planted defect from the P2 bank")
     assert "# model: claude-opus-5-5" in module and "# id: skill-is-placeholder" in module
-    assert "—" not in module
+    assert EM_DASH not in module
     assert (root / bank.PY_CANDIDATES / "test_skill_is_placeholder.py").exists()
     assert "| skill-is-placeholder | 1 | debugging |" in (root / bank.PY_CANDIDATES / "README.md").read_text(
         encoding="utf-8"
