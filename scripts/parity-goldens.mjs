@@ -13,7 +13,7 @@ const out = join(root, 'py', 'tests', 'golden')
 mkdirSync(out, { recursive: true })
 
 for (const name of readdirSync(repos).sort()) {
-  const golden = goldenFor(join(repos, name))
+  const golden = goldenFor(join(repos, name), join(out, `${name}.json`))
   writeFileSync(join(out, `${name}.json`), `${JSON.stringify(golden, null, 2)}\n`)
   console.log(
     `${name}: validate exit ${golden.validate.code}, ${golden.validate.err.length} problem line(s), index ${golden.index === null ? 'none' : `${golden.index.length} bytes`}, ${Object.keys(golden.page_status).length} page-status run(s)`,

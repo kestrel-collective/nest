@@ -4,8 +4,6 @@ import { runDefectImport } from './commands/defect-import.js'
 import { runDefectPromote } from './commands/defect-promote.js'
 import { runDefectRequest } from './commands/defect-request.js'
 import { enroll, type EnrollMode } from './commands/enroll.js'
-import { runFeed } from './commands/feed.js'
-import { runPageStatus } from './commands/page-status.js'
 import { runNewTask } from './commands/new-task.js'
 import { cohortOpen } from './commands/cohort-open.js'
 import { openCohort } from './commands/open-cohort.js'
@@ -29,9 +27,6 @@ Usage: nest <command> [options]
       [--cohort <id|none>] [--defect <number|id|none>] [--force] [--template]
   new-task <stage> --handle <h>    Print the issue for a stage, or create it with --gh.
       [--cohort <id|none>] [--gh] [--dry-run]
-  feed [--out <file>]              Print the pages feed, or write it to a file.
-  page-status <handle>             Whether the site would build the person's page from main, and why not.
-      [--ref <git ref>] [--local]  --local reads the working tree; the default fetches origin main first.
   enroll <handle>                  Cohort files, scaffold PR, invitation and stage issues for one person.
       --name "<Name>" --cohort <id|none> [--gh] [--dry-run]
   open-cohort <id>                 Enrol every member of a cohort.
@@ -48,6 +43,9 @@ Usage: nest <command> [options]
 
 Every command accepts --root <dir>. Without it the repository is found from the current directory.
 --dry-run prints what would happen and makes no GitHub calls. Without --gh the bodies are printed instead.`
+
+/** The data commands that moved to nest_data (py/) and are no longer here. */
+const PYTHON_COMMANDS = ['build-data', 'page-status', 'feed']
 
 function modeFor(wantGh: boolean, dryRun: boolean): EnrollMode {
   return dryRun ? 'dry-run' : wantGh ? 'apply' : 'print'
@@ -110,17 +108,6 @@ export function main(argv: readonly string[]): number | Promise<number> {
       if (!handle) throw new UsageError('new-task needs --handle <handle>.')
       const gh = wantGh ? ghFor(config, dryRun ? 'dry-run' : 'apply') : null
       return runNewTask(config, { stage, handle, cohort: flagString(flags, 'cohort'), dryRun }, gh, io)
-    }
-    case 'feed':
-      return runFeed(config, { out: flagString(flags, 'out') }, io)
-    case 'page-status': {
-      const handle = positionals[0]
-      if (!handle) throw new UsageError('page-status needs a handle: nest page-status <handle>')
-      return runPageStatus(
-        config,
-        { handle, ref: flagString(flags, 'ref'), local: flagBool(flags, 'local') },
-        io,
-      )
     }
     case 'enroll': {
       const handle = positionals[0]
@@ -186,6 +173,10 @@ export function main(argv: readonly string[]): number | Promise<number> {
       return runDefectImport(config, file, io)
     }
     default:
+      if (PYTHON_COMMANDS.includes(command))
+        throw new UsageError(
+          `${command} is a command of the python track's nest (ADR 0010). Run it from py/: python -m nest_data ${command}, or see py/README.md.`,
+        )
       throw new UsageError(`Unknown command "${command}". Run nest help to see the commands.`)
   }
 }

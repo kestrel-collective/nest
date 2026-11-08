@@ -14,8 +14,9 @@ const REPOS = join(REAL_ROOT, 'py', 'tests', 'fixtures', 'repos')
 const read = (name: string) => JSON.parse(readFileSync(join(GOLDEN, name), 'utf8')) as unknown
 
 describe('parity goldens', () => {
-  it.each(readdirSync(REPOS).sort())('%s: validate, the data file and page-status still match', (name) => {
-    expect(goldenFor(join(REPOS, name))).toEqual(read(`${name}.json`))
+  it.each(readdirSync(REPOS).sort())('%s: validate and the data file still match', (name) => {
+    const path = join(GOLDEN, `${name}.json`)
+    expect(goldenFor(join(REPOS, name), path)).toEqual(read(`${name}.json`))
   })
 
   it('every schema case still matches', () => {

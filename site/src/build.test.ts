@@ -53,7 +53,8 @@ function build(root: string) {
   const out = mkdtempSync(join(tmpdir(), 'nest-site-out-'))
   temps.push(out)
   const r = spawnSync(process.execPath, [ASTRO, 'build', '--root', SITE_DIR, '--outDir', out], {
-    env: { ...process.env, NEST_ROOT: root, ASTRO_TELEMETRY_DISABLED: '1' },
+    // the fixture has no data file, so the site computes it with @nest/schema, as on a machine without Python
+    env: { ...process.env, NEST_ROOT: root, NEST_INDEX_FALLBACK: '1', ASTRO_TELEMETRY_DISABLED: '1' },
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024,
   })

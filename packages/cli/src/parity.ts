@@ -1,18 +1,16 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
   buildIndex,
   CohortFileSchema,
   formatIssue,
   fromZodError,
-  listContributorDirs,
   PracticeSchema,
   ProfileSchema,
   serializeIndex,
   validateRepo,
 } from '@nest/schema'
 import { parseDocument } from 'yaml'
-import { runPageStatus } from './commands/page-status.js'
 import { runValidate } from './commands/validate.js'
 import { collectIo } from './io.js'
 import { readConfig } from './root.js'
@@ -27,16 +25,18 @@ export type Golden = {
   validate: { code: number; out: string[]; err: string[] }
   /** The site data file's bytes, or null when the repository does not validate. */
   index: string | null
+  /**
+   * `nest page-status --local` for every handle. Recorded from the Node command before it moved to
+   * nest_data (ADR 0010) and kept as it was: nest_data is now its only implementation.
+   */
   page_status: Record<string, { code: number; out: string[] }>
 }
 
-/** Every contributor directory, plus one handle with no directory. */
-export function statusHandles(root: string): string[] {
-  return [...listContributorDirs(root).map((d) => d.toLowerCase()), 'test-missing']
-}
-
-/** The Node output for one fixture: validate, the index bytes, and page-status on the working tree. */
-export function goldenFor(root: string): Golden {
+/**
+ * The Node output for one fixture: validate and the data file's bytes, with the frozen page-status
+ * record carried over from the existing golden (goldenPath) when there is one.
+ */
+export function goldenFor(root: string, goldenPath?: string): Golden {
   const running = process.env.GITHUB_REPOSITORY
   delete process.env.GITHUB_REPOSITORY
   try {
@@ -47,13 +47,13 @@ export function goldenFor(root: string): Golden {
     const release = (JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')) as { version: string })
       .version
     const index = result.issues.length === 0 ? serializeIndex(buildIndex(result, release)) : null
-    const page_status: Golden['page_status'] = {}
-    for (const handle of statusHandles(root)) {
-      const io = collectIo()
-      const c = runPageStatus(config, { handle, local: true }, io)
-      page_status[handle] = { code: c, out: io.lines }
+    const previous =
+      goldenPath && existsSync(goldenPath) ? (JSON.parse(readFileSync(goldenPath, 'utf8')) as Golden) : null
+    return {
+      validate: { code, out: v.lines, err: v.errors },
+      index,
+      page_status: previous?.page_status ?? {},
     }
-    return { validate: { code, out: v.lines, err: v.errors }, index, page_status }
   } finally {
     if (running !== undefined) process.env.GITHUB_REPOSITORY = running
   }

@@ -96,10 +96,23 @@ def run_feed(config: RepoConfig, out_path: str | None, out: Out, err: Out) -> in
     return 0
 
 
+ROOT_HELP = "the repository root; found from the current directory when left out"
+
+
+class _Commands(argparse._SubParsersAction):  # type: ignore[type-arg]
+    """Every command accepts --root after its name too, as the Node CLI does."""
+
+    def add_parser(self, name: str, **kwargs):  # type: ignore[no-untyped-def,override]
+        parser = super().add_parser(name, **kwargs)
+        parser.add_argument("--root", default=argparse.SUPPRESS, help=ROOT_HELP)
+        return parser
+
+
 def _parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="nest", description="Nest's data step (python track).")
     p.add_argument("--version", action="version", version=f"nest_data {__version__}")
-    p.add_argument("--root", help="the repository root; found from the current directory when left out")
+    p.add_argument("--root", help=ROOT_HELP)
+    p.register("action", "parsers", _Commands)
     sub = p.add_subparsers(dest="command", metavar="<command>")
     sub.add_parser("validate", help="check every contributor and cohort directory")
     b = sub.add_parser("build-data", help=f"validate, then write {INDEX_FILE} for the site")

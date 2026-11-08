@@ -1,7 +1,7 @@
 name: Practice counts
 
 # Writes contributors/<handle>/.practice.json from merged pull requests and closed stage
-# issues, then commits to main. The site build reads these files and never calls GitHub.
+# issues (nest practice-counts, from py/), then commits to main. The site build reads these files and never calls GitHub.
 on:
   push:
     branches: [main]
@@ -34,17 +34,19 @@ jobs:
         with:
           # the push at the end uses this token: the app's, which the main ruleset lets through
           token: ${{ steps.app.outputs.token || github.token }}
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-python@v6
         with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: py/pyproject.toml
+      - name: Install nest_data
+        run: python -m pip install ./py
       - name: Compute counts
         env:
           GH_TOKEN: ${{ github.token }}
-        run: node .github/scripts/practice-counts.mjs
+        run: nest practice-counts
       - name: Validate the result
-        run: npm run validate
+        run: nest validate
       - name: Commit and push when something changed
         run: |
           if git diff --quiet -- contributors; then
