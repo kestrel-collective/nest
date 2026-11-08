@@ -1,9 +1,5 @@
 import { flagBool, flagString, parseArgs, UsageError } from './args.js'
 import { isTrack, TRACKS, type Track } from '@nest/schema'
-import { runDefectCheck } from './commands/defect-check.js'
-import { runDefectImport } from './commands/defect-import.js'
-import { runDefectPromote } from './commands/defect-promote.js'
-import { runDefectRequest } from './commands/defect-request.js'
 import { enroll, type EnrollMode } from './commands/enroll.js'
 import { runNewTask } from './commands/new-task.js'
 import { cohortOpen } from './commands/cohort-open.js'
@@ -36,11 +32,6 @@ Usage: nest <command> [options]
       --name "<Name>" --starts YYYY-MM-DD --ends YYYY-MM-DD [--gh] [--dry-run]
   withdraw <handle>                Close and rename the person's stage issues and close their open
       [--gh] [--dry-run]           pull requests, so a new enrolment starts them afresh.
-  defect-request --round <n>       Write the request file for a round of candidate defects (P2).
-      [--count <n>] [--out <file>]
-  defect-import <runner-output>    Write the runner's acceptable outputs as candidate defects.
-  defect-check <id> | --all        Run the gate on candidate defects and record the results.
-  defect-promote <id>              Move a candidate that passed the gate into the bank.
 
 Every command accepts --root <dir>. Without it the repository is found from the current directory.
 --dry-run prints what would happen and makes no GitHub calls. Without --gh the bodies are printed instead.`
@@ -54,7 +45,16 @@ function trackFlag(flags: Record<string, string | true>): Track | undefined {
 }
 
 /** The data commands that moved to nest_data (py/) and are no longer here. */
-const PYTHON_COMMANDS = ['build-data', 'page-status', 'feed']
+const PYTHON_COMMANDS = [
+  'build-data',
+  'page-status',
+  'feed',
+  'practice-counts',
+  'defect-request',
+  'defect-import',
+  'defect-check',
+  'defect-promote',
+]
 
 function modeFor(wantGh: boolean, dryRun: boolean): EnrollMode {
   return dryRun ? 'dry-run' : wantGh ? 'apply' : 'print'
@@ -165,26 +165,6 @@ export function main(argv: readonly string[]): number | Promise<number> {
       if (!id) throw new UsageError('open-cohort needs a cohort id: nest open-cohort <id>')
       const report = openCohort(config, { id, mode }, ghFor(config, mode), io)
       return report.failed.length > 0 ? 1 : 0
-    }
-    case 'defect-request': {
-      const round = Number(flagString(flags, 'round'))
-      if (!Number.isInteger(round) || round < 1)
-        throw new UsageError('defect-request needs --round <n>, a whole number from 1.')
-      const count = flagString(flags, 'count')
-      return runDefectRequest(
-        config,
-        { round, count: count === undefined ? undefined : Number(count), out: flagString(flags, 'out') },
-        io,
-      )
-    }
-    case 'defect-check':
-      return runDefectCheck(config, { id: positionals[0], all: flagBool(flags, 'all') }, io)
-    case 'defect-promote':
-      return runDefectPromote(config, positionals[0], io)
-    case 'defect-import': {
-      const file = positionals[0]
-      if (!file) throw new UsageError('defect-import needs the runner output file: nest defect-import <file>')
-      return runDefectImport(config, file, io)
     }
     default:
       if (PYTHON_COMMANDS.includes(command))

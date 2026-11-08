@@ -2,14 +2,12 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { UsageError } from './args.js'
-import { runDefectPromote } from './commands/defect-promote.js'
 import { BANK, DEFECTS } from './defects.js'
 import { importCandidates, readChecks, readHeader } from './defect-bank/candidates.js'
 import { recordChecks } from './defect-bank/check.js'
 import { promote, promoted } from './defect-bank/promote.js'
 import { CANDIDATES_DIR, PROMOTED_DIR } from './defect-bank/request.js'
 import { GOOD_OUTPUT, runnerRow } from './defect-bank/test-fixtures.js'
-import { collectIo } from './io.js'
 import { cleanup, tempRepo } from './test-support.js'
 
 afterEach(cleanup)
@@ -77,8 +75,7 @@ describe('defect-promote', () => {
       { id: 'skill-is-placeholder', pass: false, reason: 'the test passes', visible: true },
     ])
     expect(() => promote(config.root, 'skill-is-placeholder')).toThrow(/\(the test passes\)/)
-    expect(() => runDefectPromote(config, 'nothing-here', collectIo())).toThrow(UsageError)
-    expect(() => runDefectPromote(config, undefined, collectIo())).toThrow(/needs a candidate id/)
+    expect(() => promote(config.root, 'nothing-here')).toThrow(UsageError)
   }, 60_000)
 
   it('starts from the first five, each in tier 1, before anything is promoted', () => {
