@@ -5,6 +5,7 @@ import { runDefectPromote } from './commands/defect-promote.js'
 import { runDefectRequest } from './commands/defect-request.js'
 import { enroll, type EnrollMode } from './commands/enroll.js'
 import { runFeed } from './commands/feed.js'
+import { runPageStatus } from './commands/page-status.js'
 import { runNewTask } from './commands/new-task.js'
 import { cohortOpen } from './commands/cohort-open.js'
 import { openCohort } from './commands/open-cohort.js'
@@ -29,6 +30,8 @@ Usage: nest <command> [options]
   new-task <stage> --handle <h>    Print the issue for a stage, or create it with --gh.
       [--cohort <id|none>] [--gh] [--dry-run]
   feed [--out <file>]              Print the pages feed, or write it to a file.
+  page-status <handle>             Whether the site would build the person's page from main, and why not.
+      [--ref <git ref>] [--local]  --local reads the working tree; the default fetches origin main first.
   enroll <handle>                  Cohort files, scaffold PR, invitation and stage issues for one person.
       --name "<Name>" --cohort <id|none> [--gh] [--dry-run]
   open-cohort <id>                 Enrol every member of a cohort.
@@ -110,6 +113,15 @@ export function main(argv: readonly string[]): number | Promise<number> {
     }
     case 'feed':
       return runFeed(config, { out: flagString(flags, 'out') }, io)
+    case 'page-status': {
+      const handle = positionals[0]
+      if (!handle) throw new UsageError('page-status needs a handle: nest page-status <handle>')
+      return runPageStatus(
+        config,
+        { handle, ref: flagString(flags, 'ref'), local: flagBool(flags, 'local') },
+        io,
+      )
+    }
     case 'enroll': {
       const handle = positionals[0]
       const cohort = flagString(flags, 'cohort')

@@ -2,16 +2,23 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import {
   buildFeed,
+  byActivity,
   formatIssue,
-  isPublishable,
+  publishedContributors,
   stagesDone,
   validateRepo,
   type Cohort,
   type Contributor,
 } from '@nest/schema'
 
-/** Walks up from the working directory to the repository root. No network, no GitHub. */
+export { activity, byActivity } from '@nest/schema'
+
+/**
+ * The repository root: NEST_ROOT when set (the site build test points it at a fixture), otherwise
+ * found by walking up from the working directory. No network, no GitHub.
+ */
 function findRoot(): string {
+  if (process.env.NEST_ROOT) return resolve(process.env.NEST_ROOT)
   let dir = resolve(process.cwd())
   for (;;) {
     if (existsSync(join(dir, 'package.json')) && existsSync(join(dir, 'contributors'))) return dir
@@ -47,18 +54,11 @@ if (result.issues.length > 0) {
 }
 
 /** Pages that may appear on the site: public, valid handle, not a template. */
-export const contributors: Contributor[] = result.contributors.filter(isPublishable)
+export const contributors: Contributor[] = publishedContributors(result)
 
 export const cohorts: Cohort[] = [...result.cohorts].sort((a, b) => b.id.localeCompare(a.id))
 
 export const feed = buildFeed(result.contributors, { release: SITE.release, siteUrl: SITE.url })
-
-export const activity = (c: Contributor): number => c.profile.projects.length + c.practice.shared
-
-/** Most active first, then by handle, so the order is stable between builds. */
-export function byActivity(list: readonly Contributor[]): Contributor[] {
-  return [...list].sort((a, b) => activity(b) - activity(a) || a.handle.localeCompare(b.handle))
-}
 
 export function cohortOf(c: Contributor): Cohort | undefined {
   return cohorts.find((k) => k.id === c.profile.cohort)

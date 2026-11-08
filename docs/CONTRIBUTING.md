@@ -104,7 +104,7 @@ A draft pull request is fine if you want early feedback. Mark it ready when you 
 2. A preview of the site is built from your branch, so you can see your page before it is live.
 3. Someone reviews. Comments are about the change, not about you. Reply to each one, make the change or say why not, and push again. Keeping a decision and explaining why is as good an answer as changing it.
 4. Merge. Changes that touch only your own directory merge automatically once CI is green. Anything else is merged by a maintainer after review.
-5. The site redeploys from `main`. Your page is live within a few minutes, if it is public.
+5. The site redeploys from `main` after every merge. A public page is live about two minutes later; see [Stage 2: when your page appears](#stage-2-when-your-page-appears).
 
 ## Your directory
 
@@ -116,6 +116,24 @@ A draft pull request is fine if you want early feedback. Mark it ready when you 
 - `.practice.json`: counts written by a workflow after your pull requests merge. Do not edit it.
 
 Your scaffold has one defect planted on purpose. Finding it is Stage 3. Do not go looking for it before then; it is more useful as a surprise.
+
+## Stage 2: when your page appears
+
+Cloudflare Pages rebuilds the site from `main` on every merge, not only on releases. The "Nest release" number on the site is the version of the code, and content changes do not wait for it. The build takes under a minute, so your page is live at `https://nest.kestrelcollective.org/p/your-handle/` about two minutes after your Stage 2 pull request merges. The site's pages are not cached, so a normal reload shows it. The Kestrel Collective site picks your page up a few minutes after that.
+
+It appears when all three of these are true on `main`:
+
+1. `contributors/your-handle/` is there. The pull request "Scaffold for @your-handle" has to be merged first, and it must not be reverted.
+2. `visibility.page` in `profile.yml` is `public`. The scaffold sets it to `private`, so merging the scaffold alone never shows a page.
+3. Everything validates. One invalid file anywhere stops the whole build, and the build log names the file, the line and the field. CI runs the same check on every pull request, so a broken file cannot normally reach `main`.
+
+If your page is not there ten minutes after the merge, run this from your clone. It reads `main` on GitHub, says yes or no for the page, the feed, the cohort page and the home page, and names what is in the way:
+
+```bash
+npx nest page-status your-handle
+```
+
+Add `--local` to check your own working copy before you push. Paste its output on your stage issue if the answer is not clear.
 
 ## Getting help
 

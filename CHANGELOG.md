@@ -12,6 +12,8 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 ### Added
 
 - `nest enroll`, the Enrol and Onboarding workflows, and docs/ENROLMENT.md.
+- `nest page-status <handle>`: whether the site would build a person's page from `main`, with the feed, cohort page and home page entries, the URL, and what is in the way.
+- A test that builds the real site from a fixture with one public and one private profile, and one that checks an invalid public profile stops the build with the file, line and field.
 
 ## 0.1.0, 2026-10-24
 

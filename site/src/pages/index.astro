@@ -3,10 +3,11 @@ import EmptyCard from '../components/EmptyCard.astro'
 import Ladder from '../components/Ladder.astro'
 import PersonCard from '../components/PersonCard.astro'
 import Base from '../layouts/Base.astro'
+import { HOME_RECENT } from '@nest/schema'
 import { byActivity, cohorts, contributors, SITE } from '../lib/data'
 import { plural } from '../lib/format'
 
-const recent = byActivity(contributors).slice(0, 3)
+const recent = byActivity(contributors).slice(0, HOME_RECENT)
 const first = recent[0]
 const learnerLink = first
   ? { href: `/p/${first.handle}/`, label: "See a learner's page", external: false }
