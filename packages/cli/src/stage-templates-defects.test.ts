@@ -6,7 +6,11 @@ import { BANK } from './defects.js'
 import { REAL_ROOT } from './test-support.js'
 
 // ADR 0009: the Stage 3 and 4 issues say a defect exists, never which one.
-const TEMPLATES = ['stages/03-fix-your-defect.md', 'stages/04-write-the-test.md']
+// Every track's variant of both (ADR 0010).
+const TEMPLATES = ['03-fix-your-defect', '04-write-the-test'].flatMap((s) => [
+  `stages/${s}.js.md`,
+  `stages/${s}.python.md`,
+])
 
 describe('stage templates and the defect bank', () => {
   const ids = [...BANK.map((d) => d.id), ...candidateIds(REAL_ROOT)]

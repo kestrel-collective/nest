@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
@@ -41,22 +41,15 @@ describe('assigning stage issues', () => {
 })
 
 describe('refreshing the kestrel-ticket block', () => {
-  const template = readFileSync(join(REAL_ROOT, 'stages', '01-make-it-run.md'), 'utf8')
+  const template = readFileSync(join(REAL_ROOT, 'stages', '01-make-it-run.js.md'), 'utf8')
   const fresh = renderBlock(templateBlock(template) ?? '', {
     handle: 'anod-a',
     repoUrl: 'https://github.com/kestrel-collective/nest',
   })
 
   it('every stage template carries a block in the shape Kestrel validates', () => {
-    for (const name of [
-      '01-make-it-run.md',
-      '02-your-page-exists.md',
-      '03-fix-your-defect.md',
-      '04-write-the-test.md',
-      '05-ship-to-shared-code.md',
-      '06-review-a-peer.md',
-      '07-propose-something.md',
-    ]) {
+    // every body, each track's variant included (ADR 0010)
+    for (const name of readdirSync(join(REAL_ROOT, 'stages')).filter((n) => /^0\d-/.test(n))) {
       const block = templateBlock(readFileSync(join(REAL_ROOT, 'stages', name), 'utf8')) ?? ''
       for (const key of [
         'competency:',

@@ -1,4 +1,5 @@
 import { flagBool, flagString, parseArgs, UsageError } from './args.js'
+import { isTrack, TRACKS, type Track } from '@nest/schema'
 import { runDefectCheck } from './commands/defect-check.js'
 import { runDefectImport } from './commands/defect-import.js'
 import { runDefectPromote } from './commands/defect-promote.js'
@@ -26,9 +27,9 @@ Usage: nest <command> [options]
   scaffold <handle>                Create contributors/<handle>/ from the template.
       [--cohort <id|none>] [--defect <number|id|none>] [--force] [--template]
   new-task <stage> --handle <h>    Print the issue for a stage, or create it with --gh.
-      [--cohort <id|none>] [--gh] [--dry-run]
+      [--cohort <id|none>] [--track js|python] [--gh] [--dry-run]
   enroll <handle>                  Cohort files, scaffold PR, invitation and stage issues for one person.
-      --name "<Name>" --cohort <id|none> [--gh] [--dry-run]
+      --name "<Name>" --cohort <id|none> [--track js|python] [--gh] [--dry-run]
   open-cohort <id>                 Enrol every member of a cohort.
       [--gh] [--dry-run]
   cohort-open <id>                 Create cohorts/<id>/cohort.yml on main for a cohort the platform opened.
@@ -43,6 +44,14 @@ Usage: nest <command> [options]
 
 Every command accepts --root <dir>. Without it the repository is found from the current directory.
 --dry-run prints what would happen and makes no GitHub calls. Without --gh the bodies are printed instead.`
+
+/** --track js|python, or undefined when it is left out. */
+function trackFlag(flags: Record<string, string | true>): Track | undefined {
+  const value = flagString(flags, 'track')
+  if (value === undefined) return undefined
+  if (!isTrack(value)) throw new UsageError(`--track must be ${TRACKS.join(' or ')}, not "${value}".`)
+  return value
+}
 
 /** The data commands that moved to nest_data (py/) and are no longer here. */
 const PYTHON_COMMANDS = ['build-data', 'page-status', 'feed']
@@ -107,7 +116,12 @@ export function main(argv: readonly string[]): number | Promise<number> {
         throw new UsageError('new-task needs a stage number: nest new-task <1-7> --handle <handle>')
       if (!handle) throw new UsageError('new-task needs --handle <handle>.')
       const gh = wantGh ? ghFor(config, dryRun ? 'dry-run' : 'apply') : null
-      return runNewTask(config, { stage, handle, cohort: flagString(flags, 'cohort'), dryRun }, gh, io)
+      return runNewTask(
+        config,
+        { stage, handle, cohort: flagString(flags, 'cohort'), track: trackFlag(flags), dryRun },
+        gh,
+        io,
+      )
     }
     case 'enroll': {
       const handle = positionals[0]
@@ -117,7 +131,7 @@ export function main(argv: readonly string[]): number | Promise<number> {
       if (!cohort) throw new UsageError(`enroll needs --cohort <id> or --cohort ${NO_COHORT}.`)
       const report = enroll(
         config,
-        { handle, name: flagString(flags, 'name'), cohort, mode },
+        { handle, name: flagString(flags, 'name'), cohort, track: trackFlag(flags), mode },
         ghFor(config, mode),
         io,
       )

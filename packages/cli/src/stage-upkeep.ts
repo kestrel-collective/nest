@@ -36,6 +36,30 @@ export function stageOf(labels: readonly string[]): number | null {
   return null
 }
 
+/** The track a stage issue was opened for, from its "track:<name>" label; js when it has none (ADR 0010). */
+export function trackOfLabels(labels: readonly string[]): 'js' | 'python' {
+  return labels.includes('track:python') ? 'python' : 'js'
+}
+
+/**
+ * The template block for an issue: the variant for its track when the stage has one, else the shared
+ * body's. Keys are "<stage>" for a shared body and "<stage>:<track>" for a variant.
+ */
+export function blockFor(
+  templates: ReadonlyMap<string, string | null>,
+  stage: number,
+  track: 'js' | 'python',
+): string | null {
+  return templates.get(`${stage}:${track}`) ?? templates.get(String(stage)) ?? null
+}
+
+/** The key for a stage file name: "1:python" for 01-make-it-run.python.md, "2" for 02-your-page-exists.md. */
+export function templateKey(name: string): string | null {
+  const m = /^(\d\d)-[a-z0-9-]+(?:\.(js|python))?\.md$/.exec(name)
+  if (!m) return null
+  return m[2] ? `${Number(m[1])}:${m[2]}` : String(Number(m[1]))
+}
+
 /** Open stage issues with no assignee whose owner is now a collaborator. */
 export function issuesToAssign(
   issues: readonly OpenStageIssue[],

@@ -1,8 +1,18 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { CONTRIBUTORS_DIR, isPlaceholder, listCohortIds, validateContributor } from '@nest/schema'
+import {
+  COHORT_FILE,
+  COHORTS_DIR,
+  CONTRIBUTORS_DIR,
+  DEFAULT_TRACK,
+  isPlaceholder,
+  listCohortIds,
+  validateContributor,
+  type Track,
+} from '@nest/schema'
 import { UsageError } from '../args.js'
 import { LABEL_COLORS, type Gh } from '../gh.js'
+import { cohortMemberTrack } from '../enroll-files.js'
 import type { Io } from '../io.js'
 import { NO_COHORT, renderIssue, type RenderedIssue } from '../issue-body.js'
 import type { RepoConfig } from '../root.js'
@@ -11,6 +21,8 @@ export type NewTaskOptions = {
   stage: number
   handle: string
   cohort?: string | undefined
+  /** Left out: the track the cohort file records, else the track the directory's test file shows, else js. */
+  track?: Track | undefined
   dryRun?: boolean | undefined
 }
 
@@ -19,6 +31,19 @@ export function contributorName(config: RepoConfig, handle: string): string | un
   if (!existsSync(join(config.root, CONTRIBUTORS_DIR, handle))) return undefined
   const c = validateContributor(config.root, handle).contributor
   return c && !isPlaceholder(c.profile.name) ? c.profile.name : undefined
+}
+
+/**
+ * The member's track: the one their cohort file records; for an individual joiner, python when their
+ * directory holds the python track's test file; otherwise js (ADR 0010).
+ */
+export function contributorTrack(config: RepoConfig, handle: string, cohort: string): Track {
+  if (cohort !== NO_COHORT) {
+    const path = join(config.root, COHORTS_DIR, cohort, COHORT_FILE)
+    const recorded = existsSync(path) ? cohortMemberTrack(readFileSync(path, 'utf8'), handle) : null
+    if (recorded) return recorded
+  }
+  return existsSync(join(config.root, CONTRIBUTORS_DIR, handle, 'test_profile.py')) ? 'python' : DEFAULT_TRACK
 }
 
 /** Looks up the name and cohort from the contributor directory when it exists. */
@@ -49,7 +74,9 @@ export function ensureIssueLabels(gh: Gh, issue: RenderedIssue, io: Io): void {
         ? 'Personal onboarding issue'
         : kind === 'stage'
           ? `Stage ${label.split(':')[1]} of the ladder`
-          : `Cohort ${label.split(':')[1]}`
+          : kind === 'track'
+            ? `The ${label.split(':')[1]} track (ADR 0010)`
+            : `Cohort ${label.split(':')[1]}`
     if (gh.ensureLabel(label, color, description) === 'created') io.out(`Created label ${label}`)
   }
 }
@@ -57,7 +84,8 @@ export function ensureIssueLabels(gh: Gh, issue: RenderedIssue, io: Io): void {
 /** Prints the issue, or creates it when a gh client is given. */
 export function runNewTask(config: RepoConfig, opts: NewTaskOptions, gh: Gh | null, io: Io): number {
   const vars = contributorVars(config, opts.handle, opts.cohort)
-  const issue = renderIssue(config, opts.stage, { handle: opts.handle, ...vars })
+  const track = opts.track ?? contributorTrack(config, opts.handle, vars.cohort)
+  const issue = renderIssue(config, opts.stage, { handle: opts.handle, ...vars, track })
   const milestone = issue.milestone ?? 'none'
   if (!gh) {
     io.out(`# ${issue.title}`)

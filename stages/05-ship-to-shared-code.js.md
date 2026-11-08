@@ -12,7 +12,7 @@ Everything so far affected only you. Shared code is different: other pages, othe
 
 ## Steps
 
-1. Open the pool: [issues labelled good-shared-issue]({{repo_url}}/issues?q=is%3Aopen+label%3Agood-shared-issue+no%3Aassignee). Read one twice. Pick it only if you can say in your own words what it asks.
+1. Open the pool: [issues labelled good-shared-issue and track:js]({{repo_url}}/issues?q=is%3Aopen+label%3Agood-shared-issue+label%3Atrack%3Ajs+no%3Aassignee). Read one twice. Pick it only if you can say in your own words what it asks.
 2. Comment "I'll take this" on it. A maintainer assigns it to you. One at a time.
 3. Orient. Post one line on the issue: where in the code you expect the change to live, and why.
 4. Reproduce the problem or the gap on your machine before changing anything, exactly as in Stage 3. Post what you saw.

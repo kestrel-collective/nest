@@ -1,4 +1,4 @@
-import { validateCohort } from '@nest/schema'
+import { trackOf, validateCohort } from '@nest/schema'
 import { UsageError } from '../args.js'
 import type { Gh } from '../gh.js'
 import type { Io } from '../io.js'
@@ -54,6 +54,7 @@ export function openCohort(config: RepoConfig, opts: OpenCohortOptions, gh: Gh, 
         handle,
         name: contributorName(config, handle),
         cohort: cohort.id,
+        track: trackOf(cohort, handle),
         mode: opts.mode,
         today: opts.today,
         retry: opts.retry,

@@ -9,12 +9,15 @@
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import {
+  blockFor,
   handleFromTitle,
   issuesToAssign,
   refreshBody,
   renderBlock,
   stageOf,
   templateBlock,
+  templateKey,
+  trackOfLabels,
 } from '../../packages/cli/dist/stage-upkeep.js'
 
 const repo = process.env.GITHUB_REPOSITORY
@@ -72,14 +75,17 @@ for (const { number, handle } of issuesToAssign(issues, isCollaborator)) {
 }
 
 // Every run: an issue whose block is already current is left untouched, so this is cheap
+// one block per shared body ("2") and per track variant ("1:python"), ADR 0010
 const templates = new Map()
-for (const name of readdirSync('stages').filter((n) => /^\d\d-.*\.md$/.test(n)))
-  templates.set(Number(name.slice(0, 2)), templateBlock(readFileSync(`stages/${name}`, 'utf8')))
+for (const name of readdirSync('stages')) {
+  const key = templateKey(name)
+  if (key) templates.set(key, templateBlock(readFileSync(`stages/${name}`, 'utf8')))
+}
 let refreshed = 0
 for (const issue of issues) {
   const stage = stageOf(issue.labels)
   const handle = handleFromTitle(issue.title)
-  const block = stage === null ? null : templates.get(stage)
+  const block = stage === null ? null : blockFor(templates, stage, trackOfLabels(issue.labels))
   if (!block || !handle) continue
   const body = refreshBody(issue.body, renderBlock(block, { handle, repoUrl }))
   if (body === null) continue

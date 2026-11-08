@@ -27,7 +27,7 @@ describe('open-cohort', () => {
     PERSONAL.forEach((n, i) => expect(titles[i]).toMatch(titleFor(n, 'test-one')))
     PERSONAL.forEach((n, i) => expect(titles[6 + i]).toMatch(titleFor(n, 'test-two')))
     expect(gh.issues.every((i) => i.milestone === '2027-01')).toBe(true)
-    expect(gh.issues[0]?.labels).toEqual(['onboarding', 'cohort:2027-01', 'stage:1'])
+    expect(gh.issues[0]?.labels).toEqual(['onboarding', 'cohort:2027-01', 'stage:1', 'track:js'])
     expect(gh.issues[0]?.assignee).toBe('test-one')
     expect(gh.issues.some((i) => i.labels.includes('stage:5'))).toBe(false)
     expect(gh.milestones.has('2027-01')).toBe(true)
@@ -40,6 +40,7 @@ describe('open-cohort', () => {
       'stage:4',
       'stage:6',
       'stage:7',
+      'track:js',
     ])
     expect(existsSync(join(config.root, 'contributors', 'test-two', 'profile.yml'))).toBe(true)
   })

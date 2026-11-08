@@ -12,7 +12,7 @@ Review is half of open-source work, and the half almost nobody is taught. A revi
 
 1. Find an open pull request from another cohort member: [open pull requests not by you]({{repo_url}}/pulls?q=is%3Apr+is%3Aopen+-author%3A{{handle}}). Stage 2 to 5 pull requests are all fine to review.
 2. Read the description first, then the diff. Ask yourself the reviewer's question: what would I need, having never met this person, to merge this safely?
-3. Run it. `git fetch origin && git switch <branch>`, then `npm test`, and for a page `npm run dev` and open http://localhost:4321/p/<their-handle>/ to look at it. Reading alone misses things running finds.
+3. Run it. `git fetch origin && git switch <branch>`, then {{test_command}}, and for a page {{see_their_page}} to look at it. Reading alone misses things running finds.
 4. Leave at least one comment on a specific line. Say what you see, why it matters, and what you would change. A question is a good comment. "Looks good" on its own is not a review.
 5. Finish the review: approve if you would merge it, or request changes if something has to change first. Either is a real outcome.
 6. The other side. Ask a cohort member to review one of your open pull requests, or your next one. Reply to every comment they leave, with a change or a reason. Thank them in the pull request.
