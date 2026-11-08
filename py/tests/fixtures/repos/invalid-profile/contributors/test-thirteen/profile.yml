@@ -1,0 +1,7 @@
+handle: test-thirteen
+name: Fixture test-thirteen
+cohort: 2027-01
+joined: 2027-01-12
+intro: Fixture text, not a real contributor.
+visibility:
+  page: public

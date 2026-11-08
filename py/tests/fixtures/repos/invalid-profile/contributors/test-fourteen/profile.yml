@@ -1,0 +1,9 @@
+handle: test-fourteen
+name: Fixture test-fourteen
+cohort: 2027-01
+joined:
+intro: Fixture text, not a real contributor.
+projects:
+  - title: Only a title
+visibility:
+  page: public

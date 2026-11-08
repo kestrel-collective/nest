@@ -1,0 +1,31 @@
+{
+  "validate": {
+    "code": 0,
+    "out": [
+      "Checked 0 contributor directories, 0 templates and 0 cohorts: no problems."
+    ],
+    "err": []
+  },
+  "index": "{\n  \"format\": 1,\n  \"release\": \"9.9.9\",\n  \"cohorts\": [],\n  \"contributors\": []\n}\n",
+  "page_status": {
+    "test-missing": {
+      "code": 1,
+      "out": [
+        "Page status for @test-missing on the working tree",
+        "",
+        "profile.yml       not found: contributors/test-missing/profile.yml",
+        "visibility.page   -",
+        "validates         -",
+        "site builds       yes",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-missing/",
+        "",
+        "Why it would not appear:",
+        "  - contributors/test-missing/profile.yml is not on the working tree. The scaffold pull request for @test-missing has to be merged first."
+      ]
+    }
+  }
+}

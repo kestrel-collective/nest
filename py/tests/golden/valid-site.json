@@ -1,0 +1,160 @@
+{
+  "validate": {
+    "code": 0,
+    "out": [
+      "Checked 6 contributor directories, 1 template and 2 cohorts: no problems."
+    ],
+    "err": []
+  },
+  "index": "{\n  \"format\": 1,\n  \"release\": \"9.9.9\",\n  \"cohorts\": [\n    {\n      \"id\": \"2027-01\",\n      \"name\": \"January 2027 cohort\",\n      \"starts\": \"2027-01-12\",\n      \"ends\": \"2027-04-30\",\n      \"members\": [\n        \"test-one\",\n        \"test-two\",\n        \"test-three\",\n        \"test-five\"\n      ],\n      \"defect_tier\": 2,\n      \"tracks\": {\n        \"test-one\": \"js\",\n        \"test-two\": \"python\",\n        \"test-three\": \"js\",\n        \"test-five\": \"js\"\n      }\n    },\n    {\n      \"id\": \"2027-02-08\",\n      \"name\": \"Cohort: February\",\n      \"starts\": \"2027-02-08\",\n      \"ends\": \"2027-06-30\",\n      \"members\": [],\n      \"tracks\": {}\n    }\n  ],\n  \"contributors\": [\n    {\n      \"dir\": \"test-five\",\n      \"handle\": \"test-five\",\n      \"isTemplate\": false,\n      \"profile\": {\n        \"handle\": \"test-five\",\n        \"name\": \"Fixture test-five\",\n        \"cohort\": \"2027-01\",\n        \"joined\": \"2027-01-12\",\n        \"intro\": \"Fixture text, not a real contributor.\",\n        \"skills_developing\": [],\n        \"visibility\": {\n          \"page\": \"public\"\n        },\n        \"projects\": []\n      },\n      \"page\": {\n        \"sections\": [\n          {\n            \"title\": \"Where I started\",\n            \"body\": \"Fixture text, not a real contributor.\",\n            \"line\": 1,\n            \"placeholder\": false\n          }\n        ]\n      },\n      \"practice\": {\n        \"updated_at\": \"1970-01-01T00:00:00Z\",\n        \"practice\": 0,\n        \"shared\": 0,\n        \"stages_done\": []\n      },\n      \"stage\": 0\n    },\n    {\n      \"dir\": \"test-four\",\n      \"handle\": \"test-four\",\n      \"isTemplate\": false,\n      \"profile\": {\n        \"handle\": \"test-four\",\n        \"name\": \"Fixture 🦅 Four\",\n        \"joined\": \"2027-01-12\",\n        \"intro\": \"Tab\\tand \\\"quotes\\\" and a backslash \\\\ here.\",\n        \"skills_developing\": [\n          \"debugging\",\n          \"reading code\"\n        ],\n        \"visibility\": {\n          \"page\": \"public\"\n        },\n        \"projects\": []\n      },\n      \"page\": {\n        \"sections\": [\n          {\n            \"title\": \"What I am working on next\",\n            \"body\": \"The next thing.\",\n            \"line\": 1,\n            \"placeholder\": false\n          },\n          {\n            \"title\": \"Where I started\",\n            \"body\": \"Out of order on purpose.\",\n            \"line\": 5,\n            \"placeholder\": false\n          }\n        ]\n      },\n      \"practice\": {\n        \"updated_at\": \"2027-03-01T00:00:00Z\",\n        \"practice\": 2,\n        \"shared\": 0,\n        \"stages_done\": [\n          3,\n          1\n        ]\n      },\n      \"stage\": 2\n    },\n    {\n      \"dir\": \"test-one\",\n      \"handle\": \"test-one\",\n      \"isTemplate\": false,\n      \"profile\": {\n        \"handle\": \"test-one\",\n        \"name\": \"Ünïcode Ñame\",\n        \"cohort\": \"2027-01\",\n        \"joined\": \"2027-01-12\",\n        \"intro\": \"Folded intro that runs over two lines.\",\n        \"skills_developing\": [\n          \"debugging\",\n          \"pytest: the basics\"\n        ],\n        \"next\": \"Learn to read a stack trace.\",\n        \"visibility\": {\n          \"page\": \"public\"\n        },\n        \"projects\": [\n          {\n            \"title\": \"Fix a typo in the docs\",\n            \"repo\": \"example-org/docs\",\n            \"url\": \"https://github.com/example-org/docs/pull/1\",\n            \"merged\": \"2027-02-01\"\n          },\n          {\n            \"title\": \"Add a test\",\n            \"repo\": \"example.org/tool_kit\",\n            \"url\": \"https://example.test/a?b=c#d\",\n            \"merged\": \"2027-02-15\"\n          }\n        ]\n      },\n      \"page\": {\n        \"sections\": [\n          {\n            \"title\": \"Where I started\",\n            \"body\": \"I could write a [link](https://example.test) and `code`.\",\n            \"line\": 1,\n            \"placeholder\": false\n          },\n          {\n            \"title\": \"What I learned\",\n            \"body\": \"Line one.\\nLine two with **bold**.\",\n            \"line\": 5,\n            \"placeholder\": false\n          },\n          {\n            \"title\": \"What I built\",\n            \"body\": \"This page.\",\n            \"line\": 11,\n            \"placeholder\": false\n          }\n        ]\n      },\n      \"practice\": {\n        \"updated_at\": \"2027-02-20T02:17:00.000Z\",\n        \"practice\": 3,\n        \"shared\": 1,\n        \"stages_done\": [\n          1,\n          2,\n          5\n        ]\n      },\n      \"stage\": 3\n    },\n    {\n      \"dir\": \"test-six\",\n      \"handle\": \"test-six\",\n      \"isTemplate\": false,\n      \"profile\": {\n        \"handle\": \"test-six\",\n        \"name\": \"on\",\n        \"cohort\": \"2027-01\",\n        \"joined\": \"2027-01-12\",\n        \"intro\": \"1:20\",\n        \"skills_developing\": [\n          \"no\",\n          \"off\",\n          \"1_000\",\n          \"2027-01-12\",\n          \"0x1G\"\n        ],\n        \"next\": \"yes\",\n        \"visibility\": {\n          \"page\": \"public\"\n        },\n        \"projects\": []\n      },\n      \"page\": {\n        \"sections\": [\n          {\n            \"title\": \"Where I started\",\n            \"body\": \"Non-breaking space first, and a tab\\tinside.\",\n            \"line\": 1,\n            \"placeholder\": false\n          }\n        ]\n      },\n      \"practice\": {\n        \"updated_at\": \"1970-01-01T00:00:00Z\",\n        \"practice\": 0,\n        \"shared\": 0,\n        \"stages_done\": []\n      },\n      \"stage\": 0\n    },\n    {\n      \"dir\": \"test-two\",\n      \"handle\": \"test-two\",\n      \"isTemplate\": false,\n      \"profile\": {\n        \"handle\": \"test-two\",\n        \"name\": \"Fixture test-two\",\n        \"cohort\": \"2027-01\",\n        \"joined\": \"2027-01-12\",\n        \"intro\": \"Fixture text, not a real contributor.\",\n        \"skills_developing\": [],\n        \"visibility\": {\n          \"page\": \"public\"\n        },\n        \"projects\": []\n      },\n      \"page\": {\n        \"sections\": [\n          {\n            \"title\": \"Where I started\",\n            \"body\": \"Indented first line.\",\n            \"line\": 1,\n            \"placeholder\": false\n          }\n        ]\n      },\n      \"practice\": {\n        \"updated_at\": \"1970-01-01T00:00:00Z\",\n        \"practice\": 0,\n        \"shared\": 0,\n        \"stages_done\": []\n      },\n      \"stage\": 0\n    }\n  ]\n}\n",
+  "page_status": {
+    "_example": {
+      "code": 1,
+      "out": [
+        "Page status for @_example on the working tree",
+        "",
+        "profile.yml       exists: contributors/_example/profile.yml",
+        "visibility.page   private",
+        "validates         yes",
+        "site builds       yes",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/_example/",
+        "",
+        "Why it would not appear:",
+        "  - Directories that start with _ are templates. They never publish.",
+        "  - visibility.page is private. Set it to public in a pull request."
+      ]
+    },
+    "test-five": {
+      "code": 0,
+      "out": [
+        "Page status for @test-five on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-five/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       yes",
+        "page              yes",
+        "feed entry        yes (the landing site and the page count read it)",
+        "cohort page       yes, /cohorts/2027-01/",
+        "home page         yes, among the most active pages shown",
+        "url               https://nest.example.test/p/test-five/",
+        "",
+        "The page is live a few minutes after this commit reaches main."
+      ]
+    },
+    "test-four": {
+      "code": 0,
+      "out": [
+        "Page status for @test-four on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-four/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       yes",
+        "page              yes",
+        "feed entry        yes (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         yes, among the most active pages shown",
+        "url               https://nest.example.test/p/test-four/",
+        "",
+        "The page is live a few minutes after this commit reaches main."
+      ]
+    },
+    "test-one": {
+      "code": 0,
+      "out": [
+        "Page status for @test-one on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-one/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       yes",
+        "page              yes",
+        "feed entry        yes (the landing site and the page count read it)",
+        "cohort page       yes, /cohorts/2027-01/",
+        "home page         yes, among the most active pages shown",
+        "url               https://nest.example.test/p/test-one/",
+        "",
+        "The page is live a few minutes after this commit reaches main."
+      ]
+    },
+    "test-six": {
+      "code": 0,
+      "out": [
+        "Page status for @test-six on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-six/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       yes",
+        "page              yes",
+        "feed entry        yes (the landing site and the page count read it)",
+        "cohort page       yes, /cohorts/2027-01/",
+        "home page         counted, not among the most active pages shown",
+        "url               https://nest.example.test/p/test-six/",
+        "",
+        "The page is live a few minutes after this commit reaches main."
+      ]
+    },
+    "test-three": {
+      "code": 1,
+      "out": [
+        "Page status for @test-three on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-three/profile.yml",
+        "visibility.page   private",
+        "validates         yes",
+        "site builds       yes",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-three/",
+        "",
+        "Why it would not appear:",
+        "  - visibility.page is private. Set it to public in a pull request."
+      ]
+    },
+    "test-two": {
+      "code": 0,
+      "out": [
+        "Page status for @test-two on the working tree",
+        "",
+        "profile.yml       exists: contributors/test-two/profile.yml",
+        "visibility.page   public",
+        "validates         yes",
+        "site builds       yes",
+        "page              yes",
+        "feed entry        yes (the landing site and the page count read it)",
+        "cohort page       yes, /cohorts/2027-01/",
+        "home page         counted, not among the most active pages shown",
+        "url               https://nest.example.test/p/test-two/",
+        "",
+        "The page is live a few minutes after this commit reaches main."
+      ]
+    },
+    "test-missing": {
+      "code": 1,
+      "out": [
+        "Page status for @test-missing on the working tree",
+        "",
+        "profile.yml       not found: contributors/test-missing/profile.yml",
+        "visibility.page   -",
+        "validates         -",
+        "site builds       yes",
+        "page              no",
+        "feed entry        no (the landing site and the page count read it)",
+        "cohort page       no",
+        "home page         no",
+        "url               https://nest.example.test/p/test-missing/",
+        "",
+        "Why it would not appear:",
+        "  - contributors/test-missing/profile.yml is not on the working tree. The scaffold pull request for @test-missing has to be merged first."
+      ]
+    }
+  }
+}

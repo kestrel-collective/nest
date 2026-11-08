@@ -16,3 +16,12 @@ tools/defect-bank/requests/
 tools/defect-bank/out/
 # P2 defect bank: each cohort's local record of planted defects (ADR 0009)
 cohorts/*/.defects.json
+# Python track (ADR 0010): the data file the site reads, and Python caches
+site/.nest/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+py/*.egg-info/
+py/build/

@@ -8,11 +8,13 @@ import {
 import type { Io } from '../io.js'
 import type { RepoConfig } from '../root.js'
 
-/** Reading order: by file, then by line, with problems that have no line last. */
+/**
+ * Reading order: by file in plain character order (the same on every machine and in nest_data),
+ * then by line, with problems that have no line last.
+ */
 export function sortIssues(issues: readonly ValidationIssue[]): ValidationIssue[] {
-  return [...issues].sort(
-    (a, b) => a.file.localeCompare(b.file) || (a.line ?? Infinity) - (b.line ?? Infinity),
-  )
+  const byFile = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0)
+  return [...issues].sort((a, b) => byFile(a.file, b.file) || (a.line ?? Infinity) - (b.line ?? Infinity))
 }
 
 /** Prints every problem as file:line field: sentence. Exit code 1 when there are any. */

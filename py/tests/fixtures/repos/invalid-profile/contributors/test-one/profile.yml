@@ -1,0 +1,13 @@
+handle: test-one
+nmae: Typo
+cohort: 2027-01
+joined: 2027-13-01
+intro: Fixture text.
+visibility:
+  page: open
+projects:
+  - title: ''
+    repo: bad
+    url: not a url
+    merged: yesterday
+    extra: 1

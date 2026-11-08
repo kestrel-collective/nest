@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { CohortSchema, type Cohort } from './cohort.js'
+import { CohortFileSchema, DEFAULT_TRACK, isTrack, TRACKS, type Cohort, type Track } from './cohort.js'
 import { validateContributor, type Contributor } from './contributor.js'
 import {
   COHORT_FILE,
@@ -43,25 +43,74 @@ export function validateCohort(root: string, id: string): CohortResult {
   const yaml = readYaml(readFileSync(path, 'utf8'), file)
   issues.push(...yaml.syntaxIssues)
   if (yaml.data === undefined) return { issues }
-  const parsed = CohortSchema.safeParse(yaml.data)
+  const parsed = CohortFileSchema.safeParse(yaml.data)
   if (!parsed.success) {
     issues.push(...fromZodError(parsed.error, file, yaml.lineOf, yaml.keyLineOf))
     return { issues }
   }
-  const cohort = parsed.data
-  const push = (path: PropertyKey[], field: string, message: string) => {
-    const line = yaml.lineOf(path)
+  const push = (path: PropertyKey[], field: string, message: string, keyOf?: string) => {
+    const line = keyOf === undefined ? yaml.lineOf(path) : yaml.keyLineOf(path, keyOf)
     issues.push({ file, ...(line === undefined ? {} : { line }), field, message })
   }
+  const members: string[] = []
+  const tracks: Record<string, Track> = {}
+  parsed.data.members.forEach((raw, i) => {
+    const at = `members[${i}]`
+    let handle: string
+    let track: Track = DEFAULT_TRACK
+    if (typeof raw === 'string') handle = raw.trim()
+    else if (raw !== null && typeof raw === 'object' && !Array.isArray(raw)) {
+      const entry = raw as Record<string, unknown>
+      for (const key of Object.keys(entry))
+        if (key !== 'handle' && key !== 'track')
+          push(['members', i], `${at}.${key}`, 'is not a field in cohort.yml. Check the spelling.', key)
+      if (entry.handle === undefined || entry.handle === null) {
+        push(['members', i], `${at}.handle`, 'is required.')
+        return
+      }
+      if (typeof entry.handle !== 'string') {
+        push(['members', i, 'handle'], `${at}.handle`, 'must be a string.')
+        return
+      }
+      handle = entry.handle.trim()
+      if (entry.track === undefined || entry.track === null) {
+        push(['members', i], `${at}.track`, 'is required.')
+        return
+      }
+      if (!isTrack(entry.track)) {
+        push(['members', i, 'track'], `${at}.track`, `must be ${TRACKS.map((t) => `"${t}"`).join(' or ')}.`)
+        return
+      }
+      track = entry.track
+    } else {
+      push(['members', i], at, 'must be a handle, or a mapping with handle and track.')
+      return
+    }
+    if (handle === '') {
+      push(['members', i], at, 'must not be empty.')
+      return
+    }
+    members.push(handle)
+    tracks[handle] = track
+  })
+  const cohort: Cohort = { ...parsed.data, members, tracks }
   if (cohort.id !== id) push(['id'], 'id', `must match the directory name exactly: "${id}".`)
   if (cohort.ends < cohort.starts) push(['ends'], 'ends', 'must not be before starts.')
   const seen = new Map<string, number>()
-  cohort.members.forEach((member, i) => {
+  parsed.data.members.forEach((raw, i) => {
+    const member =
+      typeof raw === 'string'
+        ? raw.trim()
+        : raw !== null && typeof raw === 'object' && typeof (raw as { handle?: unknown }).handle === 'string'
+          ? (raw as { handle: string }).handle.trim()
+          : null
+    if (member === null || member === '') return
+    const path = typeof raw === 'string' ? ['members', i] : ['members', i, 'handle']
     const why = explainHandle(member)
-    if (why) push(['members', i], `members[${i}]`, why)
+    if (why) push(path, `members[${i}]`, why)
     const first = seen.get(member)
     if (first === undefined) seen.set(member, i)
-    else push(['members', i], `members[${i}]`, `repeats "${member}" from item ${first + 1}.`)
+    else push(path, `members[${i}]`, `repeats "${member}" from item ${first + 1}.`)
   })
   return { cohort, issues }
 }

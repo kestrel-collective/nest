@@ -1,0 +1,8 @@
+handle: test-four
+name: Fixture 🦅 Four
+joined: 2027-01-12
+intro: "Tab\tand \"quotes\" and a backslash \\ here."
+skills_developing: [debugging, reading code]
+projects: []
+visibility:
+  page: public
