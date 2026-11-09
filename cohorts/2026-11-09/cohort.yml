@@ -4,3 +4,5 @@ starts: 2026-11-09
 ends: 2027-11-09
 members:
   - ijayabby
+  - handle: viktor-at-dev
+    track: python
