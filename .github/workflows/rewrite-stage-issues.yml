@@ -1,0 +1,66 @@
+name: Rewrite stage issues
+
+# Rewrites the body of every open personal stage issue of one stage from its current text in
+# stages/, for issues opened from an older version (.github/scripts/rewrite-stage-issues.mjs).
+# Run it once with "apply" off: the log lists every issue it would change. Then run it with
+# "apply" on. It edits the issues as the Nest bot app, like enrolment, which opened them.
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: The stage whose open issues are rewritten
+        required: true
+        type: choice
+        options: ['1', '2', '3', '4', '6', '7']
+        default: '2'
+      apply:
+        description: Write the new bodies (off lists what would change)
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rewrite-stage-issues
+  cancel-in-progress: false
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
+    steps:
+      - name: Check that the Nest bot app is configured
+        env:
+          APP_ID: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          APP_KEY: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+        run: |
+          missing=()
+          [ -n "$APP_ID" ] || missing+=(NEST_BOT_APP_ID)
+          [ -n "$APP_KEY" ] || missing+=(NEST_BOT_PRIVATE_KEY)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error title=Nest bot app not configured::Missing repository secret(s): ${missing[*]}. See docs/REPO-SETTINGS.md."
+            exit 1
+          fi
+      - name: A token from the Nest bot app
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          private-key: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build the CLI
+        run: npx tsc -b
+      - name: Rewrite
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          STAGE: ${{ inputs.stage }}
+          APPLY: ${{ inputs.apply && '--apply' || '' }}
+        run: node .github/scripts/rewrite-stage-issues.mjs --stage "$STAGE" $APPLY

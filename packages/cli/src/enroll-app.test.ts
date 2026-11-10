@@ -5,6 +5,7 @@ import { NEST_BOT_LOGIN, type BranchPr } from './gh.js'
 import { FakeGh } from './gh-fakes.js'
 import { collectIo } from './io.js'
 import { checkOwnDirectoryChange } from './paths.js'
+import { planScaffold } from './commands/scaffold.js'
 import { cleanup, tempRepo } from './test-support.js'
 
 afterEach(cleanup)
@@ -69,8 +70,10 @@ describe('planScaffoldPr', () => {
     expect(planScaffoldPr([closedByApp, older], NEST_BOT_LOGIN, onRemote).action).toBe('leave')
   })
 
-  it('leaves a merged pull request, from anyone', () => {
-    expect(planScaffoldPr([pr({ state: 'merged' })], NEST_BOT_LOGIN, onRemote).action).toBe('leave')
+  it('scaffolds again after a merged one, whose directory is no longer on main (a revert)', () => {
+    // step b asks only when contributors/<handle>/ is not on main
+    for (const login of [NEST_BOT_LOGIN, ''])
+      expect(planScaffoldPr([pr({ state: 'merged' })], login, onRemote)).toEqual({ action: 'scaffold' })
   })
 
   it('replaces nothing without a bot login, as before the app', () => {
@@ -80,6 +83,19 @@ describe('planScaffoldPr', () => {
 })
 
 describe('enroll with the Nest bot app', () => {
+  it('re-enrolling after a merged and reverted scaffold opens a fresh draft from the app (ijayabby, #77 and #91)', () => {
+    // the merged branch was deleted with the merge; the directory left main with the revert
+    const gh = new FakeGh({
+      pullRequests: [{ branch: BRANCH, author: LEGACY, state: 'merged', draft: false, onRemote: false }],
+    })
+    const r = enroll(repo(), opts(), gh, collectIo())
+    expect(stepB(r)?.outcome).toBe('created')
+    expect(count(gh, 'createDraftPr')).toBe(1)
+    expect(prsOn(gh, BRANCH).at(-1)).toMatchObject({ author: NEST_BOT_LOGIN, state: 'open', draft: true })
+    // and only one: a second run keeps it
+    expect(stepB(enroll(repo(), opts(), gh, collectIo()))?.outcome).toBe('skipped')
+  })
+
   it('opens a fresh scaffold as the app', () => {
     const gh = new FakeGh()
     const r = enroll(repo(), opts(), gh, collectIo())
@@ -198,5 +214,43 @@ describe('auto-merge for a scaffold pull request from the app', () => {
   it('gives the rule to the app only, not to another bot or the workflow token', () => {
     expect(checkOwnDirectoryChange(files, 'dependabot[bot]', BRANCH).ok).toBe(false)
     expect(checkOwnDirectoryChange(files, LEGACY, BRANCH).ok).toBe(false)
+  })
+})
+
+describe("the scaffold pull request after the learner's Stage 2 commits", () => {
+  // The auto-merge check sees the pull request's author (the app, who opened it) and the files the
+  // pull request changes against main (the scaffold plus the learner's edits). Who made each commit
+  // is not an input, so the learner's commits on scaffold/<handle> cannot change the answer.
+  const dir = (names: readonly string[]) => names.map((n) => `contributors/test-three/${n}`)
+
+  it('still counts as their own directory on the js track, with every file the scaffold wrote', () => {
+    const names = Object.keys(
+      planScaffold(repo(), { handle: 'test-three', cohort: '2027-01', today: '2027-01-12' }).files,
+    )
+    expect(names).toEqual(expect.arrayContaining(['profile.yml', 'page.md', 'profile.test.ts']))
+    expect(checkOwnDirectoryChange(dir(names), NEST_BOT_LOGIN, BRANCH)).toEqual({
+      ok: true,
+      handle: 'test-three',
+    })
+  })
+
+  it('and on the python track, with test_profile.py', () => {
+    const names = ['profile.yml', 'page.md', 'README.md', 'test_profile.py'] // nest_data templates.render_all
+    expect(checkOwnDirectoryChange(dir(names), NEST_BOT_LOGIN, BRANCH)).toEqual({
+      ok: true,
+      handle: 'test-three',
+    })
+  })
+
+  it('stops counting as their own the moment a commit touches a shared file', () => {
+    const r = checkOwnDirectoryChange(
+      [...dir(['profile.yml', 'page.md']), 'CONTRIBUTORS.md'],
+      NEST_BOT_LOGIN,
+      BRANCH,
+    )
+    expect(r).toEqual({
+      ok: false,
+      reason: expect.stringContaining('CONTRIBUTORS.md is outside contributors/test-three/'),
+    })
   })
 })

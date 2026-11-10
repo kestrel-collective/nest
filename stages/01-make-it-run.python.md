@@ -41,7 +41,7 @@ On the python track your code is `py/nest_data`: the package that reads every co
 8. Watch the checks on the pull request. One check, the formatting check, runs a tool from the js track; if it is red on your line, read what it printed and fix the line by hand. Red anywhere else: open the failed job, read the first error (not the last), fix it on your branch, commit and push again. Green: a maintainer reviews and merges. If they leave a comment, reply to it, even if only to say you changed it.
 9. See the result. Cloudflare builds the whole website from your branch and posts a preview link as a comment on the pull request. Open it: that is the site built from the data file your branch produces, the same way `nest build-data` did on your machine.
 
-A draft pull request titled "Scaffold for @{{handle}}" already exists in your name. It is Stage 2. Leave it alone for now.
+A draft pull request titled "Scaffold for @{{handle}}" already exists in your name. This draft is your Stage 2 work; leave it alone until then.
 
 ## Done when
 

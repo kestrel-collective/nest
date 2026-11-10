@@ -35,7 +35,7 @@ Your first contribution is tiny on purpose. The only new thing here is the loop 
 7. Push and open the pull request: `git push -u origin stage-1-{{handle}}`, then follow the link git prints. In the description, write `Closes #` followed by this issue's number.
 8. Watch the checks on the pull request. Red: open the failed job, read the first error (not the last), fix it on your branch, commit and push again. Green: a maintainer reviews and merges. If they leave a comment, reply to it, even if only to say you changed it.
 
-A draft pull request titled "Scaffold for @{{handle}}" already exists in your name. It is Stage 2. Leave it alone for now.
+A draft pull request titled "Scaffold for @{{handle}}" already exists in your name. This draft is your Stage 2 work; leave it alone until then.
 
 ## Done when
 

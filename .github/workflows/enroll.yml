@@ -43,6 +43,8 @@ concurrency:
 jobs:
   enroll:
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     env:
       HANDLE: ${{ github.event.client_payload.handle || inputs.handle }}
       NAME: ${{ github.event.client_payload.name || inputs.name }}

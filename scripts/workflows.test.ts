@@ -14,16 +14,19 @@ type Workflow = { name?: string; on?: unknown; jobs?: Record<string, Job> }
 describe('GitHub configuration as code', () => {
   const files = readdirSync(WORKFLOWS).filter((f) => f.endsWith('.yml'))
 
-  it('has the nine workflows', () => {
+  it('has the twelve workflows', () => {
     expect(files.sort()).toEqual([
       'auto-merge.yml',
       'ci.yml',
       'cohort.yml',
       'enroll.yml',
       'labels.yml',
+      'maintainer-gate.yml',
       'notify-landing.yml',
       'onboarding.yml',
       'practice-counts.yml',
+      'review-recorded.yml',
+      'rewrite-stage-issues.yml',
       'withdraw.yml',
     ])
   })
@@ -142,5 +145,61 @@ describe('the auto-merge workflow', () => {
     const enable = all.find((s) => s.name === 'Enable auto-merge')
     expect(enable?.env?.GH_TOKEN).toBe('${{ github.token }}')
     expect(JSON.stringify(wf)).not.toContain('create-github-app-token')
+  })
+})
+
+describe('auto-merge on a scaffold pull request the learner marks ready', () => {
+  const wf = parse(readFileSync(join(WORKFLOWS, 'auto-merge.yml'), 'utf8')) as {
+    on: { pull_request_target: { types: string[] } }
+    jobs: Record<string, { if?: string; steps: Step[] }>
+  }
+  const job = wf.jobs['own-directory']!
+
+  it('runs when a draft is marked ready, and on every later push, but never on a draft', () => {
+    expect(wf.on.pull_request_target.types).toEqual(
+      expect.arrayContaining(['ready_for_review', 'synchronize']),
+    )
+    expect(job.if).toBe('github.event.pull_request.draft == false')
+  })
+
+  it("judges the pull request's author, the app that opened it, not whoever pushed the last commit", () => {
+    const check = job.steps.find((s) => s.id === 'check')
+    expect(check?.env?.PR_AUTHOR).toBe('${{ github.event.pull_request.user.login }}')
+    expect(JSON.stringify(job)).not.toContain('github.actor')
+  })
+})
+
+describe('the maintainer gate and the secrets it depends on', () => {
+  const load = (file: string) =>
+    parse(readFileSync(join(WORKFLOWS, file), 'utf8')) as {
+      on: Record<string, unknown>
+      permissions?: unknown
+      jobs: Record<string, { environment?: string; steps: Step[] }>
+    }
+
+  it('posts maintainer-gate from main only: pull_request_target, and workflow_run after a review', () => {
+    const wf = load('maintainer-gate.yml')
+    expect(Object.keys(wf.on).sort()).toEqual(['pull_request_target', 'workflow_run'])
+    expect(wf.on.workflow_run).toEqual({ workflows: ['Review recorded'], types: ['completed'] })
+    const steps = wf.jobs.evaluate!.steps
+    expect(steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with).toBeUndefined()
+    expect(steps.find((s) => s.run?.includes('maintainer-gate.mjs'))?.env?.GH_TOKEN).toBe(APP_TOKEN)
+  })
+
+  it('leaves the review workflow, which runs the copy of its file on the pull request, with no permissions and no secrets', () => {
+    const text = readFileSync(join(WORKFLOWS, 'review-recorded.yml'), 'utf8')
+    const wf = load('review-recorded.yml')
+    expect(wf.name ?? (parse(text) as { name: string }).name).toBe('Review recorded')
+    expect(wf.permissions).toEqual({})
+    expect(text).not.toContain('secrets.')
+  })
+
+  it('runs every job that reads a Nest secret in the nest-bot environment, which only main may use', () => {
+    for (const file of readdirSync(WORKFLOWS).filter((f) => f.endsWith('.yml'))) {
+      const text = readFileSync(join(WORKFLOWS, file), 'utf8')
+      if (!/secrets\.(NEST_|LANDING_)/.test(text)) continue
+      for (const [name, job] of Object.entries(load(file).jobs))
+        expect(job.environment, `${file} ${name}`).toBe('nest-bot')
+    }
   })
 })

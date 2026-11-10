@@ -147,3 +147,65 @@ export function checkSharedPool(issues: readonly PoolIssue[]): PoolProblem[] {
   }
   return problems
 }
+
+/** What a personal stage issue was rendered with, recovered from the issue itself. */
+export type StageIssueVars = { stage: number; handle: string; name: string; cohort: string; track: Track }
+
+/**
+ * The variables enrolment rendered a stage issue with: the stage, the cohort and the track from its
+ * labels, the handle from its title and the name from its first line ("Hello <name>. Welcome to
+ * Stage ..."), or null when it is not a personal stage issue.
+ */
+export function stageIssueVars(
+  issue: Pick<OpenStageIssue, 'title' | 'body' | 'labels'>,
+): StageIssueVars | null {
+  const stage = stageOf(issue.labels)
+  const handle = handleFromTitle(issue.title)
+  if (stage === null || handle === null || !issue.labels.includes('onboarding')) return null
+  const cohort = issue.labels.find((l) => l.startsWith('cohort:'))?.slice('cohort:'.length) ?? 'none'
+  const name = /^Hello (.+?)\. Welcome to Stage /.exec(issue.body.replace(/\r\n/g, '\n'))?.[1] ?? `@${handle}`
+  return { stage, handle, name, cohort, track: trackOfLabels(issue.labels) }
+}
+
+/** The keys of a kestrel-ticket block that are not instructions: a rewrite of the text keeps them. */
+export const TICKET_FIXED_KEYS = [
+  'competency',
+  'level',
+  'difficulty',
+  'kp',
+  'evidence_kind',
+  'reserved_for',
+  'stage',
+] as const
+/** Every key Kestrel requires in a block (its decision D-38). */
+export const TICKET_KEYS = [...TICKET_FIXED_KEYS, 'steps', 'acceptance_criteria', 'resources'] as const
+
+/** The top-level "key: value" lines of the issue's kestrel-ticket block, or null when it has none. */
+export function ticketFields(body: string): Map<string, string> | null {
+  const block = BLOCK.exec(body.replace(/\r\n/g, '\n'))?.[0]
+  if (!block) return null
+  const fields = new Map<string, string>()
+  for (const line of block.split('\n')) {
+    const m = /^([a-z_]+):\s*(.*)$/.exec(line)
+    if (m) fields.set(m[1]!, m[2]!.trim())
+  }
+  return fields
+}
+
+/**
+ * Why a rewritten body may not replace the current one, or null when it may: the new block must
+ * have every key Kestrel requires, and every key that is not an instruction (TICKET_FIXED_KEYS)
+ * must be the same as before. Steps, acceptance criteria and resources may change with the text.
+ */
+export function checkTicketRewrite(before: string, after: string): string | null {
+  const next = ticketFields(after)
+  if (!next) return 'the new body has no kestrel-ticket block'
+  const missing = TICKET_KEYS.filter((k) => !next.has(k))
+  if (missing.length > 0) return `the new block lacks ${missing.join(', ')}`
+  const prev = ticketFields(before)
+  if (!prev) return null
+  const changed = TICKET_FIXED_KEYS.filter((k) => prev.has(k) && prev.get(k) !== next.get(k))
+  if (changed.length > 0)
+    return `the new block changes ${changed.map((k) => `${k} (${prev.get(k)} to ${next.get(k)})`).join(', ')}`
+  return null
+}

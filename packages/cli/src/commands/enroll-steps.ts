@@ -80,8 +80,10 @@ export type ScaffoldPrPlan =
  * - replace: open, from another account; close it, then open one from the same branch
  * - reopen: closed unmerged, from another account, branch still there; open one from it. This
  *   also finishes a replace whose close went through but whose new pull request did not.
- * - leave: merged, or closed by the app or with no bot login; nothing is opened again
- * - scaffold: none; scaffold the directory and open a draft
+ * - leave: closed unmerged by the app, or with no bot login; nothing is opened again
+ * - scaffold: none, or the newest merged. Step b looks here only when the directory is not on
+ *   main, so a merged scaffold pull request was undone since (reverted, as #77 for ijayabby was):
+ *   scaffold the directory again and open a fresh draft. The merged branch is gone or spent.
  */
 export function planScaffoldPr(
   prs: readonly BranchPr[],
@@ -92,7 +94,7 @@ export function planScaffoldPr(
   const open = prs.find((p) => p.state === 'open')
   if (open) return { action: isBot(open) ? 'keep' : 'replace', pr: open }
   const latest = prs[0]
-  if (!latest) return { action: 'scaffold' }
+  if (!latest || latest.state === 'merged') return { action: 'scaffold' }
   if (latest.state === 'closed' && !isBot(latest) && branchOnRemote()) return { action: 'reopen', pr: latest }
   if (latest.state === 'closed' && !isBot(latest)) return { action: 'scaffold' }
   return { action: 'leave', pr: latest }

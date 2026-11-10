@@ -5,5 +5,7 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     steps:
       - run: sleep 180 && curl -fsS -X POST "${{ secrets.LANDING_DEPLOY_HOOK }}"

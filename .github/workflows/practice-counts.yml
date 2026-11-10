@@ -22,6 +22,8 @@ jobs:
   update:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     steps:
       - name: A token for commits to main, from the Nest bot app when it is configured
         id: app

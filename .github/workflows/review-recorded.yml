@@ -1,0 +1,17 @@
+name: Review recorded
+
+# Does nothing but finish, so that the Maintainer gate workflow, which runs from main, posts the
+# maintainer-gate check again after every review (workflow_run). A pull_request_review workflow
+# runs the pull request's own copy of this file, so it is given no permissions and no secrets,
+# and nothing it does is trusted: the gate reads the reviews from the API itself.
+on:
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+permissions: {}
+
+jobs:
+  recorded:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "A review changed on pull request ${{ github.event.pull_request.number }}."

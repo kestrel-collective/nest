@@ -15,6 +15,8 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 
 ### Changed
 
+- Proposed rules for `main` (docs/REPO-SETTINGS.md, not applied): no required approvals, and a required check `maintainer-gate` from the Nest bot app instead, which passes at once for an own-directory pull request (the app's scaffold pull request included) and otherwise only once a maintainer approves the head commit. The Maintainer gate and Review recorded workflows post it from `main`'s code. Every job that reads a secret runs in a `nest-bot` environment that only `main` may use, so members' branch workflows cannot read the app's key or the admin token.
+
 - The site follows design scope v1, the logo palette: the Kestrel Collective wordmark in the header, new tokens with the first brand sheet behind `data-palette="classic"`, a stepper ladder, person and stat cards, and a 404 with numerals (docs/adr/0008-visual-system-v2.md).
 - Every stage issue, the contributing guide, the pull request template and the directory template were rewritten for a first-time contributor, following the Kestrel default curriculum.
 

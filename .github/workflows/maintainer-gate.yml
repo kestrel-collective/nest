@@ -1,0 +1,62 @@
+name: Maintainer gate
+
+# Posts the required check maintainer-gate on every pull request's head commit, as the Nest bot
+# app: success at once for a change limited to the author's own contributor directory (the
+# scaffold pull request from the app included), otherwise success only once a maintainer has
+# approved the head commit (packages/cli/src/gate.ts). main's ruleset requires the check from the
+# app, so no workflow on a branch can post a passing one. It runs main's code only:
+# pull_request_target for pushes, and workflow_run after "Review recorded" for reviews, because a
+# pull_request_review workflow runs the pull request's own copy of its file.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_run:
+    workflows: [Review recorded]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maintainer-gate-${{ github.event.pull_request.number || github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    # the app's secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
+    steps:
+      - name: Check that the Nest bot app is configured
+        env:
+          APP_ID: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          APP_KEY: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+        run: |
+          missing=()
+          [ -n "$APP_ID" ] || missing+=(NEST_BOT_APP_ID)
+          [ -n "$APP_KEY" ] || missing+=(NEST_BOT_PRIVATE_KEY)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error title=Nest bot app not configured::Missing secret(s): ${missing[*]}. See docs/REPO-SETTINGS.md."
+            exit 1
+          fi
+      - name: A token from the Nest bot app (Checks, Pull requests read)
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          private-key: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+      # main's code, for both events: never the pull request's
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build the CLI
+        run: npx tsc -b
+      - name: Post maintainer-gate
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: node .github/scripts/maintainer-gate.mjs
