@@ -91,12 +91,14 @@ Each stage arrives as an issue assigned to you, with the steps written out. Star
 
 ## When something goes wrong
 
-- `Unknown command: "build"`: you typed `npm build`. Use `npm run build`. The same goes for dev, lint, format, validate and preview.
-- `Node.js v18... is not supported` or similar: install Node 20 or newer, then run `npm install` again.
+- `python: command not found`, or a Python older than 3.11, on the python track: on macOS and Linux try `python3`; otherwise install Python 3.11 or newer, then make the virtual environment again.
+- `No module named nest_data` or `No module named yaml` on the python track: run `pip install -e "py[dev]"` with the virtual environment active.
+- `Unknown command: "build"` on the js track: you typed `npm build`. Use `npm run build`. The same goes for dev, lint, format, validate and preview.
+- `Node.js v18... is not supported` or similar on the js track: install Node 20 or newer, then run `npm install` again.
 - `nest: command not found` on the python track: the virtual environment is not active in this terminal. Run `source .venv/bin/activate` (on Windows `.venv\Scripts\activate`) and try again.
 - `nest: command not found` or `Cannot find module` on the js track: run `npm install` again; it builds the command.
-- `Port 4321 is in use`: something else is using it. Run `npx astro dev --root site --port 4322` and open that port instead.
-- `npm run validate` lists problems: each line is file, line number, field and what to change. Fix only what it names and run it again.
+- `Port 4321 is in use` on the js track: something else is using it. Run `npx astro dev --root site --port 4322` and open that port instead.
+- `nest validate` or `npm run validate` lists problems: each line is file, line number, field and what to change. Fix only what it names and run it again.
 - A test fails: read the first failure, not the last. The file and line are in the output.
 - Windows: use Git Bash or PowerShell; every command above works in both. If a path in an error has backslashes, that is normal.
 - Anything else: ask on your stage issue with the exact command and the exact output. Asking never costs you anything.
