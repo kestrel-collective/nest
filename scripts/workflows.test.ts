@@ -71,3 +71,76 @@ describe('GitHub configuration as code', () => {
     expect(names).toContain('onboarding')
   })
 })
+
+type Step = {
+  id?: string
+  name?: string
+  uses?: string
+  run?: string
+  if?: string
+  with?: Record<string, string>
+  env?: Record<string, string>
+}
+const steps = (file: string) =>
+  ((parse(readFileSync(join(WORKFLOWS, file), 'utf8')) as { jobs: Record<string, { steps: Step[] }> }).jobs
+    .enroll?.steps ?? []) as Step[]
+const APP_TOKEN = '${{ steps.app.outputs.token }}'
+
+describe('the Enrol workflow writes as the Nest bot app', () => {
+  const all = steps('enroll.yml')
+  const at = (pred: (s: Step) => boolean) => all.findIndex(pred)
+  const enrolStep = all.find((s) => s.name === 'Enrol')
+
+  it('stops first, with a message, when either secret is missing', () => {
+    const check = all[0]
+    expect(check?.env?.APP_ID).toContain('secrets.NEST_BOT_APP_ID')
+    expect(check?.env?.APP_KEY).toBe('${{ secrets.NEST_BOT_PRIVATE_KEY }}')
+    expect(check?.run).toContain('::error title=Nest bot app not configured::')
+    expect(check?.run).toContain('exit 1')
+    expect(check?.run).toContain('docs/REPO-SETTINGS.md')
+  })
+
+  it('mints the token unconditionally, before checking out with it', () => {
+    const mint = all[at((s) => s.id === 'app')]
+    expect(mint?.uses).toMatch(/^actions\/create-github-app-token@/)
+    expect(mint?.if).toBeUndefined()
+    expect(mint?.with?.['private-key']).toBe('${{ secrets.NEST_BOT_PRIVATE_KEY }}')
+    const checkout = at((s) => s.id === 'checkout')
+    expect(at((s) => s.id === 'app')).toBeLessThan(checkout)
+    expect(all[checkout]?.with?.token).toBe(APP_TOKEN)
+  })
+
+  it('runs enrolment with the app token for gh and main, and passes the app login', () => {
+    expect(enrolStep?.env?.GH_TOKEN).toBe(APP_TOKEN)
+    expect(enrolStep?.env?.NEST_MAIN_TOKEN).toBe(APP_TOKEN)
+    expect(enrolStep?.env?.NEST_BOT_LOGIN).toBe('${{ steps.app.outputs.app-slug }}[bot]')
+  })
+
+  it('commits as the app, not as github-actions[bot]', () => {
+    const identity = all.find((s) => s.run?.includes('git config user.name'))
+    expect(identity?.run).toContain('${SLUG}[bot]')
+    expect(identity?.run).not.toContain('github-actions')
+  })
+
+  it('keeps the workflow token for the failure issue only', () => {
+    const uses = all.filter((s) => JSON.stringify(s).includes('GITHUB_TOKEN')).map((s) => s.name)
+    expect(uses).toEqual(['Open or update the failure issue', 'Close an earlier failure issue'])
+  })
+})
+
+describe('the auto-merge workflow', () => {
+  const wf = parse(readFileSync(join(WORKFLOWS, 'auto-merge.yml'), 'utf8')) as {
+    jobs: Record<string, { steps: Step[] }>
+  }
+  const all = wf.jobs['own-directory']?.steps ?? []
+
+  it('gives the check the head branch, so a scaffold from the app counts as its member', () => {
+    expect(all.find((s) => s.id === 'check')?.env?.PR_HEAD).toBe('${{ github.event.pull_request.head.ref }}')
+  })
+
+  it('enables auto-merge with the workflow token, never the app, which bypasses the rules on main', () => {
+    const enable = all.find((s) => s.name === 'Enable auto-merge')
+    expect(enable?.env?.GH_TOKEN).toBe('${{ github.token }}')
+    expect(JSON.stringify(wf)).not.toContain('create-github-app-token')
+  })
+})

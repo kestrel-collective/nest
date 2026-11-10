@@ -28,10 +28,13 @@ on:
         options: [recorded, js, python]
         default: recorded
 
+# The workflow token only files the failure issue. Everything enrolment writes (the scaffold
+# branch and pull request, the stage issues, the commit to main) uses a token from the Nest bot
+# app, so the scaffold pull request runs the required checks: GitHub runs no workflows for pull
+# requests the workflow token opens. The invitation uses NEST_ADMIN_TOKEN. docs/REPO-SETTINGS.md.
 permissions:
-  contents: write
+  contents: read
   issues: write
-  pull-requests: write
 
 concurrency:
   group: enroll-${{ github.event.client_payload.handle || inputs.handle }}
@@ -47,9 +50,31 @@ jobs:
       # empty for "recorded" or a dispatch without one: nest enroll then keeps the cohort file's track, else js
       TRACK: ${{ github.event.client_payload.track || (inputs.track != 'recorded' && inputs.track) || '' }}
     steps:
-      - uses: actions/checkout@v7
+      - name: Check that the Nest bot app is configured
+        env:
+          # the App ID may be the secret or the variable the other workflows read
+          APP_ID: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          APP_KEY: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+        run: |
+          missing=()
+          [ -n "$APP_ID" ] || missing+=(NEST_BOT_APP_ID)
+          [ -n "$APP_KEY" ] || missing+=(NEST_BOT_PRIVATE_KEY)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error title=Nest bot app not configured::Missing repository secret(s): ${missing[*]}. Enrolment opens the scaffold pull request and the stage issues as the Nest bot app, so the required checks run on the pull request. Add the secrets as docs/REPO-SETTINGS.md describes, then run Enrol again."
+            exit 1
+          fi
+      - name: A token from the Nest bot app, for everything enrolment writes
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.NEST_BOT_APP_ID || vars.NEST_BOT_APP_ID }}
+          private-key: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+      - id: checkout
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          # git pushes the scaffold branch with this token
+          token: ${{ steps.app.outputs.token }}
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
@@ -62,26 +87,28 @@ jobs:
         run: npx tsc -b
       - name: Install nest_data (writes python-track scaffolds)
         run: python -m pip install ./py
-      - name: Git identity for the bot
+      - name: Git identity of the Nest bot app
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          SLUG: ${{ steps.app.outputs.app-slug }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: A token for commits to main, from the Nest bot app when it is configured
-        id: app
-        if: vars.NEST_BOT_APP_ID != ''
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ vars.NEST_BOT_APP_ID }}
-          private-key: ${{ secrets.NEST_BOT_PRIVATE_KEY }}
+          id=$(gh api "users/${SLUG}[bot]" --jq .id)
+          git config user.name "${SLUG}[bot]"
+          git config user.email "${id}+${SLUG}[bot]@users.noreply.github.com"
       - name: Enrol
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # only for the commit that adds the person to their cohort file (step a); see cohort.yml
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          # the commit that adds the person to their cohort file (step a); the app is on main's bypass list
           NEST_MAIN_TOKEN: ${{ steps.app.outputs.token }}
-          # only for the collaborator invitation, which the workflow token is not allowed to send:
+          # an open scaffold pull request from any other account is replaced by one from the app
+          NEST_BOT_LOGIN: ${{ steps.app.outputs.app-slug }}[bot]
+          # only for the collaborator invitation, which neither the workflow token nor the app may send:
           # a token from a repository admin with Administration: write (see docs/ENROLMENT.md)
           NEST_ADMIN_TOKEN: ${{ secrets.NEST_ADMIN_TOKEN }}
         run: node packages/cli/bin/nest.js enroll "$HANDLE" --name "$NAME" --cohort "$COHORT" ${TRACK:+--track "$TRACK"} --gh
+      - name: Check out for the failure issue, when the run stopped before checking out
+        if: failure() && steps.checkout.outcome != 'success'
+        uses: actions/checkout@v7
       - name: Open or update the failure issue
         if: failure()
         env:

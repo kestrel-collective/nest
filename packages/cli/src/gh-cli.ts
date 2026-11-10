@@ -3,6 +3,8 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { UsageError } from './args.js'
 import type {
+  BranchPr,
+  BranchPrSpec,
   CollaboratorState,
   Gh,
   IssueSpec,
@@ -135,22 +137,32 @@ export class GhCli implements Gh {
     return [...new Set([...list(['--assignee', assignee]), ...named])]
   }
 
-  findPr(branch: string): string | null {
-    const args = [
-      'pr',
-      'list',
-      '--repo',
-      this.slug,
-      '--head',
-      branch,
-      '--state',
-      'all',
-      '--limit',
-      '1',
-      '--json',
-      'url',
-    ]
-    return this.ghJson(args)[0]?.url ?? null
+  listPrs(branch: string): BranchPr[] {
+    const owner = this.slug.split('/')[0] ?? ''
+    const head = encodeURIComponent(`${owner}:${branch}`)
+    const prs = JSON.parse(
+      this.gh(['api', `repos/${this.slug}/pulls?head=${head}&state=all&per_page=100`]) || '[]',
+    ) as {
+      number: number
+      html_url: string
+      state: string
+      draft?: boolean
+      merged_at?: string | null
+      user?: { login?: string } | null
+    }[]
+    return prs
+      .map((p): BranchPr => ({
+        number: p.number,
+        url: p.html_url,
+        author: p.user?.login ?? '',
+        state: p.state === 'open' ? 'open' : p.merged_at ? 'merged' : 'closed',
+        draft: p.draft === true,
+      }))
+      .sort((a, b) => b.number - a.number)
+  }
+
+  remoteBranchExists(branch: string): boolean {
+    return this.git(['ls-remote', '--heads', 'origin', `refs/heads/${branch}`]) !== ''
   }
 
   ensureLabel(name: string, color: string, description: string): 'created' | 'exists' {
@@ -193,7 +205,12 @@ export class GhCli implements Gh {
     ]
     if (spec.milestone) args.push('--milestone', spec.milestone)
     for (const label of spec.labels) args.push('--label', label)
-    return this.gh(args, spec.body)
+    try {
+      return this.gh(args, spec.body)
+    } catch (e) {
+      const text = e instanceof Error ? e.message : String(e)
+      throw /Resource not accessible by integration/i.test(text) ? explainAppRefusal(text) : e
+    }
   }
 
   createDraftPr(spec: PrSpec): string {
@@ -231,6 +248,21 @@ export class GhCli implements Gh {
     } finally {
       this.git(['checkout', original])
     }
+  }
+
+  createPrFromBranch(spec: BranchPrSpec): string {
+    const args = ['pr', 'create', '--repo', this.slug, '--head', spec.branch, '--title', spec.title]
+    if (spec.draft) args.push('--draft')
+    if (spec.assignee) args.push('--assignee', spec.assignee)
+    try {
+      return this.gh([...args, '--body-file', '-'], spec.body)
+    } catch (e) {
+      throw explainPrRefusal(e)
+    }
+  }
+
+  closePr(number: number, comment: string): void {
+    this.gh(['pr', 'close', String(number), '--repo', this.slug, '--comment', comment])
   }
 
   private branchExists(branch: string): boolean {
@@ -422,17 +454,31 @@ export class GhCli implements Gh {
 
 /**
  * GitHub refuses pull requests from the workflow token unless the repository (and, for an
- * organisation, the organisation) allows it. Retrying cannot help, so the error says what to
- * change and is marked as not worth retrying.
+ * organisation, the organisation) allows it, and refuses the Nest bot app's token when the app
+ * lacks a permission. Retrying cannot help either, so the error says what to change and is
+ * marked as not worth retrying.
  */
 export function explainPrRefusal(e: unknown): unknown {
   const text = e instanceof Error ? e.message : String(e)
+  if (/Resource not accessible by integration/i.test(text)) return explainAppRefusal(text)
   if (!/not permitted to create or approve pull requests/i.test(text)) return e
   const err = new Error(
-    'GitHub Actions is not allowed to open pull requests in this repository. Turn on "Allow GitHub ' +
-      'Actions to create and approve pull requests" in the organisation settings (Actions, General, ' +
-      'Workflow permissions) and then in the repository settings, or set the NEST_BOT_TOKEN secret ' +
-      '(see docs/ENROLMENT.md).',
+    'GitHub Actions is not allowed to open pull requests in this repository. The Enrol workflow opens ' +
+      'them with the Nest bot app (NEST_BOT_APP_ID and NEST_BOT_PRIVATE_KEY, docs/REPO-SETTINGS.md), ' +
+      'which this setting does not affect; run without the app, turn on "Allow GitHub Actions to create ' +
+      'and approve pull requests" in the organisation settings (Actions, General, Workflow permissions) ' +
+      'and then in the repository settings.',
+  )
+  ;(err as Error & { retryable?: boolean }).retryable = false
+  return err
+}
+
+/** The Nest bot app's token was refused: the app is missing a repository permission. */
+export function explainAppRefusal(text: string): Error {
+  const err = new Error(
+    `${text.split('\n')[0]}. The Nest bot app needs Contents, Pull requests and Issues: Read and write ` +
+      "on this repository: add them in the app's settings (Permissions), then accept the new " +
+      "permissions on the organisation's installation of the app (docs/REPO-SETTINGS.md).",
   )
   ;(err as Error & { retryable?: boolean }).retryable = false
   return err

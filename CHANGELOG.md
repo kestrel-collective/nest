@@ -11,6 +11,7 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 - The js track had no Stage 5 issues: its backlog had never been opened. Two js starters are added to `docs/backlog-seed.md`, and one stale js issue is corrected.
 - The Onboarding upkeep fails when an open `good-shared-issue` lacks `stage:5` or a track label, or when a track has fewer than three open ones.
 - Sync labels carries on past a label that fails, lists every failure at the end and exits non-zero.
+- Scaffold pull requests ran no required checks and merged only through an admin bypass, because the workflow token opened them. The Enrol workflow now mints a Nest bot app token (`NEST_BOT_APP_ID`, `NEST_BOT_PRIVATE_KEY`) and uses it to check out, push the scaffold branch, open the pull request and the stage issues, and commit to `main`; it fails first, naming the secret, when either is missing. An open scaffold pull request from another account is closed and opened again by the app from the same branch, keeping its commits, and a scaffold pull request from the app gets auto-merge once its member marks it ready. A stage issue is matched by stage and handle as well as by title, so it is never opened twice.
 
 ### Changed
 

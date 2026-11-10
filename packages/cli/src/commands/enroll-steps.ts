@@ -12,6 +12,7 @@ import {
   type EnrollContext,
 } from './enroll.js'
 import { ensureIssueLabels } from './new-task.js'
+import type { BranchPr } from '../gh.js'
 
 const CODEOWNERS = '.github/CODEOWNERS'
 const SCAFFOLD_TEMPLATE = '.github/PR_TEMPLATE_SCAFFOLD.md'
@@ -65,6 +66,38 @@ export function stepCohortFiles(ctx: EnrollContext): void {
   )
 }
 
+export type ScaffoldPrPlan =
+  { action: 'keep' | 'leave' | 'replace' | 'reopen'; pr: BranchPr } | { action: 'scaffold' }
+
+/**
+ * What step b does with the pull requests already opened from scaffold/<handle> (newest first).
+ * `botLogin` is the Nest bot app's login, the account the scaffold pull request should be from:
+ * one opened by any other account (the workflow token, whose pull requests never run the
+ * required checks) is replaced by one from the app. The branch is never pushed to then: in
+ * Stage 2 the member commits to it, and that work stays. Without a bot login nothing is replaced.
+ *
+ * - keep: open, and from the app (or no bot login is known)
+ * - replace: open, from another account; close it, then open one from the same branch
+ * - reopen: closed unmerged, from another account, branch still there; open one from it. This
+ *   also finishes a replace whose close went through but whose new pull request did not.
+ * - leave: merged, or closed by the app or with no bot login; nothing is opened again
+ * - scaffold: none; scaffold the directory and open a draft
+ */
+export function planScaffoldPr(
+  prs: readonly BranchPr[],
+  botLogin: string,
+  branchOnRemote: () => boolean,
+): ScaffoldPrPlan {
+  const isBot = (pr: BranchPr) => botLogin === '' || pr.author.toLowerCase() === botLogin.toLowerCase()
+  const open = prs.find((p) => p.state === 'open')
+  if (open) return { action: isBot(open) ? 'keep' : 'replace', pr: open }
+  const latest = prs[0]
+  if (!latest) return { action: 'scaffold' }
+  if (latest.state === 'closed' && !isBot(latest) && branchOnRemote()) return { action: 'reopen', pr: latest }
+  if (latest.state === 'closed' && !isBot(latest)) return { action: 'scaffold' }
+  return { action: 'leave', pr: latest }
+}
+
 /** b. The contributor directory exists on main or on a scaffold branch, otherwise a draft PR creates it. */
 export function stepScaffold(ctx: EnrollContext): void {
   const { config, opts, gh, io, report } = ctx
@@ -89,8 +122,33 @@ export function stepScaffold(ctx: EnrollContext): void {
     const detail = `draft PR "${title}" from ${branch} assigned to ${handle}, ${track} track, planted defect ${planned ?? 'none'}; open branches not checked without --gh`
     return ctx.done('b', 'would create', detail)
   }
-  const existing = ctx.retry('scaffold branch lookup', () => gh.findPr(branch))
-  if (existing) return ctx.done('b', 'skipped', `${existing} is already open from ${branch}`)
+  const prs = ctx.retry('scaffold branch lookup', () => gh.listPrs(branch))
+  const plan = planScaffoldPr(prs, opts.botLogin ?? '', () =>
+    ctx.retry('scaffold branch on the remote', () => gh.remoteBranchExists(branch)),
+  )
+  if (plan.action === 'keep') return ctx.done('b', 'skipped', `${plan.pr.url} is already open from ${branch}`)
+  if (plan.action === 'leave')
+    return ctx.done('b', 'skipped', `${plan.pr.url} from ${branch} was ${plan.pr.state}; not opened again`)
+  if (plan.action === 'replace' || plan.action === 'reopen') {
+    const old = plan.pr
+    if (plan.action === 'replace')
+      ctx.retry('closing the old scaffold pull request', () =>
+        gh.closePr(
+          old.number,
+          `Replaced by a pull request from ${opts.botLogin} on the same branch, so the required checks run on it. ` +
+            'Every commit on the branch is kept.',
+        ),
+      )
+    const url = ctx.retry('scaffold pull request', () =>
+      gh.createPrFromBranch({ branch, title, body, assignee: handle, draft: old.draft }),
+    )
+    report.scaffolded = true
+    return ctx.done(
+      'b',
+      plan.action === 'replace' ? 'updated' : 'created',
+      `${url} from ${branch}, replacing ${old.url} (${old.state}, opened by ${old.author}); its commits kept`,
+    )
+  }
   // ADR 0010: the python track's scaffold comes from nest_data, the js track's from here
   const planted =
     track === 'python'
@@ -136,6 +194,26 @@ export function stepInvite(ctx: EnrollContext): void {
   ctx.done('c', 'created', 'invited with push permission')
 }
 
+/** "3 @handle" for a personal stage issue's title ("Stage 3: … (@handle)"), or null for any other title. */
+export function stageIssueKey(title: string): string | null {
+  const m = /^stage (\d+):.*\(@([^)\s]+)\)$/i.exec(title.trim())
+  return m ? `${m[1]} @${m[2]!.toLowerCase()}` : null
+}
+
+/**
+ * Whether a stage issue is already among the person's issue titles, open or closed: the same title,
+ * or the same stage for the same handle under an older title, so a stage renamed in stages/ never
+ * gets a second issue. An existing issue is kept as it is; enrolment never opens another.
+ */
+export function existingStageIssue(titles: readonly string[]): (title: string) => boolean {
+  const lower = new Set(titles.map((t) => t.toLowerCase()))
+  const keys = new Set(titles.map(stageIssueKey).filter((k) => k !== null))
+  return (title) => {
+    const key = stageIssueKey(title)
+    return lower.has(title.toLowerCase()) || (key !== null && keys.has(key))
+  }
+}
+
 /** d. One personal issue per stage 1, 2, 3, 4, 6 and 7, skipping any title that already exists. */
 export function stepIssues(ctx: EnrollContext): void {
   const { config, opts, gh, io, report } = ctx
@@ -160,11 +238,12 @@ export function stepIssues(ctx: EnrollContext): void {
     }
     return ctx.done('d', 'would create', `${issues.length} issues, milestone ${milestone}`)
   }
-  const existing = ctx.retry('issue lookup', () => gh.listIssueTitles(handle)).map((t) => t.toLowerCase())
+  const titles = ctx.retry('issue lookup', () => gh.listIssueTitles(handle))
+  const exists = existingStageIssue(titles)
   if (cohort !== NO_COHORT && ctx.retry('milestone', () => gh.ensureMilestone(cohort)) === 'created')
     io.out(`Created milestone ${cohort}`)
   for (const issue of issues) {
-    if (existing.includes(issue.title.toLowerCase())) {
+    if (exists(issue.title)) {
       report.issuesSkipped.push(issue.title)
       continue
     }

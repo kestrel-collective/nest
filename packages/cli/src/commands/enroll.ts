@@ -33,6 +33,11 @@ export type EnrollOptions = {
   pythonScaffold?: PythonScaffold | undefined
   today?: string | undefined
   retry?: RetryOptions | undefined
+  /**
+   * The Nest bot app's login (NEST_BOT_LOGIN), which the scaffold pull request should be from.
+   * Set, an open one from any other account is replaced (see planScaffoldPr); unset, it is kept.
+   */
+  botLogin?: string | undefined
 }
 
 export type StepId = 'a' | 'b' | 'c' | 'd'
