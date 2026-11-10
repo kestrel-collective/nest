@@ -29,6 +29,8 @@ concurrency:
 jobs:
   withdraw:
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     env:
       HANDLE: ${{ github.event.client_payload.handle || inputs.handle }}
     steps:

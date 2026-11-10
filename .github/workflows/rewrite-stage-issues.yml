@@ -29,6 +29,8 @@ concurrency:
 jobs:
   rewrite:
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     steps:
       - name: Check that the Nest bot app is configured
         env:

@@ -37,6 +37,8 @@ concurrency:
 jobs:
   open:
     runs-on: ubuntu-latest
+    # its secrets live in this environment, deployable from main only (docs/REPO-SETTINGS.md)
+    environment: nest-bot
     env:
       ID: ${{ github.event.client_payload.id || inputs.id }}
       NAME: ${{ github.event.client_payload.name || inputs.name }}
