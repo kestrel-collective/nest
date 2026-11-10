@@ -4,3 +4,5 @@ starts: 2026-11-10
 ends: 2027-11-10
 members:
   - anod-a
+  - handle: v-n-n
+    track: python
