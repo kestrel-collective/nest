@@ -10,8 +10,14 @@ HANDLE = "kanyuku"
 
 
 def test_validates_without_problems():
+    _contributor, issues = validate_contributor(ROOT, HANDLE)
+    assert issues == []
+
+
+def test_name_is_not_the_handle():
     contributor, issues = validate_contributor(ROOT, HANDLE)
     assert issues == []
+    assert contributor["profile"]["name"] != contributor["profile"]["handle"]
 
 
 # Stage 4: add the test that would have caught the defect you fixed in Stage 3.
