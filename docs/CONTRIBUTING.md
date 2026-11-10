@@ -204,7 +204,7 @@ Your scaffold has one defect planted on purpose. Finding it is Stage 3. Do not g
 
 ## Stage 2: when your page appears
 
-Cloudflare Pages rebuilds the site from `main` on every merge, not only on releases. The "Nest release" number on the site is the version of the code, and content changes do not wait for it. The build takes under a minute, so your page is live at `https://nest.kestrelcollective.org/p/your-handle/` about two minutes after your Stage 2 pull request merges. The site's pages are not cached, so a normal reload shows it. The Kestrel Collective site picks your page up a few minutes after that.
+Cloudflare Pages rebuilds the site from `main` on every merge, not only on releases. The "Nest release" number on the site is the version of the code, and content changes do not wait for it. The build takes under a minute, so your page is live at `https://nest.kestrelcollective.org/p/your-handle/` about two minutes after your Stage 2 pull request, "Scaffold for @your-handle", merges. The site's pages are not cached, so a normal reload shows it. The Kestrel Collective site picks your page up a few minutes after that.
 
 It appears when all three of these are true on `main`:
 

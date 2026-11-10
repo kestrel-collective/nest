@@ -39,7 +39,7 @@ Without `--gh` or `--dry-run` the command prints the pull request bodies and the
 
 1. Accept the collaborator invitation GitHub emailed them. Nothing else works before this.
 2. Stage 1: clone, run the tests (`pytest` on the python track, `npm test` on the js track), add their handle to `CONTRIBUTORS.md`.
-3. Stage 2: finish the scaffold pull request that is already open in their name.
+3. Stage 2: finish the scaffold pull request that is already open in their name. On `scaffold/<handle>` they fill in `profile.yml` and `page.md` (leaving `handle`, `cohort` and `joined`, which hold the Stage 3 defect), set `visibility.page: public`, push, and mark it ready for review; auto-merge then merges it.
 
 A week after enrolment with no commit from them, the Onboarding workflow leaves one comment, ever, on their Stage 1 issue with those two steps.
 
