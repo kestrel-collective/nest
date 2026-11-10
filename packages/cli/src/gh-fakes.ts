@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { UsageError } from './args.js'
+import { NEST_BOT_LOGIN, type BranchPr, type BranchPrSpec } from './gh.js'
 import type {
   CollaboratorState,
   Gh,
@@ -26,6 +27,11 @@ export class FakeGh implements Gh {
   comments = new Map<number, string[]>()
   /** Branches whose pull request has been closed. */
   closedBranches = new Set<string>()
+  /** Every pull request with its branch, newest last, as listPrs reports them; and the branches on the remote. */
+  pullRequests: { branch: string; pr: BranchPr }[] = []
+  remoteBranches = new Set<string>()
+  /** The account the fake's writes are made as: the Nest bot app, as in the Enrol workflow. */
+  login = NEST_BOT_LOGIN
   /** Whether the admin token is present, so invitations can be read and cancelled. */
   adminToken = true
   /** Files on main, and every commit the bot made to it. */
@@ -35,6 +41,8 @@ export class FakeGh implements Gh {
   raceOnNextCommit: Record<string, string> | null = null
   /** When true, main refuses the bot's commits as a protected branch would. */
   protectedMain = false
+  /** Comments left when closing pull requests, by number. */
+  prComments = new Map<number, string[]>()
   calls: string[] = []
   private counter = 0
   private failures = new Map<Method, number>()
@@ -46,6 +54,14 @@ export class FakeGh implements Gh {
     seed: {
       issueTitles?: Record<string, string[]>
       prBranches?: string[]
+      /** Pull requests opened earlier; author defaults to the workflow bot, state to open. */
+      pullRequests?: {
+        branch: string
+        author?: string
+        state?: BranchPr['state']
+        draft?: boolean
+        onRemote?: boolean
+      }[]
       collaborators?: string[]
       invited?: string[]
       root?: string
@@ -55,10 +71,22 @@ export class FakeGh implements Gh {
     for (const [assignee, titles] of Object.entries(seed.issueTitles ?? {})) {
       for (const title of titles) this.issues.push({ title, body: '', labels: [], assignee })
     }
-    for (const branch of seed.prBranches ?? [])
-      this.prs.push({ handle: '', branch, title: '', body: '', paths: [] })
+    for (const branch of seed.prBranches ?? []) this.addPr(branch, 'github-actions[bot]', 'open', true)
+    for (const p of seed.pullRequests ?? []) {
+      this.addPr(p.branch, p.author ?? 'github-actions[bot]', p.state ?? 'open', p.draft ?? true)
+      if (p.onRemote === false) this.remoteBranches.delete(p.branch)
+    }
     for (const c of seed.collaborators ?? []) this.collaborators.add(c.toLowerCase())
     for (const i of seed.invited ?? []) this.invitations.add(i.toLowerCase())
+  }
+
+  private addPr(branch: string, author: string, state: BranchPr['state'], draft: boolean): string {
+    const number = 100 + this.pullRequests.length
+    const url = `https://example.test/pull/${number}`
+    this.pullRequests.push({ branch, pr: { number, url, author, state, draft } })
+    this.prs.push({ handle: '', branch, title: '', body: '', paths: [] })
+    this.remoteBranches.add(branch)
+    return url
   }
 
   /** Make the next n calls of a method throw, then succeed. */
@@ -80,10 +108,17 @@ export class FakeGh implements Gh {
     return this.issues.filter((i) => i.assignee.toLowerCase() === assignee.toLowerCase()).map((i) => i.title)
   }
 
-  findPr(branch: string): string | null {
-    this.record('findPr', branch)
-    if (this.prs.some((p) => p.branch === branch)) return `https://example.test/pr/${branch}`
-    return null
+  listPrs(branch: string): BranchPr[] {
+    this.record('listPrs', branch)
+    return this.pullRequests
+      .filter((p) => p.branch === branch)
+      .map((p) => ({ ...p.pr }))
+      .reverse()
+  }
+
+  remoteBranchExists(branch: string): boolean {
+    this.record('remoteBranchExists', branch)
+    return this.remoteBranches.has(branch)
   }
 
   ensureLabel(name: string): 'created' | 'exists' {
@@ -108,8 +143,34 @@ export class FakeGh implements Gh {
 
   createDraftPr(spec: PrSpec): string {
     this.record('createDraftPr', spec.branch)
-    this.prs.push(spec)
-    return `https://example.test/pr/${spec.branch}`
+    const url = this.addPr(spec.branch, this.login, 'open', true)
+    this.prs[this.prs.length - 1] = spec
+    return url
+  }
+
+  createPrFromBranch(spec: BranchPrSpec): string {
+    this.record('createPrFromBranch', spec.branch)
+    if (!this.remoteBranches.has(spec.branch)) throw new Error(`fake: no branch ${spec.branch} on the remote`)
+    if (this.pullRequests.some((p) => p.branch === spec.branch && p.pr.state === 'open'))
+      throw new Error(`fake: a pull request for branch "${spec.branch}" already exists`)
+    const url = this.addPr(spec.branch, this.login, 'open', spec.draft)
+    this.prs[this.prs.length - 1] = {
+      handle: '',
+      branch: spec.branch,
+      title: spec.title,
+      body: spec.body,
+      paths: [],
+      assignee: spec.assignee,
+    }
+    return url
+  }
+
+  closePr(number: number, comment: string): void {
+    this.record('closePr', String(number))
+    const found = this.pullRequests.find((p) => p.pr.number === number)
+    if (!found || found.pr.state !== 'open') throw new Error(`fake: no open pull request #${number}`)
+    found.pr.state = 'closed'
+    this.prComments.set(number, [...(this.prComments.get(number) ?? []), comment])
   }
 
   commitToMain(spec: MainCommitSpec): MainCommitResult {
@@ -176,10 +237,11 @@ export class FakeGh implements Gh {
 
   closeOpenPr(branch: string): string | null {
     this.record('closeOpenPr', branch)
-    const exists = this.prs.some((p) => p.branch === branch)
-    if (!exists || this.closedBranches.has(branch)) return null
+    const open = this.pullRequests.find((p) => p.branch === branch && p.pr.state === 'open')
+    if (!open || this.closedBranches.has(branch)) return null
     this.closedBranches.add(branch)
-    return `https://example.test/pr/${branch}`
+    open.pr.state = 'closed'
+    return open.pr.url
   }
 
   canManageInvitations(): boolean {
@@ -199,8 +261,11 @@ export class NullGh implements Gh {
   listIssueTitles(): string[] {
     return []
   }
-  findPr(): null {
-    return null
+  listPrs(): BranchPr[] {
+    return []
+  }
+  remoteBranchExists(): boolean {
+    return false
   }
   ensureLabel(): 'created' {
     return 'created'
@@ -212,6 +277,12 @@ export class NullGh implements Gh {
     throw new UsageError(NOT_INSTALLED)
   }
   createDraftPr(): never {
+    throw new UsageError(NOT_INSTALLED)
+  }
+  createPrFromBranch(): never {
+    throw new UsageError(NOT_INSTALLED)
+  }
+  closePr(): never {
     throw new UsageError(NOT_INSTALLED)
   }
   commitToMain(): never {

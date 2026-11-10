@@ -131,7 +131,15 @@ export function main(argv: readonly string[]): number | Promise<number> {
       if (!cohort) throw new UsageError(`enroll needs --cohort <id> or --cohort ${NO_COHORT}.`)
       const report = enroll(
         config,
-        { handle, name: flagString(flags, 'name'), cohort, track: trackFlag(flags), mode },
+        {
+          handle,
+          name: flagString(flags, 'name'),
+          cohort,
+          track: trackFlag(flags),
+          mode,
+          // set by the Enrol workflow from the Nest bot app's token
+          botLogin: process.env.NEST_BOT_LOGIN || undefined,
+        },
         ghFor(config, mode),
         io,
       )

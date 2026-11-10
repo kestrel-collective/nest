@@ -2,7 +2,9 @@ name: Auto-merge own directory
 
 # Runs on the base branch with write access. It never checks out or executes the pull
 # request's code: the list of changed files comes from the API, and the check itself is
-# the tested function in packages/cli/src/paths.ts built from main.
+# the tested function in packages/cli/src/paths.ts built from main. Auto-merge is enabled with
+# the workflow token, never the Nest bot app's: the app is on main's bypass list, and a merge as
+# the app could skip the required checks and approval this waits for.
 on:
   pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -28,6 +30,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          # a scaffold pull request from the Nest bot app counts as its member's (paths.ts)
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
         run: node .github/scripts/check-own-dir.mjs
       - name: Enable auto-merge
         if: steps.check.outputs.own == 'true'

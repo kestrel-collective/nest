@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process'
 import { appendFileSync } from 'node:fs'
 import { checkOwnDirectoryChange } from '../../packages/cli/dist/paths.js'
 
-const { PR_NUMBER, PR_AUTHOR, GITHUB_REPOSITORY, GITHUB_OUTPUT } = process.env
+const { PR_NUMBER, PR_AUTHOR, PR_HEAD, GITHUB_REPOSITORY, GITHUB_OUTPUT } = process.env
 if (!PR_NUMBER || !PR_AUTHOR || !GITHUB_REPOSITORY) {
   console.error('PR_NUMBER, PR_AUTHOR and GITHUB_REPOSITORY are required.')
   process.exit(2)
@@ -22,7 +22,8 @@ const out = execFileSync(
   { encoding: 'utf8' },
 )
 const files = out.split('\n').filter(Boolean)
-const result = checkOwnDirectoryChange(files, PR_AUTHOR)
+// PR_HEAD, the head branch, matters only for a scaffold pull request from the Nest bot app
+const result = checkOwnDirectoryChange(files, PR_AUTHOR, PR_HEAD ?? '')
 
 const lines = [`own=${result.ok}`]
 if (!result.ok) lines.push(`reason=${result.reason}`)
