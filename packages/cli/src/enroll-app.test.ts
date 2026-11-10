@@ -70,8 +70,10 @@ describe('planScaffoldPr', () => {
     expect(planScaffoldPr([closedByApp, older], NEST_BOT_LOGIN, onRemote).action).toBe('leave')
   })
 
-  it('leaves a merged pull request, from anyone', () => {
-    expect(planScaffoldPr([pr({ state: 'merged' })], NEST_BOT_LOGIN, onRemote).action).toBe('leave')
+  it('scaffolds again after a merged one, whose directory is no longer on main (a revert)', () => {
+    // step b asks only when contributors/<handle>/ is not on main
+    for (const login of [NEST_BOT_LOGIN, ''])
+      expect(planScaffoldPr([pr({ state: 'merged' })], login, onRemote)).toEqual({ action: 'scaffold' })
   })
 
   it('replaces nothing without a bot login, as before the app', () => {
@@ -81,6 +83,19 @@ describe('planScaffoldPr', () => {
 })
 
 describe('enroll with the Nest bot app', () => {
+  it('re-enrolling after a merged and reverted scaffold opens a fresh draft from the app (ijayabby, #77 and #91)', () => {
+    // the merged branch was deleted with the merge; the directory left main with the revert
+    const gh = new FakeGh({
+      pullRequests: [{ branch: BRANCH, author: LEGACY, state: 'merged', draft: false, onRemote: false }],
+    })
+    const r = enroll(repo(), opts(), gh, collectIo())
+    expect(stepB(r)?.outcome).toBe('created')
+    expect(count(gh, 'createDraftPr')).toBe(1)
+    expect(prsOn(gh, BRANCH).at(-1)).toMatchObject({ author: NEST_BOT_LOGIN, state: 'open', draft: true })
+    // and only one: a second run keeps it
+    expect(stepB(enroll(repo(), opts(), gh, collectIo()))?.outcome).toBe('skipped')
+  })
+
   it('opens a fresh scaffold as the app', () => {
     const gh = new FakeGh()
     const r = enroll(repo(), opts(), gh, collectIo())
