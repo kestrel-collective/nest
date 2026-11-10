@@ -145,3 +145,24 @@ describe('the auto-merge workflow', () => {
     expect(JSON.stringify(wf)).not.toContain('create-github-app-token')
   })
 })
+
+describe('auto-merge on a scaffold pull request the learner marks ready', () => {
+  const wf = parse(readFileSync(join(WORKFLOWS, 'auto-merge.yml'), 'utf8')) as {
+    on: { pull_request_target: { types: string[] } }
+    jobs: Record<string, { if?: string; steps: Step[] }>
+  }
+  const job = wf.jobs['own-directory']!
+
+  it('runs when a draft is marked ready, and on every later push, but never on a draft', () => {
+    expect(wf.on.pull_request_target.types).toEqual(
+      expect.arrayContaining(['ready_for_review', 'synchronize']),
+    )
+    expect(job.if).toBe('github.event.pull_request.draft == false')
+  })
+
+  it("judges the pull request's author, the app that opened it, not whoever pushed the last commit", () => {
+    const check = job.steps.find((s) => s.id === 'check')
+    expect(check?.env?.PR_AUTHOR).toBe('${{ github.event.pull_request.user.login }}')
+    expect(JSON.stringify(job)).not.toContain('github.actor')
+  })
+})
