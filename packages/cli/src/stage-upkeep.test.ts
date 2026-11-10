@@ -1,8 +1,13 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { renderIssue } from './issue-body.js'
+import { readConfig } from './root.js'
 import {
   checkSharedPool,
+  checkTicketRewrite,
+  stageIssueVars,
+  ticketFields,
   handleFromTitle,
   POOL_MINIMUM,
   issuesToAssign,
@@ -143,5 +148,73 @@ describe('refreshing the kestrel-ticket block', () => {
     expect(refreshBody('No block here.', fresh)).toBe(`No block here.\n\n${fresh}\n`)
     expect(fresh).toContain('reserved_for: anod-a')
     expect(fresh).toContain('https://github.com/kestrel-collective/nest/blob/main/docs/CONTRIBUTING.md')
+  })
+})
+
+describe('rewriting a stage issue from its current text', () => {
+  const config = readConfig(REAL_ROOT)
+  const opened = (track: 'js' | 'python', name: string) => {
+    const r = renderIssue(config, 2, { handle: 'viktor-at-dev', name, cohort: '2026-11-09', track })
+    return { title: r.title, body: r.body, labels: r.labels }
+  }
+
+  it('recovers what enrolment rendered the issue with, so a rewrite renders the same issue', () => {
+    for (const track of ['js', 'python'] as const) {
+      const issue = opened(track, 'Victor O. Mwangi')
+      const vars = stageIssueVars(issue)
+      expect(vars).toEqual({
+        stage: 2,
+        handle: 'viktor-at-dev',
+        name: 'Victor O. Mwangi',
+        cohort: '2026-11-09',
+        track,
+      })
+      expect(renderIssue(config, 2, vars!).body).toBe(issue.body)
+    }
+  })
+
+  it('falls back to @handle for the name, and none for an issue with no cohort label', () => {
+    const vars = stageIssueVars({
+      title: 'Stage 2: Your page exists (@a-b)',
+      body: 'No greeting.',
+      labels: ['onboarding', 'stage:2'],
+    })
+    expect(vars).toMatchObject({ name: '@a-b', cohort: 'none', track: 'js' })
+    expect(
+      stageIssueVars({ title: 'Something else', body: '', labels: ['onboarding', 'stage:2'] }),
+    ).toBeNull()
+    expect(stageIssueVars({ title: 'Stage 2: x (@a-b)', body: '', labels: ['stage:2'] })).toBeNull()
+  })
+
+  it('accepts new instructions and a new acceptance line with every fixed key unchanged', () => {
+    const now = opened('python', 'Victor').body
+    const older = now
+      .replace(/guide: "On the branch [^"]*"/, 'guide: "Fill in profile.yml and page.md in your own words."')
+      .replace('  - "Your scaffold pull request merged"\n', '')
+    expect(checkTicketRewrite(older, now)).toBeNull()
+    expect([...(ticketFields(now)?.keys() ?? [])]).toEqual([
+      'competency',
+      'level',
+      'difficulty',
+      'kp',
+      'evidence_kind',
+      'reserved_for',
+      'stage',
+      'steps',
+      'acceptance_criteria',
+      'resources',
+    ])
+  })
+
+  it('refuses a rewrite that changes a key that is not an instruction, or drops one', () => {
+    const now = opened('js', 'Victor').body
+    expect(checkTicketRewrite(now.replace('kp: 1', 'kp: 0'), now)).toBe('the new block changes kp (0 to 1)')
+    expect(
+      checkTicketRewrite(now, now.replace('reserved_for: viktor-at-dev', 'reserved_for: someone')),
+    ).toContain('reserved_for')
+    expect(checkTicketRewrite(now, now.replace(/\nresources:[\s\S]*?\n```/, '\n```'))).toBe(
+      'the new block lacks resources',
+    )
+    expect(checkTicketRewrite(now, 'No block.')).toBe('the new body has no kestrel-ticket block')
   })
 })
