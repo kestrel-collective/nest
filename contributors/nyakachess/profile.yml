@@ -1,0 +1,13 @@
+# Your profile. Fill in name, intro and skills_developing in your own words.
+# Leave handle, cohort and joined as they are; they are set for you. docs/CONTRIBUTING.md explains every field.
+handle: nyakachess
+name: nyakachess
+cohort: 2026-11-09
+joined: 2026-11-09
+intro: Replace this with one or two sentences about where you are now, not where you want to be.
+skills_developing: []
+visibility:
+  # private until Stage 2. Change it to public when your page is ready; change it back any time.
+  page: private
+# Work accepted by other projects goes here, newest first, with the merged pull request address. Leave it empty until there is some.
+projects: []
