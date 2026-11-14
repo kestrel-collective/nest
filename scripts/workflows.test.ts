@@ -14,7 +14,7 @@ type Workflow = { name?: string; on?: unknown; jobs?: Record<string, Job> }
 describe('GitHub configuration as code', () => {
   const files = readdirSync(WORKFLOWS).filter((f) => f.endsWith('.yml'))
 
-  it('has the twelve workflows', () => {
+  it('has the thirteen workflows', () => {
     expect(files.sort()).toEqual([
       'auto-merge.yml',
       'ci.yml',
@@ -22,6 +22,7 @@ describe('GitHub configuration as code', () => {
       'enroll.yml',
       'labels.yml',
       'maintainer-gate.yml',
+      'maintainer-queue.yml',
       'notify-landing.yml',
       'onboarding.yml',
       'practice-counts.yml',
@@ -183,7 +184,9 @@ describe('the maintainer gate and the secrets it depends on', () => {
     expect(wf.on.workflow_run).toEqual({ workflows: ['Review recorded'], types: ['completed'] })
     const steps = wf.jobs.evaluate!.steps
     expect(steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with).toBeUndefined()
-    expect(steps.find((s) => s.run?.includes('maintainer-gate.mjs'))?.env?.GH_TOKEN).toBe(APP_TOKEN)
+    const post = steps.find((s) => s.run?.includes('maintainer-gate.mjs'))
+    expect(post?.env?.GH_TOKEN).toBe(APP_TOKEN)
+    expect(post?.env?.NEST_BOT_SLUG).toBe('${{ steps.app.outputs.app-slug }}')
   })
 
   it('leaves the review workflow, which runs the copy of its file on the pull request, with no permissions and no secrets', () => {
@@ -192,6 +195,16 @@ describe('the maintainer gate and the secrets it depends on', () => {
     expect(wf.name ?? (parse(text) as { name: string }).name).toBe('Review recorded')
     expect(wf.permissions).toEqual({})
     expect(text).not.toContain('secrets.')
+  })
+
+  it('lists the waiting pull requests daily, with the workflow token, and the Discord webhook only from the environment', () => {
+    const wf = load('maintainer-queue.yml')
+    expect(Object.keys(wf.on).sort()).toEqual(['schedule', 'workflow_dispatch'])
+    expect(wf.permissions).toEqual({ contents: 'read', issues: 'write', 'pull-requests': 'read' })
+    const step = wf.jobs.queue!.steps.find((s) => s.run?.includes('maintainer-queue.mjs'))
+    expect(step?.env?.GH_TOKEN).toBe('${{ secrets.GITHUB_TOKEN }}')
+    expect(step?.env?.NEST_DISCORD_WEBHOOK).toBe('${{ secrets.NEST_DISCORD_WEBHOOK }}')
+    expect(JSON.stringify(wf)).not.toContain('create-github-app-token')
   })
 
   it('runs every job that reads a Nest secret in the nest-bot environment, which only main may use', () => {

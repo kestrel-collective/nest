@@ -2,8 +2,10 @@ name: Maintainer gate
 
 # Posts the required check maintainer-gate on every pull request's head commit, as the Nest bot
 # app: success at once for a change limited to the author's own contributor directory (the
-# scaffold pull request from the app included), otherwise success only once a maintainer has
-# approved the head commit (packages/cli/src/gate.ts). main's ruleset requires the check from the
+# scaffold pull request from the app included), otherwise in progress, "Waiting for a maintainer
+# to review", until a maintainer approves the head commit, then success (packages/cli/src/gate.ts).
+# A waiting pull request also gets one comment, ever, from the app, saying a maintainer reviews
+# shared files and the learner has done nothing wrong. main's ruleset requires the check from the
 # app, so no workflow on a branch can post a passing one. It runs main's code only:
 # pull_request_target for pushes, and workflow_run after "Review recorded" for reviews, because a
 # pull_request_review workflow runs the pull request's own copy of its file.
@@ -39,7 +41,7 @@ jobs:
             echo "::error title=Nest bot app not configured::Missing secret(s): ${missing[*]}. See docs/REPO-SETTINGS.md."
             exit 1
           fi
-      - name: A token from the Nest bot app (Checks, Pull requests read)
+      - name: A token from the Nest bot app (Checks, Pull requests read, Issues for the comment)
         id: app
         uses: actions/create-github-app-token@v3
         with:
@@ -57,6 +59,8 @@ jobs:
       - name: Post maintainer-gate
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
+          # the app's own in-progress check run is updated in place, never another app's
+          NEST_BOT_SLUG: ${{ steps.app.outputs.app-slug }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
         run: node .github/scripts/maintainer-gate.mjs

@@ -30,7 +30,15 @@ export type GateInput = {
   isMaintainer: (login: string) => boolean
 }
 
-export type GateResult = { conclusion: 'success' | 'failure'; title: string; summary: string }
+/**
+ * What the check shows while a shared-file change waits for a maintainer. The check is posted as
+ * in progress, never `neutral`: a required check that ends `neutral` counts as passed, so the pull
+ * request could merge without anyone's approval.
+ */
+export const GATE_WAITING_TITLE = 'Waiting for a maintainer to review'
+
+/** `pending` is posted as an in-progress check run: yellow, and it holds the merge. */
+export type GateResult = { conclusion: 'success' | 'failure' | 'pending'; title: string; summary: string }
 
 /**
  * Each maintainer's standing review: their latest one that approves, requests changes or was
@@ -77,10 +85,33 @@ export function gateDecision(input: GateInput): GateResult {
     }
   const stale = standing.some((r) => r.state === 'APPROVED')
   return {
-    conclusion: 'failure',
-    title: stale ? "A maintainer's approval is for an older commit" : "Needs a maintainer's approval",
+    conclusion: 'pending',
+    title: GATE_WAITING_TITLE,
     summary: `${own.reason} It changes files outside one contributor directory, so a maintainer approves it${
-      stale ? ' again, on the latest commit' : ''
-    } before it merges.`,
+      stale ? ' again: their approval is for an older commit, and this one is new' : ''
+    } before it merges. Nothing is wrong with the pull request; this turns green once a maintainer approves.`,
   }
+}
+
+/** Hidden marker on the one comment the gate posts while a pull request waits for a maintainer. */
+export const WAITING_COMMENT_MARKER = '<!-- nest:maintainer-gate-waiting -->'
+
+/**
+ * The learner a pull request belongs to: its author, or for a scaffold pull request, which a bot
+ * opens, the handle its `scaffold/<handle>` branch names.
+ */
+export function learnerOf(author: string, headRef: string): string {
+  const scaffold = /^scaffold\/([^/]+)$/.exec(headRef)
+  return author.endsWith('[bot]') && scaffold ? scaffold[1]! : author
+}
+
+/** The comment posted once on a pull request that waits for a maintainer. */
+export function waitingComment(learner: string): string {
+  return [
+    WAITING_COMMENT_MARKER,
+    `Thanks @${learner}! This pull request changes a shared file, one outside your own \`contributors/\` directory, so a maintainer reviews it before it merges. That usually happens within a day.`,
+    '',
+    `You have done nothing wrong, and there is nothing you need to do now. The \`maintainer-gate\` check shows "${GATE_WAITING_TITLE}" until then, and turns green on its own once a maintainer approves. If they ask for a change, they will say so here.`,
+    '',
+  ].join('\n')
 }

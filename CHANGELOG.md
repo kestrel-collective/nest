@@ -16,12 +16,14 @@ All notable changes to Nest. The format follows Keep a Changelog, the versions f
 ### Changed
 
 - Proposed rules for `main` (docs/REPO-SETTINGS.md, not applied): no required approvals, and a required check `maintainer-gate` from the Nest bot app instead, which passes at once for an own-directory pull request (the app's scaffold pull request included) and otherwise only once a maintainer approves the head commit. The Maintainer gate and Review recorded workflows post it from `main`'s code. Every job that reads a secret runs in a `nest-bot` environment that only `main` may use, so members' branch workflows cannot read the app's key or the admin token.
+- The `maintainer-gate` check no longer fails while a shared-file pull request waits for a maintainer: it stays in progress, "Waiting for a maintainer to review", and turns green once a maintainer approves the latest commit (not `neutral`, which a required check counts as passed). The app comments once on such a pull request: a maintainer reviews changes to shared files, usually within a day, and the learner has done nothing wrong. It still fails while a maintainer has changes requested.
 
 - The site follows design scope v1, the logo palette: the Kestrel Collective wordmark in the header, new tokens with the first brand sheet behind `data-palette="classic"`, a stepper ladder, person and stat cards, and a 404 with numerals (docs/adr/0008-visual-system-v2.md).
 - Every stage issue, the contributing guide, the pull request template and the directory template were rewritten for a first-time contributor, following the Kestrel default curriculum.
 
 ### Added
 
+- The Maintainer queue workflow, daily: the pull requests that have waited more than 24 hours for a maintainer, in one pinned issue it rewrites each day, or in Discord when `NEST_DISCORD_WEBHOOK` is set in the `nest-bot` environment.
 - The python track (ADR 0010). `py/nest_data` reads and validates every contributor and cohort file with the same rules and messages as `@nest/schema`, and writes `site/.nest/data.json`, which the site now reads; CI and the Cloudflare build run it as the data step. Goldens recorded from the Node code hold both libraries to the same output.
 - Tracks: a cohort member is a handle (js) or a handle with `track: python`. `nest enroll --track`, a track input on the Enrol workflow, and a `track:` label on every stage issue.
 - Stages 1, 3, 4 and 5 have a body per track; the python Stage 1 needs no Node. Stages 2, 6 and 7 are shared, with each track's commands filled in.
