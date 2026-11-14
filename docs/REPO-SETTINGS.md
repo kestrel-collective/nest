@@ -19,7 +19,10 @@ Everything that cannot be a file in the repository. Follow it top to bottom in t
 What the rules have to do: a pull request that changes only its author's own contributor directory merges on its own once CI passes, and so does the scaffold pull request, which the Nest bot app opens and the member finishes in Stage 2. Any other pull request, one that touches a shared file such as `CONTRIBUTORS.md` in Stage 1, also needs a maintainer's approval. A ruleset's required approvals cannot tell the two kinds apart, so the ruleset requires no approvals and requires the check `maintainer-gate` instead. The Maintainer gate workflow posts that check, as the app, on every pull request's head commit (`packages/cli/src/gate.ts`):
 
 - success at once when every changed file belongs in the author's directory (for the app's scaffold pull request, the directory its `scaffold/<handle>` branch names);
-- otherwise success only when a maintainer (admin or maintain permission, not the author) has approved the head commit and no maintainer has changes requested. A new push needs a new approval.
+- otherwise **in progress** (yellow), titled "Waiting for a maintainer to review", until a maintainer (admin or maintain permission, not the author) has approved the head commit; then success. A new push needs a new approval. It fails only while a maintainer has changes requested. It is never `neutral`: GitHub counts a required check that ends `neutral` as passed.
+- a waiting pull request also gets one comment, ever, from the app: a maintainer reviews changes to shared files, usually within a day, and the learner has done nothing wrong. A draft gets it once it is marked ready; a maintainer's own pull request gets none.
+
+Every day the Maintainer queue workflow lists the pull requests that have waited more than 24 hours (since that comment, or since a maintainer last reviewed) in one pinned issue, "Pull requests waiting for a maintainer", which it rewrites each time. To get the list in Discord instead, add a `NEST_DISCORD_WEBHOOK` secret (a channel's webhook URL: channel settings, **Integrations**, **Webhooks**) to the `nest-bot` environment; it then posts only on days when something is overdue, and pings nobody.
 
 It runs again on every push (`pull_request_target`) and after every review (the Review recorded workflow, then `workflow_run`), both from `main`'s code. The ruleset requires it **from the app**, so a workflow someone adds on a branch cannot post a passing `maintainer-gate` of its own, and the app's key sits in an environment that only `main` can use (below), so no branch workflow can post as the app either.
 
@@ -47,7 +50,7 @@ Repository **Settings**, **Rules**, **Rulesets**, **New ruleset**, **New branch 
 - [ ] Everything else (signed commits, deployments, code scanning, merge queue): off.
 - [ ] Remove any older classic branch protection on `main`, so the two do not stack.
 
-Check it: a pull request that changes only `contributors/<handle>/` shows `maintainer-gate` green with "Own directory of @handle" and merges once `checks` passes; one that changes `CONTRIBUTORS.md` shows "Needs a maintainer's approval" until a maintainer approves, then turns green on its own.
+Check it: a pull request that changes only `contributors/<handle>/` shows `maintainer-gate` green with "Own directory of @handle" and merges once `checks` passes; one that changes `CONTRIBUTORS.md` shows `maintainer-gate` in progress, "Waiting for a maintainer to review", with one comment from the app, until a maintainer approves, then turns green on its own.
 
 ## The Nest bot GitHub App (commits to `main`, scaffold pull requests, stage issues)
 
@@ -76,7 +79,7 @@ Every member is a collaborator with push access, and a workflow on any branch th
 - [ ] **Settings**, **Environments**, **New environment**: `nest-bot`.
 - [ ] **Deployment branches and tags**: **Selected branches and tags**, add the rule `main`. Nothing else.
 - [ ] **Required reviewers** and **Wait timer**: none (the jobs run unattended).
-- [ ] **Environment secrets**: add `NEST_BOT_APP_ID`, `NEST_BOT_PRIVATE_KEY`, `NEST_ADMIN_TOKEN` and `LANDING_DEPLOY_HOOK`, with the same values as before.
+- [ ] **Environment secrets**: add `NEST_BOT_APP_ID`, `NEST_BOT_PRIVATE_KEY`, `NEST_ADMIN_TOKEN` and `LANDING_DEPLOY_HOOK`, with the same values as before. Optionally `NEST_DISCORD_WEBHOOK`, for the maintainer queue (above).
 - [ ] Then delete those four from the repository's **Secrets** tab, so only the environment has them.
 - [ ] Check: run **Practice counts** from the Actions tab on `main`; it is green and the run shows the `nest-bot` environment. GitHub lists each run as a deployment to `nest-bot` on the repository's page; that is expected.
 

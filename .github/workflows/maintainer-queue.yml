@@ -1,0 +1,40 @@
+name: Maintainer queue
+
+# Daily: lists the open pull requests whose maintainer-gate check has waited more than 24 hours
+# for a maintainer (packages/cli/src/maintainer-queue.ts). They go in one pinned issue, rewritten
+# each day, or, when the NEST_DISCORD_WEBHOOK secret is set in the nest-bot environment, in a
+# Discord message instead (nothing is posted on a day with nothing overdue). It reads pull
+# requests and writes one issue, so the workflow's own token is enough.
+on:
+  schedule:
+    - cron: '41 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: maintainer-queue
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    # NEST_DISCORD_WEBHOOK, when used, is a secret of this environment (docs/REPO-SETTINGS.md)
+    environment: nest-bot
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build the CLI
+        run: npx tsc -b
+      - name: List pull requests waiting on a maintainer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEST_DISCORD_WEBHOOK: ${{ secrets.NEST_DISCORD_WEBHOOK }}
+        run: node .github/scripts/maintainer-queue.mjs
