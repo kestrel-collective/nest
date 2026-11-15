@@ -36,7 +36,7 @@ jobs:
         with:
           # the push at the end uses this token: the app's, which the main ruleset lets through
           token: ${{ steps.app.outputs.token || github.token }}
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
           cache: pip
