@@ -6,3 +6,4 @@ Format: one line per person, `- @handle` followed by an optional short note.
 
 - @apiyo4
 - @ijayabby
+- @viktor-at-dev
